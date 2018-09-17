@@ -12,7 +12,9 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "illuminate/support": ">=5.1.0"
+        "illuminate/support": ">=5.1.0",
+        "leafo/scssphp": "^0.7.7",
+        "vanderb/laravel-blinky": "dev-master"
     },
     "autoload": {
         "psr-4": {
