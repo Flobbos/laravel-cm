@@ -1,7 +1,7 @@
 # Laravel-CM
 
 
-![Laravel CM](img/laravel-newsletter.png)
+![Laravel CM](img/laravel-cm.png)
 
 **Integration for the newest Campagin Monitor API**
 
