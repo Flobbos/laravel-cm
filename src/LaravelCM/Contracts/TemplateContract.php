@@ -2,7 +2,7 @@
 
 namespace Flobbos\LaravelCM\Contracts;
 
-interface TemplateInterface {
+interface TemplateContract {
     
     /**
      * Start compiling process

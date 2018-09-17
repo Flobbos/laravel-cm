@@ -2,7 +2,7 @@
 
 namespace Flobbos\LaravelCM;
 
-use Contracts\TemplateInterface;
+use Contracts\TemplateContract;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Leafo\ScssPhp\Compiler as ScssCompiler;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use \ZipArchive;
 
-class Template implements TemplateInterface {
+class Templates implements TemplateContract {
 
     protected $disk;
     protected $template;
