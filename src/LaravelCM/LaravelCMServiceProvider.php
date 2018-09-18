@@ -35,12 +35,12 @@ class LaravelCMServiceProvider extends ServiceProvider{
         // Register new storage-disk
         app()->config["filesystems.disks.larvel-cm"] = [
             'driver' => 'local',
-            'root' => storage_path('app/public/laravel-cm'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('laravel-cm'),
+            'url' => env('APP_URL').'/laravel-cm',
             'visibility' => 'public'
         ];
 
         // Register template-location
-        $this->app['view']->addLocation(resource_path('laravel-cm/templates'));
+        $this->app['view']->addLocation(resource_path('laravel-cm'));
     }
 }
