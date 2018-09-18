@@ -14,4 +14,6 @@ return [
     'storage_path' => 'xls',
     //URL path where to load api
     'url_path'=>'newsletters',
+    //Default format to use JSON|XML
+    'format' => 'json',
 ];

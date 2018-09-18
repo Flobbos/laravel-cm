@@ -3,6 +3,7 @@
 namespace Flobbos\LaravelCM;
 
 use Contracts\TemplateContract;
+use Flobbos\LaravelCM\BaseClient;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Leafo\ScssPhp\Compiler as ScssCompiler;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use \ZipArchive;
 
-class Templates implements TemplateContract {
+class Templates extends BaseClient implements TemplateContract {
 
     protected $disk;
     protected $template;
@@ -173,6 +174,15 @@ class Templates implements TemplateContract {
      */
     public function clearAssets() {
         return $this->disk->deleteDirectory($this->cm_template_id . '/assets');
+    }
+    
+    //Sync templates to CM
+    public function create(){
+        $result = $this->makeCall('post','templates/'.$this->getClientID());
+    }
+    
+    public function makeCall($method = 'get', $url, array $request_data) {
+        ;
     }
     
 }
