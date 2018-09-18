@@ -10,29 +10,26 @@ use Leafo\ScssPhp\Compiler as ScssCompiler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use \ZipArchive;
 
 class Templates extends BaseClient implements TemplateContract {
 
     protected $disk;
     protected $template;
-    protected $cm_template_id;
     protected $srcTemplatePath;
     protected $distTemplatePath;
     protected $html;
 
-    public function __construct($template, $cm_template_id) {
+    public function __construct($template) {
 
-        $this->disk = Storage::disk('larvel-cm');
+        $this->disk = Storage::disk('laravel-cm');
 
-        if(!File::exists(resource_path('laravel-cm/templates/' . $template))) {
+        if(!File::exists(resource_path('laravel-cm/' . $template))) {
             throw new \Exception('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
         }
 
         $this->template = $template;
-        $this->cm_template_id = $cm_template_id;
-        $this->srcTemplatePath = resource_path('laravel-cm/templates/' . $this->template);
-        $this->distTemplatePath = $this->disk->path($this->cm_template_id);
+        $this->srcTemplatePath = resource_path('laravel-cm/' . $this->template);
+        $this->distTemplatePath = $this->disk->path($this->template);
 
     }
     
@@ -47,8 +44,6 @@ class Templates extends BaseClient implements TemplateContract {
         $this->copyImages();
         $this->html = $this->saveViewAsHtml($this->template);
         $this->inlineStyles();
-        $this->zipAssets();
-        $this->clearAssets();
 
     }
 
@@ -62,10 +57,11 @@ class Templates extends BaseClient implements TemplateContract {
     public function saveViewAsHtml($view, $data = []) {
 
         $viewPath = $view . '.views.' . $view;
+
         $view = View::make($viewPath, $data);
         $html = (string) $view;
 
-        $this->disk->put($this->cm_template_id . '/' . $this->cm_template_id . '.html', $html);
+        $this->disk->put($this->template . '/' . $this->template . '.html', $html);
 
         return $html;
 
@@ -80,7 +76,7 @@ class Templates extends BaseClient implements TemplateContract {
  
         $importPaths = [
             // Set template imports
-            resource_path('laravel-cm/templates/'.$this->template.'/assets/scss'),
+            resource_path('laravel-cm/'.$this->template.'/assets/scss'),
             // Set foundation-email imports
             __DIR__ . '/../defaults/assets/foundation-emails',
             __DIR__ . '/../defaults/assets/foundation-emails/utils',
@@ -89,7 +85,7 @@ class Templates extends BaseClient implements TemplateContract {
             __DIR__ . '/../defaults/assets/foundation-emails/settings',
         ];
 
-        $src = resource_path('laravel-cm/templates/'.$this->template.'/assets/scss/'.$this->template.'.scss');
+        $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');
 
         $scss = new ScssCompiler();
         $scss->setImportPaths($importPaths);
@@ -97,7 +93,7 @@ class Templates extends BaseClient implements TemplateContract {
         $scssContent = File::get($src);
         $css = $scss->compile($scssContent);
 
-        return $this->disk->put($this->cm_template_id . '/assets/style.css', $css);
+        return $this->disk->put($this->template . '/assets/style.css', $css);
     }
 
     /**
@@ -107,8 +103,8 @@ class Templates extends BaseClient implements TemplateContract {
      */
     public function copyImages() {
 
-        $imageFolder = resource_path('laravel-cm/templates/'.$this->template.'/assets/images');
-        $dest = $this->disk->path($this->cm_template_id . '/assets');
+        $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
+        $dest = $this->disk->path($this->template . '/assets');
         return File::copyDirectory($imageFolder, $dest);
 
     }
@@ -137,12 +133,12 @@ class Templates extends BaseClient implements TemplateContract {
 
         
         $styles = $stylesheetsHrefs->map(function ($stylesheet) {
-            $path = 'public/laravel-cm/' . $this->cm_template_id . '/' . $stylesheet;
+            $path = 'public/laravel-cm/' . $this->template . '/' . $stylesheet;
             return Storage::disk('local')->get($path);
         })->implode("\n\n");
         $inliner = new CssToInlineStyles();
 
-        return $this->disk->put($this->cm_template_id . '/' . $this->cm_template_id . '.html', $inliner->convert($results, $styles));
+        return $this->disk->put($this->template . '/' . $this->template . '.html', $inliner->convert($results, $styles));
 
     }
 

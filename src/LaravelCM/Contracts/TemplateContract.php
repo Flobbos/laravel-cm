@@ -42,18 +42,5 @@ interface TemplateContract extends BaseClientContract{
      * @return void
      */
     public function inlineStyles();
-    /**
-     * Zip the assets to archive
-     *
-     * @return void
-     */
-    public function zipAssets();
-
-    /**
-     * Remove assets-folder
-     *
-     * @return void
-     */
-    public function clearAssets();
 
 }
