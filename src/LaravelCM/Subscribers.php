@@ -11,6 +11,7 @@ use Exception;
 class Subscribers extends BaseClient implements SubscriberContract, ResultFormatContract{
     
     use \Flobbos\LaravelCM\Traits\ResultFormat;
+    use \Flobbos\LaravelCM\Traits\BaseImport;
     
     //Getters
     public function getActive(int $page = 1, $pageName = 'page', int $perPage = 25){
@@ -124,9 +125,9 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     }
     
     //Import
-    public function import(array $subscribers){
+    public function import(Request $request, $field = 'excel'){
         //Handle upload and populate result
-        $this->loadFile($this->handleUpload($request, 'excel', '/xls'));
+        $this->initResults()->loadFile($this->handleUpload($request, 'excel', '/xls'));
         //Process subscriber list
         $subscribers['Subscribers'] = [];
         $subscribers['Resubscribe'] = true;
