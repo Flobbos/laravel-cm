@@ -7,32 +7,37 @@ use GuzzleHttp\Exception\GuzzleException;
 
 abstract class BaseClient implements BaseClientContract{
     
-    protected $guzzle,$clientID,$clientApiKey,$listID,$format,$base_uri;
-
+    protected $guzzle,$base_uri;
+    protected $options = [];
+    
     public function __construct() {
         //Initialize Guzzle
         $this->initGuzzle();
-        //Set the Client ID
-        $this->setClientApiKey();
-        //Set default List ID
-        $this->setListID();
-        //Set the default client ID
-        $this->setClientID();
-        //Set the default format
-        $this->setFormat(config('laravel-cm.format'));
+        //Set options
+        $this->setOptions([
+            'format' => config('laravel-cm.format'),
+            'clientApiKey' => config('laravel-cm.client_api_key'),
+            'clientID' => config('laravel-cm.client_id'),
+            'listID' => config('laravel-cm.default_list_id')
+        ]);
     }
     
+    
+    public function setOptions(array $options): self {
+        $this->options = $options;
+        return $this;
+    }
+    
+    public function getOptions(): array {
+        return $this->options;
+    }
+
     /**
      * Set the client API Key
      * @param string $key
      */
     public function setClientApiKey(string $key = null): self{
-        if(!is_null($key)){
-            $this->clientApiKey = $key;
-        }
-        else{
-            $this->clientApiKey = config('laravel-cm.client_api_key');
-        }
+        $this->options['clientApiKey'] = $key;
         return $this;
     }
     
@@ -40,7 +45,7 @@ abstract class BaseClient implements BaseClientContract{
      * Get the current client API Key
      */
     public function getClientApiKey(): string{
-        return $this->clientApiKey;
+        return $this->options['clientApiKey'];
     }
     
     /**
@@ -49,12 +54,7 @@ abstract class BaseClient implements BaseClientContract{
      * @return \self
      */
     public function setClientID(string $client_id = null): self{
-        if(!is_null($client_id)){
-            $this->clientID = $client_id;
-        }
-        else{
-            $this->clientID = config('laravel-cm.client_id');
-        }
+        $this->options['clientID'] = $client_id;
         return $this;
     }
     
@@ -63,7 +63,7 @@ abstract class BaseClient implements BaseClientContract{
      * @return string
      */
     public function getClientID(): string {
-        return $this->clientID;
+        return $this->options['clientID'];
     }
 
     /**
@@ -71,12 +71,7 @@ abstract class BaseClient implements BaseClientContract{
      * @param string $list_id
      */
     public function setListID(string $list_id = null): self{
-        if(!is_null($list_id)){
-            $this->listID = $list_id;
-        }
-        else{
-            $this->listID = config('laravel-cm.default_list_id');
-        }
+        $this->options['listID'] = $list_id;
         return $this;
     }
     
@@ -84,7 +79,7 @@ abstract class BaseClient implements BaseClientContract{
      * Get the current List ID
      */
     public function getListID(): string{
-        return $this->listID;
+        return $this->options['listID'];
     }
     
     /**
@@ -92,7 +87,7 @@ abstract class BaseClient implements BaseClientContract{
      * @param string $format json|xml
      */
     public function setFormat(string $format): self{
-        $this->format = $format;
+        $this->options['format'] = $format;
         return $this;
     }
     
@@ -100,7 +95,7 @@ abstract class BaseClient implements BaseClientContract{
      * Get the current format in use
      */
     public function getFormat(): string{
-        return $this->format;
+        return $this->options['format'];
     }
     
     /**
@@ -122,19 +117,60 @@ abstract class BaseClient implements BaseClientContract{
         return $this;
     }
     
-    public function getAuthInformation() {
+    /**
+     * Retrieve auth information for API Call
+     * @return array
+     */
+    public function getAuthInformation(): array {
         return [$this->getClientApiKey(),''];
     }
     
-    public function getBaseRequestData(){
+    /**
+     * Retrieve basic Guzzle options for making an API call
+     * @return array
+     */
+    public function getBaseRequestData(): array{
         return [
             'stream' => true,
             'auth' => $this->getAuthInformation(),
+            'headers' => [
+                    'Accept' => 'application/json'
+                ]
         ];
     }
     
-    public function mergeRequestData(array $request_data){
+    /**
+     * Merge the request data with parameters provided by calling function
+     * @param array $request_data
+     * @return type
+     */
+    public function mergeRequestData(array $request_data): array{
         return array_merge($request_data,$this->getBaseRequestData());
+    }
+    
+    /**
+     * Check api options and skip optional values
+     * @param type $skip_key
+     * @return Guzzle client
+     */
+    private function checkOptions($skip_key): void{
+        foreach($this->options as $k=>$v){
+            if(empty($v) && $skip_key != $k){
+                throw new Exception('No '.$k.' found. Please update your settings or generate a resource');
+            }
+        }
+        return;
+    }
+    
+    /**
+     * Call the guzzle Client and provide optional validation key to skip
+     * when validating options
+     * @param type $skip_key
+     * @return Guzzle\Client
+     */
+    public function callApi($skip_key = null): GuzzleHttp\Client{
+        $this->checkOptions($skip_key);
+        return $this->guzzle;
     }
     
     abstract public function makeCall($method = 'get', $url, array $request_data);

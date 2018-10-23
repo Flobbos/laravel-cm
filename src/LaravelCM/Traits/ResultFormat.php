@@ -2,6 +2,7 @@
 
 namespace Flobbos\LaravelCM\Traits;
 use Illuminate\Pagination\LengthAwarePaginator;
+use GuzzleHttp\Psr7\Response;
 
 trait ResultFormat{
     

@@ -1,7 +1,5 @@
 <?php
-
 namespace Flobbos\LaravelCM\Contracts;
-
 interface ImportContract {
     
     /**
