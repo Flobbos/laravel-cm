@@ -3,6 +3,7 @@
 namespace Flobbos\LaravelCM;
 
 use Contracts\TemplateContract;
+use Flobbos\LaravelCM\BaseClient;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Leafo\ScssPhp\Compiler as ScssCompiler;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
-class Templates implements TemplateContract {
+class Templates extends BaseClient implements TemplateContract {
 
     protected $disk;
     protected $template;
@@ -139,4 +140,43 @@ class Templates implements TemplateContract {
 
     }
 
+    /**
+     * Zip the assets to archive
+     *
+     * @return void
+     */
+    public function zipAssets() {
+
+        $zipFileName = 'assets.zip';
+
+        $zip = new ZipArchive();
+        $zip->open($this->distTemplatePath . '/assets.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        
+        foreach ($this->disk->files($this->cm_template_id . '/assets') as $filename) {
+            $filepath = $this->disk->path($filename);
+            $zip->addFile($filepath , basename($filename));
+        }
+
+        return $zip->close();
+        
+    }
+
+    /**
+     * Remove assets-folder
+     *
+     * @return void
+     */
+    public function clearAssets() {
+        return $this->disk->deleteDirectory($this->cm_template_id . '/assets');
+    }
+    
+    //Sync templates to CM
+    public function create(){
+        $result = $this->makeCall('post','templates/'.$this->getClientID());
+    }
+    
+    public function makeCall($method = 'get', $url, array $request_data) {
+        ;
+    }
+    
 }

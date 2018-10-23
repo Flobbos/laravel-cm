@@ -25,7 +25,7 @@ interface SubscriberContract extends BaseClientContract {
     public function remove(string $email);
     
     //Import
-    public function import(array $subscribers);
+    public function import(Request $request, $field = 'excel');
     
     public function formatSubscribers($result_body, $paginated = false);
     

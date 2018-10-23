@@ -15,11 +15,20 @@ class Lists extends BaseClient implements ListContract, ResultFormatContract{
     }
     
     public function stats(){
-        
+        $result = $this->formatResultSet($this->guzzle->get('lists/'.$list_id.'/stats.'.$this->geformat(),[
+            'auth' => $this->getAuthInformation()
+        ]));
+        if($result->get('code') != '200'){
+            throw new Exception($result->get('body'));
+        }
+        return $result->get('body');
     }
     
-    public function create(){
-        
+    public function create(array $options){
+        return $this->formatResultSet($this->guzzle->post('lists/'.$this->clientID.'.'.$this->getFormat(), [
+            'json' => $options,
+            'auth' => $this->getAuthInformation()
+        ]));
     }
     
     public function makeCall($method = 'get', $url, array $request_data){

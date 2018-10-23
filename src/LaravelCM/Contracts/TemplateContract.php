@@ -2,7 +2,9 @@
 
 namespace Flobbos\LaravelCM\Contracts;
 
-interface TemplateContract {
+use Flobbos\LaravelCM\Contracts\BaseClientContract;
+
+interface TemplateContract extends BaseClientContract{
     
     /**
      * Start compiling process
