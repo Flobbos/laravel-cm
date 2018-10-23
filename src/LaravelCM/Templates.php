@@ -37,13 +37,11 @@ class Templates implements TemplateContract {
      *
      * @return void
      */
-    public function compile() {
-
+    public function compile($data = []) {
         $this->compileSass();
         $this->copyImages();
-        $this->html = $this->saveViewAsHtml($this->template);
+        $this->html = $this->saveViewAsHtml($this->template, $data);
         $this->inlineStyles();
-
     }
 
     /**
@@ -53,7 +51,7 @@ class Templates implements TemplateContract {
      * @param array $data
      * @return void
      */
-    public function saveViewAsHtml($view, $data = []) {
+    public function saveViewAsHtml($view, $data) {
 
         $viewPath = $view . '.views.' . $view;
 
