@@ -1,7 +1,6 @@
 <?php
 
 namespace Flobbos\LaravelCM\Contracts;
-
 use Flobbos\LaravelCM\Contracts\BaseClientContract;;
 
 interface SubscriberContract extends BaseClientContract {
@@ -15,6 +14,10 @@ interface SubscriberContract extends BaseClientContract {
     
     public function getDeleted(int $page = 1, $pageName = 'page', int $perPage = 25);
     
+    public function getBounced(int $page = 1, $pageName = 'page', int $perPage = 25);
+    
+    public function getDetails(string $email);
+    
     //Create
     public function add(array $subscriber_data);
     
@@ -25,7 +28,7 @@ interface SubscriberContract extends BaseClientContract {
     public function remove(string $email);
     
     //Import
-    public function import(Request $request, $field = 'excel');
+    public function import(\Illuminate\Http\Request $request, $field = 'excel');
     
     public function formatSubscribers($result_body, $paginated = false);
     
