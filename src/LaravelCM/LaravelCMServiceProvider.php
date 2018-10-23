@@ -8,7 +8,7 @@ class LaravelCMServiceProvider extends ServiceProvider{
     
     public function boot(){
         $this->publishes([
-            __DIR__.'/../config/newsletter.php' => config_path('newsletter.php'),
+            __DIR__.'/../config/laravel-cm.php' => config_path('laravel-cm.php'),
         ]);
 
         // Register command for template-generation via artisan
