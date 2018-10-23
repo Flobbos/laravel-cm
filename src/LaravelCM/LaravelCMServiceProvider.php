@@ -40,6 +40,11 @@ class LaravelCMServiceProvider extends ServiceProvider{
             'visibility' => 'public'
         ];
 
+        // Disable default inliner of laravel-blinky-package
+        app()->config["views.laravel_blinky"] = [
+            'use_inliner' => false
+        ];
+
         // Register template-location
         $this->app['view']->addLocation(resource_path('laravel-cm'));
     }
