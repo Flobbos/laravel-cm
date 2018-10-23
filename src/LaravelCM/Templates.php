@@ -76,11 +76,11 @@ class Templates extends BaseClient implements TemplateContract {
             // Set template imports
             resource_path('laravel-cm/'.$this->template.'/assets/scss'),
             // Set foundation-email imports
-            __DIR__ . '/../defaults/assets/foundation-emails',
-            __DIR__ . '/../defaults/assets/foundation-emails/utils',
-            __DIR__ . '/../defaults/assets/foundation-emails/components',
-            __DIR__ . '/../defaults/assets/foundation-emails/grid',
-            __DIR__ . '/../defaults/assets/foundation-emails/settings',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/utils',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/components',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/grid',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/settings',
         ];
 
         $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');

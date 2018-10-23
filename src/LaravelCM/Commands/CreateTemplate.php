@@ -43,7 +43,7 @@ class CreateTemplate extends Command
         $this->template = str_slug($this->argument('template'));
 
         // Copy stub to new template
-        $stubPath = dirname(__FILE__) . '../defaults/template';
+        $stubPath = dirname(__FILE__) . '/../../resources/defaults/template';
         $destPath = resource_path('laravel-cm/' . $this->template);
         if(File::exists($destPath)) {
             $this->error('Template with name "'.$this->template.'" already exist!');
