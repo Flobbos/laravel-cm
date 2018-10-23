@@ -23,9 +23,9 @@ class LaravelCMServiceProvider extends ServiceProvider{
      * Register the service provider.
      */
     public function register(){
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/newsletter.php', 'newsletter'
-        );
+        // $this->mergeConfigFrom(
+        //     __DIR__.'/../config/newsletter.php', 'newsletter'
+        // );
         $config = app()->make('config');
         $this->app->bind('Flobbos\LaravelNewsletter\Contracts\Newsletter',$config->get('newsletter.implementation'));
         $this->app->when($config->get('api_implementation.when'))
