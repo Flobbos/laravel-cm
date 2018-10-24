@@ -27,6 +27,9 @@ interface SubscriberContract extends BaseClientContract {
     //Remove
     public function remove(string $email);
     
+    //Update
+    public function update(string $email, array $data);
+    
     //Import
     public function import(\Illuminate\Http\Request $request, $field = 'excel');
     

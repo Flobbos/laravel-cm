@@ -71,7 +71,7 @@ abstract class BaseClient implements BaseClientContract{
      * @param string $list_id
      */
     public function setListID(string $list_id = null): self{
-        $this->options['listID'] = $list_id;
+        $this->options['listID'] = $list_id?:$this->getListID();
         return $this;
     }
     
@@ -168,7 +168,7 @@ abstract class BaseClient implements BaseClientContract{
      * @param type $skip_key
      * @return Guzzle\Client
      */
-    public function callApi($skip_key = null): GuzzleHttp\Client{
+    public function callApi($skip_key = null): \GuzzleHttp\Client{
         $this->checkOptions($skip_key);
         return $this->guzzle;
     }

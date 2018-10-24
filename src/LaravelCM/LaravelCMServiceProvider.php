@@ -17,21 +17,28 @@ class LaravelCMServiceProvider extends ServiceProvider{
                 Commands\CreateTemplate::class
             ]);
         }
+        //Add Laravel CM routes
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        //Add views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-cm');
+        //Add language files
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-cm');
     }
 
     /**
      * Register the service provider.
      */
     public function register(){
-        // $this->mergeConfigFrom(
-        //     __DIR__.'/../config/newsletter.php', 'newsletter'
-        // );
-        $config = app()->make('config');
-        $this->app->bind('Flobbos\LaravelNewsletter\Contracts\Newsletter',$config->get('newsletter.implementation'));
-        $this->app->when($config->get('api_implementation.when'))
-                ->needs('Flobbos\LaravelNewsletter\Contracts\Api')
-                ->give($config->get('api_implementation.give'));
-
+        //Merge config
+        $this->mergeConfigFrom(
+             __DIR__.'/../config/laravel-cm.php', 'laravel-cm'
+        );
+        //Bindings
+        $this->app->bind('Flobbos\LaravelCM\Contracts\CampaignContract', Campaigns::class);
+        $this->app->bind('Flobbos\LaravelCM\Contracts\ListContract', Lists::class);
+        $this->app->bind('Flobbos\LaravelCM\Contracts\SubscriberContract', Subscribers::class);
+        $this->app->bind('Flobbos\LaravelCM\Contracts\TemplateContract', Templates::class);
+        $this->app->bind('Flobbos\LaravelCM\Contracts\ImportContract', Importer::class);
         // Register new storage-disk
         app()->config["filesystems.disks.larvel-cm"] = [
             'driver' => 'local',
@@ -39,7 +46,6 @@ class LaravelCMServiceProvider extends ServiceProvider{
             'url' => env('APP_URL').'/laravel-cm',
             'visibility' => 'public'
         ];
-
         // Disable default inliner of laravel-blinky-package
         app()->config["views.laravel_blinky"] = [
             'use_inliner' => false

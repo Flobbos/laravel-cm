@@ -121,8 +121,8 @@ class NewsletterController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($email){
-        $subscriber = $this->api->getSubscriberDetails($email);
+    public function show($email, Request $request){
+        $subscriber = $this->api->setListID($request->get('listID'))->getSubscriberDetails($email);
         //dd($subscriber);
         return view('admin.newsletters.show')->with([
             'subscriber'=>$subscriber->get('body')
