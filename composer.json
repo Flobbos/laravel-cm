@@ -8,6 +8,10 @@
             "name": "Alexej Krzewitzki",
             "email": "alexej@helloo.it",
             "homepage": "http://helloo.it"
+        },
+        {
+            "name": "Freerk van Zeijl",
+            "email": "freerk.vz@googlemail.com"
         }
     ],
     "require": {
