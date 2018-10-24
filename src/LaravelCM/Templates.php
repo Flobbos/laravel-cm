@@ -2,7 +2,7 @@
 
 namespace Flobbos\LaravelCM;
 
-use Contracts\TemplateContract;
+use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Flobbos\LaravelCM\BaseClient;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
@@ -21,7 +21,7 @@ class Templates extends BaseClient implements TemplateContract {
 
     public function __construct($template) {
 
-        $this->disk = Storage::disk('laravel-cm');
+        $this->disk = Storage::disk('laravel_cm');
 
         if(!File::exists(resource_path('laravel-cm/' . $template))) {
             throw new \Exception('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
@@ -56,8 +56,7 @@ class Templates extends BaseClient implements TemplateContract {
 
         $viewPath = $view . '.views.' . $view;
 
-        $view = View::make($viewPath, $data);
-        $html = (string) $view;
+        $html = View::make($viewPath, $data)->render();
 
         $this->disk->put($this->template . '/' . $this->template . '.html', $html);
 
@@ -76,11 +75,11 @@ class Templates extends BaseClient implements TemplateContract {
             // Set template imports
             resource_path('laravel-cm/'.$this->template.'/assets/scss'),
             // Set foundation-email imports
-            __DIR__ . '/../defaults/assets/foundation-emails',
-            __DIR__ . '/../defaults/assets/foundation-emails/utils',
-            __DIR__ . '/../defaults/assets/foundation-emails/components',
-            __DIR__ . '/../defaults/assets/foundation-emails/grid',
-            __DIR__ . '/../defaults/assets/foundation-emails/settings',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/utils',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/components',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/grid',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails/settings',
         ];
 
         $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');
@@ -131,34 +130,13 @@ class Templates extends BaseClient implements TemplateContract {
 
         
         $styles = $stylesheetsHrefs->map(function ($stylesheet) {
-            $path = 'public/laravel-cm/' . $this->template . '/' . $stylesheet;
-            return Storage::disk('local')->get($path);
+            $path = $this->template . '/' . $stylesheet;
+            return $this->disk->get($path);
         })->implode("\n\n");
         $inliner = new CssToInlineStyles();
 
         return $this->disk->put($this->template . '/' . $this->template . '.html', $inliner->convert($results, $styles));
 
-    }
-
-    /**
-     * Zip the assets to archive
-     *
-     * @return void
-     */
-    public function zipAssets() {
-
-        $zipFileName = 'assets.zip';
-
-        $zip = new ZipArchive();
-        $zip->open($this->distTemplatePath . '/assets.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        
-        foreach ($this->disk->files($this->cm_template_id . '/assets') as $filename) {
-            $filepath = $this->disk->path($filename);
-            $zip->addFile($filepath , basename($filename));
-        }
-
-        return $zip->close();
-        
     }
 
     /**

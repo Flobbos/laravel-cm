@@ -40,16 +40,15 @@ class LaravelCMServiceProvider extends ServiceProvider{
         $this->app->bind('Flobbos\LaravelCM\Contracts\TemplateContract', Templates::class);
         $this->app->bind('Flobbos\LaravelCM\Contracts\ImportContract', Importer::class);
         // Register new storage-disk
-        app()->config["filesystems.disks.larvel-cm"] = [
+        config(['filesystems.disks.laravel_cm' => [
             'driver' => 'local',
             'root' => public_path('laravel-cm'),
             'url' => env('APP_URL').'/laravel-cm',
             'visibility' => 'public'
-        ];
+        ]]);
+
         // Disable default inliner of laravel-blinky-package
-        app()->config["views.laravel_blinky"] = [
-            'use_inliner' => false
-        ];
+        config(['view.laravel_blinky' => ['use_inliner' => false]]);
 
         // Register template-location
         $this->app['view']->addLocation(resource_path('laravel-cm'));
