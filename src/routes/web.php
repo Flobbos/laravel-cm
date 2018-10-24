@@ -2,11 +2,13 @@
 
 Route::group(['middleware'=>['web','auth'],'namespace'=>'Flobbos\LaravelCM\Controllers','prefix'=>'laravel-cm','as'=>'laravel-cm::'], function(){
     //Dashboard
-    Route::get('/','NewsletterController@index')->name('home');
+    Route::get('/','NewsletterController@index')->name('dashboard');
     //Subscribers
-    Route::get('subscribers/subscriber-details/{email}','SubscriberController@showDetails')->name('subscribers.subscriber-details');
+    Route::get('subscribers/details/{email}','SubscriberController@showDetails')->name('subscribers.details');
     Route::put('subscribers/resubscribe/{email}','SubscriberController@resubscribe')->name('subscribers.resubscribe');
     Route::get('subscribers/unsubscribe/{email}','SubscriberController@unsubscribe')->name('subscribers.unsubscribe');
+    Route::get('subscribers/show-import','SubscriberController@showImport')->name('subscribers.show-import');
+    Route::post('subscribers/import','SubscriberController@import')->name('subscribers.import');
     Route::resource('subscribers','SubscriberController')->only(['index','edit','update']);
     //Lists
     Route::get('lists/stats/{list_id}','ListController@showListStats')->name('lists.stats');

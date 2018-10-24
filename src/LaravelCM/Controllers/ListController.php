@@ -11,7 +11,7 @@ class ListController extends Controller{
     
     protected $lists;
     
-    public function __construct(ListInterface $lists) {
+    public function __construct(ListContract $lists) {
         $this->lists = $lists;
     }
     

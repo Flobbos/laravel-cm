@@ -6,7 +6,7 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
 
-                <form action="{{ route('admin.newsletters.import') }}" role="form" method="POST"  enctype="multipart/form-data">
+                <form action="{{ route('laravel-cm::subscribers.import') }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="panel-heading panel-default">

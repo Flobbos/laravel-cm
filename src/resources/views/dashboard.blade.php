@@ -7,13 +7,13 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    @lang('crud.create_headline')
+                    <h3 class="panel-title">Current Settings:</h4>
                 </div>
 
                 <div class="panel-body">
-                    <h4>Current Settings:</h4>
+                    
                     @foreach(config('laravel-cm') as $key => $config)
-                    {{ucfirst($key)}}: {{$config}}<br />
+                    {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
                     @endforeach
                 </div>
 

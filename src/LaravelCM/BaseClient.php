@@ -4,6 +4,8 @@ namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\BaseClientContract;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Exception;
+use Flobbos\LaravelCM\Exceptions\ConfigKeyNotSetException;
 
 abstract class BaseClient implements BaseClientContract{
     
@@ -156,7 +158,7 @@ abstract class BaseClient implements BaseClientContract{
     private function checkOptions($skip_key): void{
         foreach($this->options as $k=>$v){
             if(empty($v) && $skip_key != $k){
-                throw new Exception('No '.$k.' found. Please update your settings or generate a resource');
+                throw new ConfigKeyNotSetException('No '.$k.' found. Please update your settings or generate a resource');
             }
         }
         return;

@@ -10,6 +10,11 @@
                         <div class="col-sm-6">
                             <h3 class="panel-title">@lang('laravel-cm::lists.index_title')</h3>
                         </div>
+                        <div class="col-sm-6">
+                            <a href="{{ route('laravel-cm::lists.create') }}" class="btn btn-default btn-sm pull-right">
+                                <i class="glyphicon glyphicon-plus"></i> Neue Liste
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -31,14 +36,14 @@
                                 <td>{{$list->ListID}}</td>
                                 <td>
                                     <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('admin.newsletters.lists.show',$list->ListID) }}">
+                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::lists.details',$list->ListID) }}">
                                             <i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::lists.details')
                                         </a>
-                                        <a class="btn btn-sm btn-success" href="{{ route('admin.newsletters.lists.stats',$list->ListID) }}">
+                                        <a class="btn btn-sm btn-success" href="{{ route('laravel-cm::lists.stats',$list->ListID) }}">
                                             <i class="glyphicon glyphicon-calendar"></i> @lang('laravel-cm::lists.stats')
                                         </a>
                                         <form class="btn-group"
-                                            action="{{ route('admin.newsletters.lists.destroy',$list->ListID) }}"
+                                            action="{{ route('laravel-cm::lists.destroy',$list->ListID) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}

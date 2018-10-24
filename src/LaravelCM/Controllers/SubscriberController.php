@@ -27,7 +27,7 @@ class SubscriberController extends Controller{
             //Check if list ID was selected
             if($request->has('listID')){
                 $this->subscribers->setListID($request->get('listID'));
-                $listings->setListID($request->get('listID'));
+                $lists->setListID($request->get('listID'));
             }
             //Get lists
             $email_lists = $lists->get();
@@ -44,13 +44,15 @@ class SubscriberController extends Controller{
                 'subscribed' => collect([]),
                 'unconfirmed' => collect([]),
                 'unsubscribed' => collect([]),
-                'lists' => collect([]),
+                'bounced' => collect([]),
+                'lists' => $email_lists?:collect([]),
             ])->withErrors($ex->getMessage().' -- '.$ex->getFile());
         }
         return view('laravel-cm::subscribers.index')->with([
             'subscribed' => $subscribed,
             'unconfirmed' => $unconfirmed,
             'unsubscribed' => $unsubscribed,
+            'bounced' => $bounced,
             'lists' => $email_lists
         ]);
     }

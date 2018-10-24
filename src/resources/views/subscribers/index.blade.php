@@ -6,19 +6,11 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Newsletter</h3>
-                </div>
-            </div>
-            
-            @include('laravel-cm::notifications')
-            
-            <div class="panel panel-default">
-                <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-6">
                             <h3 class="panel-title">Subscribers</h3>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             @if(!$lists->isEmpty())
                             <form class="form-inline pull-right" action="{{route('laravel-cm::subscribers.index')}}" method="GET">
                                 <div class="form-group">
@@ -37,7 +29,20 @@
                             </form>
                             @endif
                         </div>
+                        <div class="col-sm-3">
+                            <a href="{{ route('laravel-cm::subscribers.show-import') }}" class="btn btn-success btn-md pull-right">
+                                <i class="glyphicon glyphicon-import"></i> Import
+                            </a>
+                        </div>
                     </div>
+                </div>
+            </div>
+            
+            @include('laravel-cm::notifications')
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Active</h3>
                 </div>
                 <div class="panel-body">
                     <!-- active subscribers -->

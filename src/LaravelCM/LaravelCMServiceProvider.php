@@ -46,7 +46,10 @@ class LaravelCMServiceProvider extends ServiceProvider{
             'url' => env('APP_URL').'/laravel-cm',
             'visibility' => 'public'
         ]]);
-
+        //Set excel import mode to force collections
+        config(['excel.import.force_sheets_collection'=>true]);
+        //Set excel import mode to leave headers intact
+        config(['excel.import.heading'=>'original']);
         // Disable default inliner of laravel-blinky-package
         config(['view.laravel_blinky' => ['use_inliner' => false]]);
 
