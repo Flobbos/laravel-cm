@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.'.config('laravel-cm.layout_file'))
 
 @section('content')
 <div class="container">

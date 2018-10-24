@@ -42,6 +42,18 @@ class ListController extends Controller{
         return view('laravel-cm::lists.create');
     }
     
+    public function store(Request $request){
+        $this->validate($request, [
+            'Title' => 'required',
+        ]);
+        try{
+            $result = $this->lists->create($request->except('_token'));
+            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('crud.record_created').' ID: '.$result->get('body'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
+    }
+    
     public function destroy($list_id){
         try{
             $this->lists->delete($list_id);

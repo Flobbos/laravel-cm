@@ -104,13 +104,13 @@ class CampaignController extends Controller{
 
     }
 
-    public function sendCampaignPreview(Request $request, $campaign_id, CampaignContract $campaigns){
+    public function sendCampaignPreview(Request $request, $campaign_id){
 
         $request->validate([
             'emails' => 'required|array|min:1'
         ]);
 
-        $campaigns->sendPreview($campaign_id, $request->get('emails'));
+        $this->cmp->sendPreview($campaign_id, $request->get('emails'));
 
         try{
             return redirect()->back()->withMessage(trans('laravel-cm::campaigns.test_send_success'));

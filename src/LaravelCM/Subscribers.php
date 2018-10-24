@@ -157,7 +157,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
             $subscribers['Subscribers'][] = array_merge($result->toArray(),['ConsentToTrack' => 'Yes']);
         }
         //Set list ID
-        $this->setListID($request->get('list_id'));
+        $this->setListID($request->get('listID'));
         //Sync to CM
         $result = $this->makeCall('post','subscribers/'.$this->getListID().'/import',[
             'json' => $subscribers,

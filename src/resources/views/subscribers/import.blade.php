@@ -6,9 +6,8 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
 
-                <form action="{{ route('admin.newsletters.update',$newsletter->id) }}" role="form" method="POST"  enctype="multipart/form-data">
+                <form action="{{ route('admin.newsletters.import') }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    {{method_field('PUT')}}
 
                     <div class="panel-heading panel-default">
                         @lang('crud.create_headline')
@@ -18,6 +17,19 @@
                         
                         @include('admin.notifications')
                         
+                        <div class="form-group">
+                            <label class="control-label" for="excel">Excel-Tabelle</label>
+                            <input type="file" name="excel" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label" for="listID">Liste</label>
+                            <select name="listID" class="form-control">
+                                @foreach($lists as $list)
+                                <option value="{{$list->ListID}}">{{$list->Name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="panel-footer">
@@ -25,7 +37,7 @@
                         <div class="row">
 
                             <div class="col-sm-6">
-                                <a href="{{ route('admin.newsletters.index') }}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
+                                <a href="{{ route('laravel-cm::subscribers.index') }}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
                             </div>
 
                             <div class="col-sm-6 text-right">

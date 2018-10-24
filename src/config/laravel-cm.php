@@ -16,4 +16,7 @@ return [
     'url_path'=>'newsletters',
     //Default format to use JSON|XML
     'format' => 'json',
+    
+    //Front-end
+    'layout_file' => 'admin'
 ];

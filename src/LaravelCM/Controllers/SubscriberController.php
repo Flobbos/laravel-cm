@@ -116,5 +116,36 @@ class SubscriberController extends Controller{
         }
     }
     
+    /********* Imports *************/
+    /**
+     * Show the file/list select for importing
+     * @param ListContract $lists
+     * @return type
+     */
+    public function showImport(ListContract $lists){
+        return view('laravel-cm::subscribers.import')->withLists($lists->get());
+    }
+    
+    /**
+     * Handle the request and import the subscribers to the given list
+     * @param Request $request
+     * @return type
+     */
+    public function import(Request $request){
+        //dd($request->all());
+        if(!$request->hasFile('excel')){
+            return redirect()->back()->withErrors('Keine Excel Datei gefunden.');
+        }
+        //Handle file upload
+        try{
+            $result = $this->subscribers->import($request);
+            return redirect()->back()->with([
+                'result' => $result
+            ])->withMessage('Import erfolgreich');
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+    }
+    
     
 }

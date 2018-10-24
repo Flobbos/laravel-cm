@@ -6,27 +6,12 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h3 class="panel-title">Newsletter</h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="btn-group pull-right">
-                                <a href="{{ route('admin.newsletters.show-import') }}" class="btn btn-success btn-sm">
-                                    <i class="glyphicon glyphicon-import"></i> Import
-                                </a>
-                                <a href="{{ route('admin.newsletters.create') }}" class="btn btn-default btn-sm pull-right">
-                                    <i class="glyphicon glyphicon-plus"></i> Neue Liste
-                                </a>
-                                <a href="{{ route('admin.newsletters.create-template') }}" class="btn btn-default btn-sm pull-right">
-                                    <i class="glyphicon glyphicon-plus"></i> Neues Template
-                                </a>
-                            </div>
-                            
-                        </div>
-                    </div>
+                    <h3 class="panel-title">Newsletter</h3>
                 </div>
             </div>
+            
+            @include('laravel-cm::notifications')
+            
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -34,7 +19,8 @@
                             <h3 class="panel-title">Subscribers</h3>
                         </div>
                         <div class="col-sm-6">
-                            <form class="form-inline pull-right" action="{{route('admin.newsletters.index')}}" method="GET">
+                            @if(!$lists->isEmpty())
+                            <form class="form-inline pull-right" action="{{route('laravel-cm::subscribers.index')}}" method="GET">
                                 <div class="form-group">
                                     <select name="listID" class="form-control">
                                         <option value="">Liste auswählen</option>
@@ -49,11 +35,11 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-md">Go</button>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
-                    @include('admin.notifications')
                     <!-- active subscribers -->
                     @if($subscribed->isEmpty())
                     @lang('crud.no_entries')
@@ -71,11 +57,11 @@
                                 <td>{{$subscriber['name']}}</td>
                                 <td>
                                     <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('admin.newsletters.show',$subscriber['email']) }}">
+                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
                                             <i class="glyphicon glyphicon-eye-open"></i> Details
                                         </a>
                                         <form class="btn-group"
-                                            action="{{ route('admin.newsletters.destroy',$subscriber['email']) }}"
+                                            action="{{ route('laravel-cm::subscribers.unsubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
@@ -89,6 +75,7 @@
                         </tbody>
                     </table>
                     {{$subscribed->links()}}
+                    @endif
                 </div>
             </div>
             <div class="panel panel-default">
@@ -96,7 +83,6 @@
                     <h3 class="panel-title">Unsubscribed</h3>
                 </div>
                 <div class="panel-body">
-                    @endif
                     <!-- unsubscribed -->
                     @if($unsubscribed->isEmpty())
                     @lang('crud.no_entries')
@@ -113,11 +99,11 @@
                                 <td>{{$subscriber['name']}}</td>
                                 <td>
                                     <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('admin.newsletters.show',$subscriber['email']) }}">
+                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
                                             <i class="glyphicon glyphicon-eye-open"></i> Details
                                         </a>
                                         <form class="btn-group"
-                                            action="{{ route('admin.newsletters.update',$subscriber['email']) }}"
+                                            action="{{ route('laravel-cm::subscribers.resubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('PUT') }}
@@ -133,6 +119,7 @@
                     @endif
                 </div>
             </div>
+            <!-- unconfirmed subscribers -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Unconfirmed</h3>
@@ -152,21 +139,33 @@
                             <tr>
                                 <td>{{$subscriber['email']}}</td>
                                 <td>{{$subscriber['name']}}</td>
-                                <td>
-                                    <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('admin.newsletters.edit',$subscriber['email']) }}">
-                                            <i class="glyphicon glyphicon-pencil"></i> @lang('crud.edit')
-                                        </a>
-                                        <form class="btn-group"
-                                            action="{{ route('admin.newsletters.update',$subscriber['email']) }}"
-                                            method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('PUT') }}
-                                            <button class="btn btn-sm btn-success"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> Anmelden</button>
-                                        </form>
-                                    </div>
-                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                </div>
+            </div>
+            <!-- bounced -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Bounced</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- unconfirmed -->
+                    @if($bounced->isEmpty())
+                    @lang('crud.no_entries')
+                    @else
+                    <table class="table table-striped">
+                        <thead>
+                        <th>E-Mail-Adresse</th>
+                        <th>Name</th>
+                        </thead>
+                        <tbody>
+                            @foreach($bounced as $subscriber)
+                            <tr>
+                                <td>{{$subscriber['email']}}</td>
+                                <td>{{$subscriber['name']}}</td>
                             </tr>
                             @endforeach
                         </tbody>
