@@ -99,11 +99,9 @@ class Templates extends BaseClient implements TemplateContract {
      * @return void
      */
     public function copyImages() {
-
         $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
         $dest = $this->disk->path($this->template . '/assets');
         return File::copyDirectory($imageFolder, $dest);
-
     }
 
     /**
@@ -128,7 +126,6 @@ class Templates extends BaseClient implements TemplateContract {
         $results = $crawler->html();
         // get the styles
 
-        
         $styles = $stylesheetsHrefs->map(function ($stylesheet) {
             $path = $this->template . '/' . $stylesheet;
             return $this->disk->get($path);
@@ -138,15 +135,6 @@ class Templates extends BaseClient implements TemplateContract {
         return $this->disk->put($this->template . '/' . $this->template . '.html', $inliner->convert($results, $styles));
 
     }
-
-    /**
-     * Remove assets-folder
-     *
-     * @return void
-     */
-    public function clearAssets() {
-        return $this->disk->deleteDirectory($this->cm_template_id . '/assets');
-    }
     
     //Sync templates to CM
     public function create(){
@@ -154,7 +142,7 @@ class Templates extends BaseClient implements TemplateContract {
     }
     
     public function makeCall($method = 'get', $url, array $request_data) {
-        ;
+        
     }
     
 }
