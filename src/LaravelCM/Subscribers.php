@@ -6,6 +6,7 @@ use Flobbos\LaravelCM\BaseClient;
 use Flobbos\LaravelCM\Contracts\SubscriberContract;
 use Flobbos\LaravelCM\Contracts\ResultFormatContract;
 use Illuminate\Pagination\LengthAwarePaginator;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Exception;
 

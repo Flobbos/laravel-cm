@@ -16,7 +16,16 @@ return [
     'url_path'=>'newsletters',
     //Default format to use JSON|XML
     'format' => 'json',
-    
+    //Confirmation emails
+    'confirmation_emails' => 'you@example.com,xyz@example.com',
+    //Confirmation URL
+    'subscribe_success' => 'http://example.com/success',
+    //Unsubscribe URL
+    'unsubscribe_success' => 'http://example.com/unsubscribe_success',
+    //Standard from address
+    'from_email' => 'newsletter@example.com',
+    //Standard reply to address
+    'reply_to' => 'replies@example.com',
     //Front-end
     'layout_file' => 'admin'
 ];

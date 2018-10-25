@@ -4,14 +4,19 @@ namespace Flobbos\LaravelCM\Contracts;
 
 use Flobbos\LaravelCM\Contracts\BaseClientContract;
 
-interface TemplateContract extends BaseClientContract{
+interface TemplateContract{
+    
+    
+    public function setTemplate(string $template_name);
+    
+    public function getTemplate();
     
     /**
      * Start compiling process
      *
      * @return void
      */
-    public function compile();
+    public function compile(string $template_name, array $data = []);
 
     /**
      * Compile inky template to html and save it to storage
@@ -20,7 +25,7 @@ interface TemplateContract extends BaseClientContract{
      * @param array $data
      * @return void
      */
-    public function saveViewAsHtml($view, $data = []);
+    public function saveViewAsHtml($view, $data);
 
     /**
      * Compile template scss to css and save file to storage
@@ -42,5 +47,11 @@ interface TemplateContract extends BaseClientContract{
      * @return void
      */
     public function inlineStyles();
-
+    
+    /**
+     * Check if the template file exists
+     * @param type $name
+     */
+    public function templateExists(string $template_name);
+    
 }

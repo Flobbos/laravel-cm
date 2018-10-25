@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="panel-body">
-                    
+                    @include('laravel-cm::notifications')
                     @foreach(config('laravel-cm') as $key => $config)
                     {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
                     @endforeach

@@ -3,15 +3,16 @@
 namespace Flobbos\LaravelCM;
 
 use Flobbos\LaravelCM\Contracts\TemplateContract;
-use Flobbos\LaravelCM\BaseClient;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Leafo\ScssPhp\Compiler as ScssCompiler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
+use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
 
-class Templates extends BaseClient implements TemplateContract {
+class Templates implements TemplateContract {
 
     protected $disk;
     protected $template;
@@ -19,30 +20,41 @@ class Templates extends BaseClient implements TemplateContract {
     protected $distTemplatePath;
     protected $html;
 
-    public function __construct($template) {
+    public function __construct() {
 
         $this->disk = Storage::disk('laravel_cm');
-
-        if(!File::exists(resource_path('laravel-cm/' . $template))) {
-            throw new \Exception('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
-        }
-
-        $this->template = $template;
         $this->srcTemplatePath = resource_path('laravel-cm/' . $this->template);
         $this->distTemplatePath = $this->disk->path($this->template);
 
     }
     
+    public function setTemplate(string $template_name) {
+        $this->template = $template_name;
+        return $this;
+    }
+    
+    public function getTemplate() {
+        return $this->template;
+    }
+
     /**
      * Start compiling process
      *
      * @return void
      */
-    public function compile($data = []) {
+    public function compile(string $template_name, array $data = []) {
+        //Set template
+        $this->setTemplate($template_name);
+        //Generate template files
+        $this->generateTemplate();
+        //Check if template exists
+        $this->templateExists($template_name);
+        //Start compiling if nothing went wrong
         $this->compileSass();
         $this->copyImages();
         $this->html = $this->saveViewAsHtml($this->template, $data);
         $this->inlineStyles();
+        return true;
     }
 
     /**
@@ -75,11 +87,7 @@ class Templates extends BaseClient implements TemplateContract {
             // Set template imports
             resource_path('laravel-cm/'.$this->template.'/assets/scss'),
             // Set foundation-email imports
-            __DIR__ . '/../resources/defaults/assets/foundation-emails',
-            __DIR__ . '/../resources/defaults/assets/foundation-emails/utils',
-            __DIR__ . '/../resources/defaults/assets/foundation-emails/components',
-            __DIR__ . '/../resources/defaults/assets/foundation-emails/grid',
-            __DIR__ . '/../resources/defaults/assets/foundation-emails/settings',
+            __DIR__ . '/../resources/defaults/assets/foundation-emails'
         ];
 
         $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');
@@ -88,7 +96,8 @@ class Templates extends BaseClient implements TemplateContract {
         $scss->setImportPaths($importPaths);
 
         $scssContent = File::get($src);
-        $css = $scss->compile($scssContent);
+        $css = trim(preg_replace('/\s+/', ' ', $scss->compile($scssContent)));
+
 
         return $this->disk->put($this->template . '/assets/style.css', $css);
     }
@@ -120,25 +129,35 @@ class Templates extends BaseClient implements TemplateContract {
         // collect hrefs
         $stylesheetsHrefs = collect($stylesheets->extract('href'));
         // remove links
-        $stylesheets->each(function (Crawler $crawler) {;
-            foreach ($crawler as $node) {
-                $node->parentNode->removeChild($node);
-            }
-        });
-        $results = $crawler->html();
-        // get the styles
+        // $stylesheets->each(function (Crawler $crawler) {;
+        //     foreach ($crawler as $node) {
+        //         $node->parentNode->removeChild($node);
+        //     }
+        // });
 
+        $results = $crawler->html();
+
+        // get the styles
         
         $styles = $stylesheetsHrefs->map(function ($stylesheet) {
-            $path = $this->template . '/' . $stylesheet;
+            
+            $path = $this->template . '/assets/style.css';
             return $this->disk->get($path);
         })->implode("\n\n");
+
         $inliner = new CssToInlineStyles();
 
         return $this->disk->put($this->template . '/' . $this->template . '.html', $inliner->convert($results, $styles));
 
     }
-
+    
+    public function templateExists(string $template){
+        if(!File::exists(resource_path('laravel-cm/' . $template))) {
+            throw new TemplateNotFoundException('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
+        }
+        return true;
+    }
+    
     /**
      * Remove assets-folder
      *
@@ -148,13 +167,21 @@ class Templates extends BaseClient implements TemplateContract {
         return $this->disk->deleteDirectory($this->cm_template_id . '/assets');
     }
     
-    //Sync templates to CM
-    public function create(){
-        $result = $this->makeCall('post','templates/'.$this->getClientID());
-    }
-    
-    public function makeCall($method = 'get', $url, array $request_data) {
-        ;
+    private function generateTemplate(){
+        // Copy stub to new template
+        $stubPath = dirname(__FILE__) . '/../../resources/defaults/template';
+        $destPath = resource_path('laravel-cm/' . $this->template);
+
+        // Rename copied files to template-name
+        File::copyDirectory( $stubPath,  $destPath );
+        $files = File::allFiles($destPath);
+        foreach($files as $file) {
+            if(strpos($file->getFilename(), 'template') !== false) {
+                $renamePath = $file->getPath() . '/' . str_replace('template', str_slug($this->template), $file->getFilename());
+                File::move($file->getPathname(), $renamePath);
+            }
+        }
+        return;
     }
     
 }

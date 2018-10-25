@@ -4,6 +4,7 @@ namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\ListContract;
 use Flobbos\LaravelCM\Contracts\ResultFormatContract;
 use Flobbos\LaravelCM\BaseClient;
+use GuzzleHttp\Exception\RequestException;
 
 class Lists extends BaseClient implements ListContract, ResultFormatContract{
     

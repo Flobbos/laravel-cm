@@ -25,12 +25,12 @@
                         
                         <div class="form-group">
                             <label class="control-label" for="UnsubscribePage">@lang('laravel-cm::lists.unsubscribe_page')</label>
-                            <input class="form-control" type="text" name="UnsubscribePage" value="{{old('UnsubscribePage')}}" />
+                            <input class="form-control" type="text" name="UnsubscribePage" value="{{old('UnsubscribePage',config('laravel-cm.unsubscribe_success'))}}" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="ConfirmationSuccessPage">@lang('laravel-cm::lists.success_page')</label>
-                            <input class="form-control" type="text" name="ConfirmationSuccessPage" value="{{old('ConfirmationSuccessPage')}}" />
+                            <input class="form-control" type="text" name="ConfirmationSuccessPage" value="{{old('ConfirmationSuccessPage',config('laravel-cm.subscribe_success'))}}" />
                         </div>
                         
                         <div class="form-group">

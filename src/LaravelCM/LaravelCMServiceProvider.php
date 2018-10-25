@@ -11,12 +11,6 @@ class LaravelCMServiceProvider extends ServiceProvider{
             __DIR__.'/../config/laravel-cm.php' => config_path('laravel-cm.php'),
         ]);
 
-        // Register command for template-generation via artisan
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Commands\CreateTemplate::class
-            ]);
-        }
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         //Add views

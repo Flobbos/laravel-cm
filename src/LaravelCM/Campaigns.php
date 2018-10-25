@@ -3,6 +3,7 @@
 namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\CampaignContract;
 use Flobbos\LaravelCM\BaseClient;
+use GuzzleHttp\Exception\RequestException;
 use Exception;
 
 class Campaigns extends BaseClient implements CampaignContract{
@@ -93,7 +94,7 @@ class Campaigns extends BaseClient implements CampaignContract{
         //dd($this->mergeRequestData($request_data));
         try{
             return $this->formatResult(
-                $this->callApi()->{$method}($url.'.'.$this->getFormat(),
+                $this->callApi('listID')->{$method}($url.'.'.$this->getFormat(),
                 $this->mergeRequestData($request_data)));
         } catch (RequestException $ex) {
             $response_body = $this->formatBody($ex->getResponse()->getBody());

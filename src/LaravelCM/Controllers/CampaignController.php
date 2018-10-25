@@ -20,8 +20,8 @@ class CampaignController extends Controller{
     public function index(){
         try{
             $drafts = $this->cmp->getDrafts();
-            $scheduled = $campaigns->getScheduled();
-            $sent = $campaigns->getSent();
+            $scheduled = $this->cmp->getScheduled();
+            $sent = $this->cmp->getSent();
             return view('laravel-cm::campaigns.index')->with([
                 'drafts' => $drafts,
                 'scheduled' => $scheduled,
@@ -59,7 +59,7 @@ class CampaignController extends Controller{
             'Subject' => 'required',
             'FromName' => 'required',
             'FromEmail' => 'required|email',
-            'ReplyTo' => 'sometimes|email',
+            //'ReplyTo' => 'sometimes|email',
             'HtmlUrl' => 'url',
             'ListIDs' => 'required'
         ]);
