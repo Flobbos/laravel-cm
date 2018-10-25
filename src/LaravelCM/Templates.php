@@ -108,11 +108,9 @@ class Templates implements TemplateContract {
      * @return void
      */
     public function copyImages() {
-
         $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
         $dest = $this->disk->path($this->template . '/assets');
         return File::copyDirectory($imageFolder, $dest);
-
     }
 
     /**
