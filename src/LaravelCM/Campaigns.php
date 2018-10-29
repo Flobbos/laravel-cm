@@ -5,6 +5,7 @@ use Flobbos\LaravelCM\Contracts\CampaignContract;
 use Flobbos\LaravelCM\BaseClient;
 use GuzzleHttp\Exception\RequestException;
 use Exception;
+use Flobbos\LaravelCM\Exceptions\MethodNotFoundException;
 
 class Campaigns extends BaseClient implements CampaignContract{
     
@@ -42,6 +43,14 @@ class Campaigns extends BaseClient implements CampaignContract{
         return $summary->get('body');
     }
 
+    public function getCampaignDetails(string $campaign_id, string $type = 'drafts') {
+        if(!method_exists($this, 'get'. ucfirst($type))){
+            throw new MethodNotFoundException('get'. ucfirst($type));
+        }
+        $campaigns = $this->{'get'. ucfirst($type)}();
+        return $campaigns->where('CampaignID',$campaign_id)->first();
+    }
+    
     public function getEmailClientUsage($campaign_id) {
         $users = $this->makeCall('get','campaigns/'.$campaign_id.'/emailclientusage',[]);
         if($users->get('code') != '200'){
@@ -88,6 +97,31 @@ class Campaigns extends BaseClient implements CampaignContract{
             throw new Exception($result->get('body'));
         }
         return $result->get('body');
+    }
+    
+    //"ConfirmationEmail": "confirmation@example.com, another@example.com",
+    //"SendDate": "YYYY-MM-DD HH:MM"
+    //https://api.createsend.com/api/v3.2/campaigns/{campaignid}/send.{xml|json}
+    public function scheduleCampaign(string $campaign_id, string $date_time, string $confirmation_emails) {
+        $result = $this->makeCall('post','campaigns/'.$campaign_id.'/send',[
+            'json' => [
+                'ConfirmationEmail' => $confirmation_emails,
+                'SendDate' => $date_time
+            ]
+        ]);
+        if($result->get('code') != '200'){
+            throw new Exception($result->get('body'));
+        }
+        return true;
+    }
+    
+    //https://api.createsend.com/api/v3.2/campaigns/{campaignid}/unschedule.{xml|json}
+    public function unScheduleCampaign(string $campaign_id) {
+        $result = $this->makeCall('post','campaigns/'.$campaign_id.'/unschedule',[]);
+        if($result->get('code') != '200'){
+            throw new Exception($result->get('body'));
+        }
+        return true;
     }
     
     public function makeCall($method = 'get', $url, array $request_data) {

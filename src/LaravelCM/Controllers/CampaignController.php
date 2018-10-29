@@ -104,6 +104,12 @@ class CampaignController extends Controller{
 
     }
 
+    public function showCampaignPreview($campaign_id){
+        return view('laravel-cm::campaigns.send-test')->with([
+            'campaign_id' => $campaign_id
+        ]);
+    }
+    
     public function sendCampaignPreview(Request $request, $campaign_id){
 
         $request->validate([
@@ -121,6 +127,22 @@ class CampaignController extends Controller{
         }
     }
 
+    public function scheduleCampaign($campaign_id){
+        $campaign = $this->cmp->getCampaignDetails($campaign_id);
+        return view('laravel-cm::campaigns.schedule')->with([
+            'campaign' => $campaign
+        ]);
+    }
+    
+    public function saveScheduleCampaign(Request $request, $campaign_id){
+        try{
+            $this->cmp->scheduleCampaign($campaign_id, $request->get('date_time'), $request->get('confirmation_emails'));
+            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withInput()->withErrors($ex->getMessage());
+        }
+    }
+    
     public function destroy($campaign_id){
         try{
             $this->cmp->delete($campaign_id);

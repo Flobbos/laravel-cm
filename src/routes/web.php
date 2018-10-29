@@ -15,6 +15,9 @@ Route::group(['middleware'=>['web','auth'],'namespace'=>'Flobbos\LaravelCM\Contr
     Route::get('lists/details/{list_id}','ListController@showListDetails')->name('lists.details');
     Route::resource('lists','ListController')->except(['update','edit','show']);
     //Campaigns
-    Route::get('campaigns/send-preview/{campaign_id}','CampaignController@sendCampaignPreview')->name('campaigns.send-preview');
+    Route::get('campaigns/show-preview/{campaign_id}','CampaignController@showCampaignPreview')->name('campaigns.show-preview');
+    Route::post('campaigns/send-preview/{campaign_id}','CampaignController@sendCampaignPreview')->name('campaigns.send-preview');
+    Route::get('campaigns/show-send/{campaign_id}','CampaignController@scheduleCampaign')->name('campaigns.show-send');
+    Route::post('campaigns/send/{campaign_id}','CampaignController@saveScheduleCampaign')->name('campaigns.send');
     Route::resource('campaigns','CampaignController');
 });
