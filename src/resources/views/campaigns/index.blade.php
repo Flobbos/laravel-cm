@@ -48,7 +48,7 @@
                                             Send <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" @click.prevent="$refs.sendTestCampaign.open('{{ $campaign->CampaignID }}')">Preview</a></li>
+                                            <li><a href="{{route('laravel-cm::campaigns.show-preview',$campaign->CampaignID)}}">Send Test</a></li>
                                         </ul>
                                         <a class="btn btn-sm btn-success" 
                                            accesskey="" href="{{route('laravel-cm::campaigns.edit',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-pencil"></i> Edit</a>

@@ -27,5 +27,7 @@ return [
     //Standard reply to address
     'reply_to' => 'replies@example.com',
     //Front-end
-    'layout_file' => 'admin'
+    'layout_file' => 'admin',
+    // Max. email-addresse for test-sending
+    'max_test_emails' => 5
 ];

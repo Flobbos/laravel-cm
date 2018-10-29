@@ -3,7 +3,7 @@
 namespace Flobbos\LaravelCM;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\Validator;
 class LaravelCMServiceProvider extends ServiceProvider{
     
     public function boot(){
@@ -11,12 +11,43 @@ class LaravelCMServiceProvider extends ServiceProvider{
             __DIR__.'/../config/laravel-cm.php' => config_path('laravel-cm.php'),
         ]);
 
+        // Register command for template-generation via artisan
+        $this->commands([
+            Commands\CreateTemplate::class
+        ]);
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         //Add views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-cm');
         //Add language files
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-cm');
+
+        Validator::extend("emails", function($attribute, $values, $parameters) {
+            $value = explode(',', $values);
+            $rules = [
+                'email' => 'required|email',
+            ];
+            if ($value) {
+                $validator = \Validator::make(['emails' => $value], [
+                    'emails' => 'max:' . config('laravel-cm.max_test_emails')
+                ]);
+                if ($validator->fails()) {
+                    return false;
+                }
+
+                foreach ($value as $email) {
+                    $data = [
+                        'email' => $email
+                    ];
+                    $validator = \Validator::make($data, $rules);
+                    if ($validator->fails()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
     }
 
     /**

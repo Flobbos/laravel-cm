@@ -104,13 +104,21 @@ class CampaignController extends Controller{
 
     }
 
+    public function showCampaignPreview($campaign_id){
+        return view('laravel-cm::campaigns.send-test')->with([
+            'campaign_id' => $campaign_id
+        ]);
+    }
+    
     public function sendCampaignPreview(Request $request, $campaign_id){
 
         $request->validate([
-            'emails' => 'required|array|min:1'
+            'emails' => 'required|emails'
         ]);
 
-        $this->cmp->sendPreview($campaign_id, $request->get('emails'));
+        $emails = explode(',', $request->get('emails'));
+
+        $this->cmp->sendPreview($campaign_id, $emails);
 
         try{
             return redirect()->back()->withMessage(trans('laravel-cm::campaigns.test_send_success'));
@@ -121,6 +129,23 @@ class CampaignController extends Controller{
         }
     }
 
+    public function scheduleCampaign($campaign_id){
+        $campaign = $this->cmp->getCampaignSummary($campaign_id);
+        dd($campaign);
+        return view('laravel-cm::campaigns.schedule')->with([
+            'campaign' => $campaign
+        ]);
+    }
+    
+    public function saveScheduleCampaign(Request $request, $campaign_id){
+        try{
+            $this->cmp->scheduleCampaign($campaign_id, $request->get('date_time'), $request->get('confirmation_emails'));
+            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withInput()->withErrors($ex->getMessage());
+        }
+    }
+    
     public function destroy($campaign_id){
         try{
             $this->cmp->delete($campaign_id);
