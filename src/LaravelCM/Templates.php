@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
+use Flobbos\LaravelCM\Models\NewsletterTemplate;
 
 class Templates implements TemplateContract {
 
@@ -19,15 +20,20 @@ class Templates implements TemplateContract {
     protected $srcTemplatePath;
     protected $distTemplatePath;
     protected $html;
+    protected $template_db;
 
-    public function __construct() {
+    public function __construct(NewsletterTemplate $template_db) {
 
         $this->disk = Storage::disk('laravel_cm');
         $this->srcTemplatePath = resource_path('laravel-cm/' . $this->template);
         $this->distTemplatePath = $this->disk->path($this->template);
-
+        $this->template_db = $template_db;
     }
     
+    public function getTemplatesFromDB() {
+        return $this->template_db->all();
+    }
+
     public function setTemplate(string $template_name) {
         $this->template = $template_name;
         return $this;
@@ -108,9 +114,11 @@ class Templates implements TemplateContract {
      * @return void
      */
     public function copyImages() {
+
         $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
         $dest = $this->disk->path($this->template . '/assets');
         return File::copyDirectory($imageFolder, $dest);
+
     }
 
     /**

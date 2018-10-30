@@ -6,9 +6,17 @@ use Flobbos\LaravelCM\Contracts\BaseClientContract;
 
 interface TemplateContract{
     
+    public function getTemplatesFromDB();
     
+    /**
+     * Set current template
+     * @param string $template_name
+     */
     public function setTemplate(string $template_name);
     
+    /**
+     * Get current template
+     */
     public function getTemplate();
     
     /**

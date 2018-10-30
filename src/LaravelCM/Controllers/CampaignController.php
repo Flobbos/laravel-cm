@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Flobbos\LaravelCM\Contracts\CampaignContract;
 use Flobbos\LaravelCM\Contracts\ListContract;
+use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Exception;
 
 class CampaignController extends Controller{
@@ -48,8 +49,11 @@ class CampaignController extends Controller{
         }
     }
     
-    public function create(ListContract $lists){
-        return view('laravel-cm::campaigns.create')->withLists($lists->get());
+    public function create(ListContract $lists, TemplateContract $templates){
+        return view('laravel-cm::campaigns.create')->with([
+            'lists' => $lists->get(),
+            'templates' => $templates->getTemplatesFromDB()
+        ]);
     }
 
     public function store(Request $request){
@@ -123,8 +127,6 @@ class CampaignController extends Controller{
         try{
             return redirect()->back()->withMessage(trans('laravel-cm::campaigns.test_send_success'));
         } catch (Exception $ex) {
-            echo 'Catch!';
-            dd($ex->getMessage());
             return redirect()->back()->withErrors($ex->getMessage());
         }
     }
@@ -138,10 +140,19 @@ class CampaignController extends Controller{
     
     public function saveScheduleCampaign(Request $request, $campaign_id){
         try{
-            $this->cmp->scheduleCampaign($campaign_id, $request->get('date_time'), $request->get('confirmation_emails'));
+            $this->cmp->scheduleCampaign($campaign_id, $request->get('SendDate'), $request->get('ConfirmationEmail'));
             return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withInput()->withErrors($ex->getMessage());
+        }
+    }
+    
+    public function unScheduleCampaign($campaign_id){
+        try{
+            $this->cmp->unScheduleCampaign($campaign_id);
+            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.unschedule_success'));
+        } catch (Exception $ex) {
+            return redirect()->route('laravel-cm::campaigns.index')->withErrors($ex->getMessage());
         }
     }
     

@@ -48,7 +48,8 @@
                                             Send <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="{{route('laravel-cm::campaigns.show-preview',$campaign->CampaignID)}}">Send Test</a></li>
+                                            <li><a href="{{route('laravel-cm::campaigns.show-preview',$campaign->CampaignID)}}">Send Preview</a></li>
+                                            <li><a href="{{route('laravel-cm::campaigns.show-send',$campaign->CampaignID)}}">Schedule</a></li>
                                         </ul>
                                         <a class="btn btn-sm btn-success" 
                                            accesskey="" href="{{route('laravel-cm::campaigns.edit',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
@@ -84,6 +85,7 @@
                         <thead>
                         <th>Name</th>
                         <th>ID</th>
+                        <th>Time</th>
                         <th></th>
                         </thead>
                         <tbody>
@@ -91,14 +93,12 @@
                             <tr>
                                 <td>{{$campaign->Name}}</td>
                                 <td>{{$campaign->CampaignID}}</td>
+                                <td>{{$campaign->DateScheduled}}</td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a class="btn btn-sm btn-primary" 
+                                        <a class="btn btn-sm btn-default" 
                                            accesskey=""href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-eye-open"></i> Details</a>
-                                        <a class="btn btn-sm btn-default" role="button" 
-                                           data-toggle="collapse" href="#{{$campaign->CampaignID}}" 
-                                           aria-expanded="false"
-                                           aria-controls="{{$campaign->CampaignID}}">Test</a>
+                                        <a class="btn btn-sm btn-danger" href="{{route('laravel-cm::campaigns.unschedule',$campaign->CampaignID)}}">Stop</a>
                                     </div>
                                 </td>
                             </tr>
@@ -131,7 +131,7 @@
                                 <td>{{$campaign->Name}}</td>
                                 <td>{{$campaign->CampaignID}}</td>
                                 <td class="text-right">
-                                    <a class="btn btn-sm btn-primary" 
+                                    <a class="btn btn-sm btn-default" 
                                        href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-eye-open"></i> Details</a>
                                 </td>
                             </tr>

@@ -19,5 +19,6 @@ Route::group(['middleware'=>['web','auth'],'namespace'=>'Flobbos\LaravelCM\Contr
     Route::post('campaigns/send-preview/{campaign_id}','CampaignController@sendCampaignPreview')->name('campaigns.send-preview');
     Route::get('campaigns/show-send/{campaign_id}','CampaignController@scheduleCampaign')->name('campaigns.show-send');
     Route::post('campaigns/send/{campaign_id}','CampaignController@saveScheduleCampaign')->name('campaigns.send');
+    Route::get('campaigns/unschedule/{campaign_id}','CampaignController@unScheduleCampaign')->name('campaigns.unschedule');
     Route::resource('campaigns','CampaignController');
 });

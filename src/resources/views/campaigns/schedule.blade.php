@@ -10,42 +10,24 @@
                     {{ csrf_field() }}
 
                     <div class="panel-heading panel-default">
-                        <h3 class="panel-title">@lang('laravel-cm::campaigns.schedule_title')</h3>
-                        @lang('laravel-cm::crud.create_headline')
+                        <h3 class="panel-title">{{$campaign->Name}}</h3>
+                        @lang('laravel-cm::campaigns.schedule_title')
                     </div>
 
                     <div class="panel-body">
 
                         @include('laravel-cm::notifications')
-
+                        
+                        @lang('laravel-cm::campaigns.preview'): <a href="{{$campaign->PreviewURL}}" target="_blank"><strong>{{$campaign->PreviewURL}}</strong></a><br />
+                        
                         <div class="form-group">
-                            <label class="control-label" for="Name">Name</label>
-                            <input class="form-control" placeholder="My awesome Campaign" type="text" name="Name" value="{{ old('Name') }}" />
+                            <label class="control-label" for="ConfirmationEmail">@lang('laravel-cm::campaigns.confirmation_emails_title')</label>
+                            <input class="form-control" placeholder="@lang('laravel-cm::campaigns.confirmation_emails_placeholder')" type="text" name="ConfirmationEmail" value="{{ old('ConfirmationEmail') }}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="Subject">Betreff</label>
-                            <input class="form-control" placeholder="My awesome Subject" type="text" name="Subject" value="{{old('Subject')}}" />
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="FromName">Absendername</label>
-                            <input class="form-control" placeholder="Mr Awesome" type="text" name="FromName" value="{{old('FromName')}}" />
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="FromEmail">Absenderadresse</label>
-                            <input class="form-control" placeholder="mr@aweso.me" type="text" name="FromEmail" value="{{old('FromEmail')}}" />
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="ReplyTo">Antwortadresse</label>
-                            <input class="form-control"placeholder="mrs@aweso.me" type="text" name="ReplyTo" value="{{old('ReplyTo')}}" />
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="HtmlUrl">HtmlUrl</label>
-                            <input class="form-control" type="text" name="HtmlUrl" value="{{old('HtmlUrl', url('laravel-cm'))}}" />
+                            <label class="control-label" for="SendDate">@lang('laravel-cm::campaigns.send_date')</label>
+                            <vue-date-picker name="SendDate"></vue-date-picker>
                         </div>
 
                     </div>
