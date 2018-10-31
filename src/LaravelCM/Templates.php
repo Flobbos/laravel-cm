@@ -30,6 +30,59 @@ class Templates implements TemplateContract {
         $this->template_db = $template_db;
     }
     
+    //CRUD methods
+    /**
+     * Get all templates in DB
+     * @return type
+     */
+    public function get(){
+        return $this->template_db->get();
+    }
+    
+    /**
+     * Create new template in DB
+     * @return type
+     */
+    public function create(array $data){
+        return $this->template_db->create($data);
+    }
+    
+    /**
+     * Set relations for templates
+     * @param type $relations
+     * @return $this
+     */
+    public function with($relations){
+        $this->template_db->with($relations);
+        return $this;
+    }
+    
+    /**
+     * Find a specific template
+     * @param type $id
+     * @return type
+     */
+    public function find($id){
+        return $this->template_db->find($id);
+    }
+    
+    /**
+     * Delete a template
+     * @param type $id
+     * @return boolean
+     */
+    public function delete($id){
+        $model = $this->find($id);
+        if(!is_null($model)){
+            return $model->delete();
+        }
+        return false;
+    }
+
+    /**
+     * Get all templates from DB
+     * @return type
+     */
     public function getTemplatesFromDB() {
         return $this->template_db->all();
     }

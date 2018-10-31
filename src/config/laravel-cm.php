@@ -29,5 +29,9 @@ return [
     //Front-end
     'layout_file' => 'admin',
     // Max. email-addresse for test-sending
-    'max_test_emails' => 5
+    'max_test_emails' => 5,
+    //Default testing address
+    'test_email' => 'tester@example.com',
+    //Default testing subject
+    'test_subject' => 'Campaign Preview',
 ];

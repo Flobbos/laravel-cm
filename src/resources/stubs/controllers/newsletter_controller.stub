@@ -1,0 +1,147 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Flobbos\LaravelCM\Contracts\TemplateContract;
+
+class DummyClass extends Controller{
+
+    protected $templates;
+
+    public function __construct(TemplateContract $templates){
+        $this->templates = $templates;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return view('DummyViewPath.index')->withTemplates($this->templates->get());
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('DummyViewPath.create')
+            ->withNewsItems($this->newsItems->get())
+            ->withEvents($this->events->get());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'template_name' => 'required|unique:newsletter_templates',
+            'title' => 'required'
+        ]);
+
+        $templateData = $request->except(['_token', 'news_items', 'events']);
+        $templateData['template_name'] = str_slug($templateData['template_name']);
+        $template = $this->templates->create($templateData);
+
+        $template->news_items()->sync($request->get('news_items', []));
+        $template->events()->sync($request->get('events', []));
+
+        $this->templates->compile($template->template_name, [
+            'template' => $template
+        ]);
+
+        return redirect()->route('DummyViewPath.index')->withMessage(trans('laravel-cm::templates.template_created'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $template = $this->templates->with(['news_items', 'events'])->find($id);
+        $this->templates->compile($template->template_name, [
+            'template' => $template
+        ]);
+        $template_path = public_path('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html');
+        return \File::get($template_path);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return view('DummyViewPath.edit')
+            ->withTemplate($this->templates->with(['news_items', 'events'])->find($id))
+            ->withNewsItems($this->newsItems->get())
+            ->withEvents($this->events->get());;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id) {
+        $request->validate([
+            'template_name' => 'required',
+            'title' => 'required'
+        ]);
+
+        $templateData = $request->except(['_token', 'news_items', 'events']);
+        $template = $this->templates->update($id, $templateData, true);
+
+        $template->news_items()->sync($request->get('news_items', []));
+        $template->events()->sync($request->get('events', []));
+
+        $this->templates->compile($template->template_name, [
+            'template' => $template
+        ]);
+
+        return redirect()->route('DummyRoute.index')->withMessage(trans('laravel-cm::templates.template_updated'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try{
+            $this->templates->delete($id);
+            return redirect()->route('DummyRoute.index')->withMessage(trans('laravel-cm::crud.record_deleted'));
+        } catch (Exception $ex) {
+            return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
+        }
+    }
+
+    public function sendPreview($id) {
+        $template = $this->templates->find($id);
+        \Mail::send([], [], function($message) use ($template) {
+            $message->to(config('laravel-cm.test_email'));
+            $message->subject(config('larave-cm.test_subject'));
+            $message->setBody(\File::get($template->template_file_path), 'text/html');
+        });
+
+        return redirect()->back()->withMessage(trans('laravel-cm::templates.preview_sent'));
+    }
+}

@@ -6,6 +6,42 @@ use Flobbos\LaravelCM\Contracts\BaseClientContract;
 
 interface TemplateContract{
     
+    /**
+     * Get all templates in DB
+     * @return type
+     */
+    public function get();
+    
+    /**
+     * Create new template in DB
+     * @return type
+     */
+    public function create(array $data);
+    
+    /**
+     * Set relations for templates
+     * @param type $relations
+     * @return $this
+     */
+    public function with($relations);
+    
+    /**
+     * Find a specific template
+     * @param type $id
+     * @return type
+     */
+    public function find($id);
+    
+    /**
+     * Delete a template
+     * @param type $id
+     * @return boolean
+     */
+    public function delete($id);
+    
+    /**
+     * Get all templates from DB (alias for get)
+     */
     public function getTemplatesFromDB();
     
     /**

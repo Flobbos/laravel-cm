@@ -11,10 +11,6 @@ class LaravelCMServiceProvider extends ServiceProvider{
             __DIR__.'/../config/laravel-cm.php' => config_path('laravel-cm.php'),
         ]);
 
-        // Register command for template-generation via artisan
-        $this->commands([
-            Commands\CreateTemplate::class
-        ]);
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         //Add views
@@ -58,6 +54,11 @@ class LaravelCMServiceProvider extends ServiceProvider{
         $this->mergeConfigFrom(
              __DIR__.'/../config/laravel-cm.php', 'laravel-cm'
         );
+        //register commands
+        $this->commands([
+            Commands\ControllerCommand::class,
+            Commands\ViewCommand::class,
+        ]);
         //Bindings
         $this->app->bind('Flobbos\LaravelCM\Contracts\CampaignContract', Campaigns::class);
         $this->app->bind('Flobbos\LaravelCM\Contracts\ListContract', Lists::class);
