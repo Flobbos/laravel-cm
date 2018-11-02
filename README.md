@@ -15,7 +15,6 @@ in the DB.
 * [Configuration](#configuration)
 * [Generators](#generators)
 * [Usage](#usage)
-* [Functions](#functions)
 * [Exceptions](#exceptions)
 * [Laravel compatibility](#laravel-compatibility)
 
@@ -207,6 +206,8 @@ php artisan laravel-cm:views /view/path --route=laravel-cm.templates
 
 ## Usage
 
+### Adding the package 
+
 After the installation all you need to do is add the links to the parts of the 
 package you want to use to your layout file. 
 
@@ -250,3 +251,69 @@ Example:
     </ul>
 </li>
 ```
+
+### Dashboard
+
+The dashboard contains an overview of your config settings and a mini 
+documentation on how to use the package. 
+
+### Templates
+
+This will lead to the generated template controller functions/views where
+you can add your own content to your campaign templates. 
+
+### Campaigns
+
+The campaigns overview shows your draft/scheduled/sent campaigns that were 
+retrieved from Campaign Monitor via API. Here you can create/schedule/preview
+your campaigns as well as view basic statistical information. 
+
+### Lists
+
+The lists section lets you create/edit different email lists that are synced
+to Campaign Monitor. Here you can also view basic statistical information about
+your list such as subscribes/unsubscribes/bounces. 
+
+### Subscribers
+
+Here you can view all your subscriber information across different lists that 
+you can select. It also gives you the option to import large amounts of 
+subscribers from and XLS file. The format should be:
+
+```xls
+EmailAddress    Name
+```
+
+Be careful if the subscribers are already confirmed and are imported into a 
+double-opt-in list, they will all receive a confirmation email where they 
+basically have to resubscribe. 
+
+You can also manually unsubscribe users as well as resubscribe them and view 
+basic information about your subscribers. 
+
+## Exceptions
+
+### ConfigKeyNotSetException
+
+This exception will be thrown if a configuration key is missing from your 
+config file but is needed to perform a certain API call. 
+
+### TemplateNotFoundException
+
+This exception happens when you try to use a template that doesn't physically
+exist. 
+
+## Laravel compatibility
+
+ Laravel  | LaravelCM
+:---------|:----------
+ 5.6      | >1.*
+ 5.5      | >1.*
+ 5.4      | >1.*
+ 5.3      | >1.*
+
+Lower versions of Laravel are not supported. This package also uses Bootstrap3
+and therefore the views generated are not compatible with Laravel 5.7. 
+A seperate branch/version will be compatible with Laravel 5.7.x. 
+
+
