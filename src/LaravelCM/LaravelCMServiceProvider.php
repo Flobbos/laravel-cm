@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Validator;
 class LaravelCMServiceProvider extends ServiceProvider{
     
     public function boot(){
+        //Publish config
         $this->publishes([
             __DIR__.'/../config/laravel-cm.php' => config_path('laravel-cm.php'),
-        ]);
+        ],'config');
+        //Publish migrations
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations'), 
+        ],'migrations');
 
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
@@ -18,6 +23,7 @@ class LaravelCMServiceProvider extends ServiceProvider{
         //Add language files
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-cm');
 
+        //Extend validation rules
         Validator::extend("emails", function($attribute, $values, $parameters) {
             $value = explode(',', $values);
             $rules = [
