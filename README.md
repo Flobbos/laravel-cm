@@ -307,10 +307,10 @@ exist.
 
  Laravel  | LaravelCM
 :---------|:----------
- 5.6      | >1.*
- 5.5      | >1.*
- 5.4      | >1.*
- 5.3      | >1.*
+ 5.6      | >=0.0.2
+ 5.5      | >=0.0.2
+ 5.4      | >=0.0.2
+ 5.3      | >=0.0.2
 
 Lower versions of Laravel are not supported. This package also uses Bootstrap3
 and therefore the views generated are not compatible with Laravel 5.7. 
