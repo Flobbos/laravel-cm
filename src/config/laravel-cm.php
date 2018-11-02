@@ -3,9 +3,9 @@
 
 return [
     //Your client API Key from CM
-    'client_api_key' => '',
+    'client_api_key' => 'your secret key',
     //The client ID from CM
-    'client_id' => '',
+    'client_id' => 'your client ID',
     //If you already have a list
     'default_list_id' => '',
     //Base URI for setting up Guzzle
