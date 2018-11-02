@@ -7,11 +7,33 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Current Settings:</h4>
+                    <h3 class="panel-title">Settings & Docs:</h4>
                 </div>
 
                 <div class="panel-body">
                     @include('laravel-cm::notifications')
+                    
+                    <h4>1. Templates</h4>
+                    <p>
+                        @lang('laravel-cm::dashboard.templates')
+                    </p>
+                    
+                    <h4>2. @lang('laravel-cm::dashboard.lists_title')</h4>
+                    <p>
+                        @lang('laravel-cm::dashboard.lists')
+                    </p>
+                    
+                    <h4>3. @lang('laravel-cm::dashboard.campaigns_title')</h4>
+                    <p>
+                        @lang('laravel-cm::dashboard.campaigns')
+                    </p>
+                    
+                    <h4>4. @lang('laravel-cm::dashboard.subscribers_title')</h4>
+                    <p>
+                        @lang('laravel-cm::dashboard.subscribers')
+                    </p>
+                    
+                    <h4>@lagn('laravel-cm::dashboard.config')</h4>
                     @foreach(config('laravel-cm') as $key => $config)
                     {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
                     @endforeach

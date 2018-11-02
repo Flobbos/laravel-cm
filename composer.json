@@ -19,8 +19,8 @@
         "illuminate/support": ">=5.3.0",
         "leafo/scssphp": "^0.7.7",
         "vanderb/laravel-blinky": ">=0.1",
-        "symfony/dom-crawler": "^4.2@dev",
-        "tijsverkoyen/css-to-inline-styles": "^2.2@dev",
+        "symfony/dom-crawler": "^4.2",
+        "tijsverkoyen/css-to-inline-styles": "^2.2",
         "maatwebsite/excel": "~2.1.0",
         "guzzlehttp/guzzle": "~6.0"
     },
