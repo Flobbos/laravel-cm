@@ -228,7 +228,7 @@ class Templates implements TemplateContract {
     
     private function generateTemplate(){
         // Copy stub to new template
-        $stubPath = dirname(__FILE__) . '/../../resources/defaults/template';
+        $stubPath = resource_path('laravel-cm/default');
         $destPath = resource_path('laravel-cm/' . $this->template);
 
         // Rename copied files to template-name

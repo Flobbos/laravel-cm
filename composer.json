@@ -24,11 +24,16 @@
         "maatwebsite/excel": "~2.1.0",
         "guzzlehttp/guzzle": "~6.0"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Flobbos\\LaravelCM\\LaravelCMServiceProvider"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "Flobbos\\LaravelCM\\": "src/LaravelCM/"
         }
-    },
-
-    "minimum-stability": "dev"
+    }
 }

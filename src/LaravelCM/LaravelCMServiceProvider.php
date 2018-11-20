@@ -15,7 +15,11 @@ class LaravelCMServiceProvider extends ServiceProvider{
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations'), 
         ],'migrations');
-
+        //Publishes defaults
+        $this->publishes([
+            __DIR__.'/../resources/defaults/template' => resource_path('laravel-cm/default')
+        ]);
+        
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         //Add views
