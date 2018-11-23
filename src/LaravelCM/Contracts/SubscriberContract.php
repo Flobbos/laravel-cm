@@ -21,6 +21,9 @@ interface SubscriberContract extends BaseClientContract {
     //Create
     public function add(array $subscriber_data);
     
+    //Subscribe
+    public function subscribe(string $email, string $name = null);
+    
     //Resubscribe
     public function resubscribe(string $email);
     

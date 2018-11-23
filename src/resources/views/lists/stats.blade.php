@@ -7,19 +7,19 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Stats: {{$list_id}}</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::lists.stats_title'): {{$list_id}}</h3>
                     
                 </div>
 
                 <div class="panel-body">
                      
-                    <h5>Totals</h5>
+                    <h5>@lang('laravel-cm::lists.totals')</h5>
                     <table class="table">
                         <thead>
-                        <th>Active</th>
-                        <th>Unsubscribed</th>
-                        <th>Deleted</th>
-                        <th>Bounced</th>
+                        <th>@lang('laravel-cm::lists.active_subscribers')</th>
+                        <th>@lang('laravel-cm::lists.unsubscribes')</th>
+                        <th>@lang('laravel-cm::lists.deletes')</th>
+                        <th>@lang('laravel-cm::lists.bounced')</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -31,14 +31,14 @@
                         </tbody>
                     </table>
                     
-                    <h5>New Subscribers</h5>
+                    <h5>@lang('laravel-cm::lists.new_subscribers')</h5>
                     <table class="table">
                         <thead>
-                        <th>Today</th>
-                        <th>Yesterday</th>
-                        <th>Week</th>
-                        <th>Month</th>
-                        <th>Year</th>
+                        <th>@lang('laravel-cm::lists.today')</th>
+                        <th>@lang('laravel-cm::lists.yesterday')</th>
+                        <th>@lang('laravel-cm::lists.week')</th>
+                        <th>@lang('laravel-cm::lists.month')</th>
+                        <th>@lang('laravel-cm::lists.year')</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -51,14 +51,14 @@
                         </tbody>
                     </table>
                     
-                    <h5>Unsubscribed</h5>
+                    <h5>@lang('laravel-cm::lists.unsubscribes')</h5>
                     <table class="table">
                         <thead>
-                        <th>Today</th>
-                        <th>Yesterday</th>
-                        <th>Week</th>
-                        <th>Month</th>
-                        <th>Year</th>
+                        <th>@lang('laravel-cm::lists.today')</th>
+                        <th>@lang('laravel-cm::lists.yesterday')</th>
+                        <th>@lang('laravel-cm::lists.week')</th>
+                        <th>@lang('laravel-cm::lists.month')</th>
+                        <th>@lang('laravel-cm::lists.year')</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -71,14 +71,14 @@
                         </tbody>
                     </table>
                     
-                    <h5>Deleted</h5>
+                    <h5>@lang('laravel-cm::lists.deletes')</h5>
                     <table class="table">
                         <thead>
-                        <th>Today</th>
-                        <th>Yesterday</th>
-                        <th>Week</th>
-                        <th>Month</th>
-                        <th>Year</th>
+                        <th>@lang('laravel-cm::lists.today')</th>
+                        <th>@lang('laravel-cm::lists.yesterday')</th>
+                        <th>@lang('laravel-cm::lists.week')</th>
+                        <th>@lang('laravel-cm::lists.month')</th>
+                        <th>@lang('laravel-cm::lists.year')</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -91,14 +91,14 @@
                         </tbody>
                     </table>
                     
-                    <h5>Bounced</h5>
+                    <h5>@lang('laravel-cm::lists.bounced')</h5>
                     <table class="table">
                         <thead>
-                        <th>Today</th>
-                        <th>Yesterday</th>
-                        <th>Week</th>
-                        <th>Month</th>
-                        <th>Year</th>
+                        <th>@lang('laravel-cm::lists.today')</th>
+                        <th>@lang('laravel-cm::lists.yesterday')</th>
+                        <th>@lang('laravel-cm::lists.week')</th>
+                        <th>@lang('laravel-cm::lists.month')</th>
+                        <th>@lang('laravel-cm::lists.year')</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -118,11 +118,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
-                        </div>
-
-                        <div class="col-sm-6 text-right">
-                            <button type="submit" class="btn btn-success">{{ trans('crud.save') }}</button>
+                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
                         </div>
 
                     </div>

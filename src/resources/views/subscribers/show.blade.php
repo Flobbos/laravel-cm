@@ -7,14 +7,14 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Details Empfänger</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::subscribers.details_title')</h3>
                 </div>
 
                 <div class="panel-body">
 
                     <div class="row">
                         <div class="col-sm-6">
-                            E-Mail-Adresse:
+                            @lang('laravel-cm::subscribers.email_address'):
                         </div>
                         <div class="col-sm-6">
                             {{$subscriber->EmailAddress}}
@@ -23,7 +23,7 @@
                     
                     <div class="row">
                         <div class="col-sm-6">
-                            Name:
+                            @lang('laravel-cm::subscribers.name'):
                         </div>
                         <div class="col-sm-6">
                             {{$subscriber->Name}}
@@ -32,7 +32,7 @@
                     
                     <div class="row">
                         <div class="col-sm-6">
-                            Angemeldet:
+                            @lang('laravel-cm::subscribers.subscribed_date'):
                         </div>
                         <div class="col-sm-6">
                             {{$subscriber->Date}}
@@ -41,7 +41,7 @@
                     
                     <div class="row">
                         <div class="col-sm-6">
-                            Status:
+                            @lang('laravel-cm::subscribers.status'):
                         </div>
                         <div class="col-sm-6">
                             {{$subscriber->State}}
@@ -50,7 +50,7 @@
                     
                     <div class="row">
                         <div class="col-sm-6">
-                            E-Mail-Reader:
+                            @lang('laravel-cm::subscribers.email_reader'):
                         </div>
                         <div class="col-sm-6">
                             {{$subscriber->ReadsEmailWith}}
@@ -64,13 +64,8 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
+                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
                         </div>
-
-                        <div class="col-sm-6 text-right">
-                            <button type="submit" class="btn btn-success">{{ trans('crud.save') }}</button>
-                        </div>
-
                     </div>
 
                 </div>

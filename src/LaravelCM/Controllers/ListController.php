@@ -48,9 +48,27 @@ class ListController extends Controller{
         ]);
         try{
             $result = $this->lists->create($request->except('_token'));
-            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('crud.record_created').' ID: '.$result->get('body'));
+            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('laravel-cm::crud.record_created').' ID: '.$result->get('body'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
+    }
+    
+    public function edit($list_id){
+        try{
+            $list = $this->lists->details($list_id);
+            return view('laravel-cm::lists.edit')->with('list',$list);
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+    }
+    
+    public function update(Request $request, $list_id){
+        try{
+            $this->lists->update($list_id, $request->except('_token'));
+            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('laravel-cm::crud.record_updated'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withInput()->withErrors($ex->getMessage());
         }
     }
     

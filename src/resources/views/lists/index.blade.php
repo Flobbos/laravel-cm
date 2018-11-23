@@ -42,6 +42,9 @@
                                         <a class="btn btn-sm btn-success" href="{{ route('laravel-cm::lists.stats',$list->ListID) }}">
                                             <i class="glyphicon glyphicon-calendar"></i> @lang('laravel-cm::lists.stats')
                                         </a>
+                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::lists.edit',$list->ListID) }}">
+                                            <i class="glyphicon glyphicon-pencil"></i> @lang('laravel-cm::crud.edit')
+                                        </a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::lists.destroy',$list->ListID) }}"
                                             method="POST">

@@ -10,20 +10,20 @@
                     {{ csrf_field() }}
 
                     <div class="panel-heading panel-default">
-                        @lang('crud.create_headline')
+                        <h3 class='panel-title'>@lang('laravel-cm::subscribers.import_title')</h3>
                     </div>
 
                     <div class="panel-body">
                         
-                        @include('admin.notifications')
+                        @include('laravel-cm::notifications')
                         
                         <div class="form-group">
-                            <label class="control-label" for="excel">Excel-Tabelle</label>
+                            <label class="control-label" for="excel">@lang('laravel-cm::subscribers.excel_file')</label>
                             <input type="file" name="excel" />
                         </div>
                         
                         <div class="form-group">
-                            <label class="control-label" for="listID">Liste</label>
+                            <label class="control-label" for="listID">@lang('laravel-cm::subscribers.list_for_import')</label>
                             <select name="listID" class="form-control">
                                 @foreach($lists as $list)
                                 <option value="{{$list->ListID}}">{{$list->Name}}</option>
@@ -37,11 +37,11 @@
                         <div class="row">
 
                             <div class="col-sm-6">
-                                <a href="{{ route('laravel-cm::subscribers.index') }}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
+                                <a href="{{ route('laravel-cm::subscribers.index') }}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
                             </div>
 
                             <div class="col-sm-6 text-right">
-                                <button type="submit" class="btn btn-success">{{ trans('crud.save') }}</button>
+                                <button type="submit" class="btn btn-success">{{ trans('laravel-cm::crud.save') }}</button>
                             </div>
 
                         </div>

@@ -104,6 +104,16 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
             return;
     }
     
+    public function subscribe(string $email, string $name = null) {
+        $this->add([
+            'Resubscribe' => true,
+            'ConsentToTrack' => 'Yes',
+            'Name' => $name,
+            'EmailAddress' => $email,
+        ]);
+        return;
+    }
+    
     //Resubscribe
     public function resubscribe(string $email){
         $result = $this->makeCall('put','subscribers/'.$this->getListID(),[

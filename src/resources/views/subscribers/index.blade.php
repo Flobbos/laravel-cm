@@ -8,14 +8,14 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="panel-title">Subscribers</h3>
+                            <h3 class="panel-title">@lang('laravel-cm::subscribers.title')</h3>
                         </div>
                         <div class="col-sm-3">
                             @if(!$lists->isEmpty())
                             <form class="form-inline pull-right" action="{{route('laravel-cm::subscribers.index')}}" method="GET">
                                 <div class="form-group">
                                     <select name="listID" class="form-control">
-                                        <option value="">Liste auswählen</option>
+                                        <option value="">@lang('laravel-cm::subscribers.select_list')</option>
                                         @foreach($lists as $list)
                                         @if(request()->get('listID') == $list->ListID)
                                         <option value="{{$list->ListID}}" selected>{{$list->Name}}</option>
@@ -42,12 +42,12 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Active</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::subscribers.active_subscribers')</h3>
                 </div>
                 <div class="panel-body">
                     <!-- active subscribers -->
                     @if($subscribed->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
@@ -63,7 +63,7 @@
                                 <td>
                                     <div class="btn-group pull-right" role="group">
                                         <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
-                                            <i class="glyphicon glyphicon-eye-open"></i> Details
+                                            <i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::subscribers.details')
                                         </a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::subscribers.unsubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
@@ -71,7 +71,7 @@
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button class="btn btn-sm btn-danger"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> Abmelden</button>
+                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::subscribers.unsubscribe')</button>
                                         </form>
                                     </div>
                                 </td>
@@ -85,7 +85,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Unsubscribed</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::subscribers.unsubscribed')</h3>
                 </div>
                 <div class="panel-body">
                     <!-- unsubscribed -->
@@ -94,8 +94,8 @@
                     @else
                     <table class="table table-striped">
                         <thead>
-                        <th>E-Mail-Adresse</th>
-                        <th>Name</th>
+                        <th>@lang('laravel-cm::subscribers.email_address')</th>
+                        <th>@lang('laravel-cm::subscribers.name')</th>
                         </thead>
                         <tbody>
                             @foreach($unsubscribed as $subscriber)
@@ -105,7 +105,7 @@
                                 <td>
                                     <div class="btn-group pull-right" role="group">
                                         <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
-                                            <i class="glyphicon glyphicon-eye-open"></i> Details
+                                            <i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::subscribers.details')
                                         </a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::subscribers.resubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
@@ -113,7 +113,7 @@
                                             {{ csrf_field() }}
                                             {{ method_field('PUT') }}
                                             <button class="btn btn-sm btn-success"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> Anmelden</button>
+                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::subscribers.subscribe')</button>
                                         </form>
                                     </div>
                                 </td>
@@ -127,17 +127,17 @@
             <!-- unconfirmed subscribers -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Unconfirmed</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::subscribers.unconfirmed')</h3>
                 </div>
                 <div class="panel-body">
                     <!-- unconfirmed -->
                     @if($unconfirmed->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
-                        <th>E-Mail-Adresse</th>
-                        <th>Name</th>
+                        <th>@lang('laravel-cm::subscribers.email_address')</th>
+                        <th>@lang('laravel-cm::subscribers.name')</th>
                         </thead>
                         <tbody>
                             @foreach($unconfirmed as $subscriber)
@@ -154,7 +154,7 @@
             <!-- bounced -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Bounced</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::subscribers.bounced')</h3>
                 </div>
                 <div class="panel-body">
                     <!-- unconfirmed -->
@@ -163,8 +163,8 @@
                     @else
                     <table class="table table-striped">
                         <thead>
-                        <th>E-Mail-Adresse</th>
-                        <th>Name</th>
+                        <th>@lang('laravel-cm::subscribers.email_address')</th>
+                        <th>@lang('laravel-cm::subscribers.name')</th>
                         </thead>
                         <tbody>
                             @foreach($bounced as $subscriber)

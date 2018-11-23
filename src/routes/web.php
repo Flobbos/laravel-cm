@@ -13,7 +13,7 @@ Route::group(['middleware'=>['web','auth'],'namespace'=>'Flobbos\LaravelCM\Contr
     //Lists
     Route::get('lists/stats/{list_id}','ListController@showListStats')->name('lists.stats');
     Route::get('lists/details/{list_id}','ListController@showListDetails')->name('lists.details');
-    Route::resource('lists','ListController')->except(['update','edit','show']);
+    Route::resource('lists','ListController')->except(['show']);
     //Campaigns
     Route::get('campaigns/show-preview/{campaign_id}','CampaignController@showCampaignPreview')->name('campaigns.show-preview');
     Route::post('campaigns/send-preview/{campaign_id}','CampaignController@sendCampaignPreview')->name('campaigns.send-preview');

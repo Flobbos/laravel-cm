@@ -7,14 +7,14 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Summary: {{$campaign_id}}</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::campaigns.summary'): {{$campaign_id}}</h3>
                 </div>
 
                 <div class="panel-body">
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Recipients:</strong>
+                            <strong>@lang('laravel-cm::campaigns.recipients'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Recipients}}
@@ -23,7 +23,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Gelesen:</strong>
+                            <strong>@lang('laravel-cm::campaigns.total_open'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->TotalOpened}}
@@ -32,7 +32,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Klicks:</strong>
+                            <strong>@lang('laravel-cm::campaigns.clicks'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Clicks}}
@@ -41,7 +41,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Abmeldungen:</strong>
+                            <strong>@lang('laravel-cm::campaigns.unsubscribes'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Unsubscribed}}
@@ -50,7 +50,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Bounced:</strong>
+                            <strong>@lang('laravel-cm::campaigns.bounced'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Bounced}}
@@ -59,7 +59,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Uniques:</strong>
+                            <strong>@lang('laravel-cm::campaigns.unique_views'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->UniqueOpened}}
@@ -68,7 +68,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Spam complaints:</strong>
+                            <strong>@lang('laravel-cm::campaigns.spam_complaints'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->SpamComplaints}}
@@ -95,7 +95,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Globale Ansicht:</strong>
+                            <strong>@lang('laravel-cm::campaigns.global_view'):</strong>
                         </div>
                         <div class="col-sm-8">
                             <a href="{{$campaign->WorldviewURL}}" target="_blank">{{$campaign->WorldviewURL}}</a>
@@ -104,7 +104,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Weiterleitungen:</strong>
+                            <strong>@lang('laravel-cm::campaigns.forwards'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Forwards}}
@@ -113,7 +113,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Likes:</strong>
+                            <strong>@lang('laravel-cm::campaigns.likes'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Likes}}
@@ -122,7 +122,7 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <strong>Mentions:</strong>
+                            <strong>@lang('laravel-cm::campaigns.mentions'):</strong>
                         </div>
                         <div class="col-sm-8">
                             {{$campaign->Mentions}}
@@ -134,16 +134,16 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Email-Readers</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::campaigns.email_readers')</h3>
                 </div>
                 
                 <div class="panel-body">
                     <table class="table table-striped">
                         <thead>
-                        <th>Client</th>
-                        <th>Version</th>
-                        <th>Percentage</th>
-                        <th>Subscribers</th>
+                        <th>@lang('laravel-cm::campaigns.client')</th>
+                        <th>@lang('laravel-cm::campaigns.version')</th>
+                        <th>@lang('laravel-cm::campaigns.percentage')</th>
+                        <th>@lang('laravel-cm::campaigns.subscribers')</th>
                         </thead>
                         <tbody>
                             @foreach($users as $user)
@@ -170,7 +170,7 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Lists and Segments</h3>
+                    <h3 class="panel-title">@lang('laravel-cm::campaigns.lists_segments')</h3>
                 </div>
                 
                 <div class="panel-body">

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.'.config('laravel-cm.layout_file'))
 
 @section('content')
 <div class="container">
@@ -6,52 +6,69 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
 
-                <form action="{{ route('admin.newsletters.campaigns.update', ['campaign_id' => $campaign->CampaignID]) }}" role="form" method="POST"  enctype="multipart/form-data">
+                <form action="{{ route('laravel-cm::campaigns.update', ['campaign_id' => $campaign->CampaignID]) }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
+                    {{ method_field('PUT') }}
 
                     <div class="panel-heading panel-default">
-                        <h3 class="panel-title">Kampagne bearbeiten</h3>
-                        @lang('crud.create_headline')
+                        <h3 class="panel-title">@lang('laravel-cm::campaigns.edit_title')</h3>
+                        @lang('laravel-cm::crud.edit_headline')
                     </div>
 
                     <div class="panel-body">
 
-                        @include('admin.notifications')
+                        @include('laravel-cm::notifications')
 
                         <div class="form-group">
-                            <label class="control-label" for="Name">Name</label>
+                            <label class="control-label" for="Name">@lang('laravel-cm::campaigns.name')</label>
                             <input class="form-control" type="text" name="Name" value="{{old('Name',$campaign->Name)}}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="Subject">Betreff</label>
+                            <label class="control-label" for="Subject">@lang('laravel-cm::campaigns.subject')</label>
                             <input class="form-control" type="text" name="Subject" value="{{old('Subject', $campaign->Subject)}}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="FromName">Absendername</label>
+                            <label class="control-label" for="FromName">@lang('laravel-cm::campaigns.sender_name')</label>
                             <input class="form-control" type="text" name="FromName" value="{{old('FromName',$campaign->FromName)}}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="FromEmail">Absenderadresse</label>
+                            <label class="control-label" for="FromEmail">@lang('laravel-cm::campaigns.sender_address')</label>
                             <input class="form-control" type="text" name="FromEmail" value="{{old('FromEmail', $campaign->FromEmail)}}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="ReplyTo">Antwortadresse</label>
+                            <label class="control-label" for="ReplyTo">@lang('laravel-cm::campaigns.reply_to_address')</label>
                             <input class="form-control" type="text" name="ReplyTo" value="{{old('ReplyTo', $campaign->ReplyTo)}}" />
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="HtmlUrl">HtmlUrl (optional, für Template-Updates)</label>
-                            <input type="hidden" name="HtmlUrl" value="{{ $campaign->PreviewURL }}">
-                            <input class="form-control" placeholder="{{ url('laravel-cm') }}" type="text" value="{{old('HtmlUrl')}}" @input="setHtmlUrl"/>
+                            <label class="control-label" for="HtmlUrl">
+                                @lang('laravel-cm::campaigns.change_template')
+                            </label>
+                            
+
+                            <select id="HtmlUrl" class="form-control" name="HtmlUrl">
+                                <option value="{{ $campaign->PreviewURL }}">{{ $campaign->PreviewURL }} @lang('laravel-cm::campaigns.current_template')</option>
+                                @foreach($templates as $template)
+                                <option value="{{ url('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html') }}">{{ $template->template_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="ListID">Empfänger-Liste</label>
-                            <vue-select :options="{{ $lists->toJson() }}" :selected-lists="{{ json_encode($campaign->ListIDs) }}"></vue-select>
+                            <label class="control-label" for="ListID">@lang('laravel-cm::campaigns.recipient_lists')</label>
+                            <select multiple name="ListIDs[]" class="form-control">
+                                @foreach($lists as $list)
+                                @if(array_search($list->ListID, old('ListIDs') ?: array_column($campaign->ListIDs, 'ListID'))  !== false)
+                                <option value="{{$list->ListID}}" selected>{{$list->Name}}</option>
+                                @else
+                                <option value="{{$list->ListID}}">{{$list->Name}}</option>
+                                @endif
+                                @endforeach
+                            </select>
                         </div>
 
                     </div>
@@ -61,11 +78,11 @@
                         <div class="row">
 
                             <div class="col-sm-6">
-                                <a href="{{ route('admin.newsletters.index') }}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
+                                <a href="{{ route('laravel-cm::campaigns.index') }}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
                             </div>
 
                             <div class="col-sm-6 text-right">
-                                <button type="submit" class="btn btn-success">{{ trans('crud.save') }}</button>
+                                <button type="submit" class="btn btn-success">{{ trans('laravel-cm::crud.save') }}</button>
                             </div>
 
                         </div>

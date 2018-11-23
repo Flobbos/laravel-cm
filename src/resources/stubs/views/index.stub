@@ -26,8 +26,8 @@
                     <table class="table table-striped">
                         <thead>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Template</th>
+                        <th>@lang('laravel-cm::templates.list_name')</th>
+                        <th>@lang('laravel-cm::templates.template_slug')</th>
                         <th></th>
                         </thead>
                         <tbody>
@@ -42,16 +42,16 @@
 
                                         <div class="btn-group" role="group">
                                             <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-hasgroup="true" aria-expanded="true">
-                                                <i class="glyphicon glyphicon-edit"></i> Preview
+                                                <i class="glyphicon glyphicon-edit"></i> @lang('laravel-cm::templates.preview')
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                 <li>
                                                     <a href="{{ route('DummyRoute.show', $template->id) }}" target="_blank">
-                                                        <i class="glyphicon glyphicon-search"></i> @lang('laravel-cm::campaigns.preview')
+                                                        <i class="glyphicon glyphicon-search"></i> @lang('laravel-cm::templates.preview')
                                                     </a>
                                                     <a href="{{ route('DummyRoute.send-preview', $template->id) }}">
-                                                        <i class="glyphicon glyphicon-envelope"></i> @lang('laravel-cm::campaigns.send_preview')
+                                                        <i class="glyphicon glyphicon-envelope"></i> @lang('laravel-cm::templates.send_preview')
                                                     </a>
                                                 </li>
                                             </ul>

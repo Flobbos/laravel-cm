@@ -80,10 +80,7 @@
                             <a href="{{url()->previous()}}" class="btn btn-danger">@lang('laravel-cm::crud.cancel')</a>
                         </div>
 
-                        <div class="col-sm-6 text-right">
-                            <button type="submit" class="btn btn-success">@lang('laravel-cm::crud.save')</button>
-                        </div>
-
+                        
                     </div>
 
                 </div>
