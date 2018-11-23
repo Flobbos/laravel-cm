@@ -54,5 +54,12 @@ return [
     'confirmation_emails_title' => 'Bestätigungs-Emails',
     'confirmation_emails_placeholder' => 'Liste von E-Mail-Adressen mit Komma getrennt für die Versandbestätigung',
     'send_date' => 'Versand-Datum & Uhrzeit',
+    'schedule_success' => 'Die Kampagne wurde erfolgreich datiert und wird versendet.',
+    
+    //Send test
+    'send_test_title' => 'Kampagne Testversand',
+    'send_test_emails' => 'Maximal :max_email Adressen für den Testversand mit Komma getrennt.',
+    'send_test_hint' => 'Beim Testversand werden personalisierte Tags mit Standardwerten ersetzt.',
+    'send-test' => 'Versenden',
     
 ];

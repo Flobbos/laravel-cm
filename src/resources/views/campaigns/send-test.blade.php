@@ -10,7 +10,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3 class="panel-title">Send Campaign Test</h3>
+                                <h3 class="panel-title">@lang('laravel-cm::campaigns.send_test_title')</h3>
                             </div>
                         </div>
                     </div>
@@ -21,10 +21,10 @@
 
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <label for="emails">Enter up to {{ config('laravel-cm.max_test_emails') }} addresses at once, separated by a comma.</label>
+                                    <label for="emails">@lang('laravel-cm::campaigns.send_test_emails',['max_email'=>config('laravel-cm.max_test_emails')])</label>
                                     <input type="text" id="emails" class="form-control" name="emails">
                                     <p class="help-block">
-                                        For test emails, personalization tags are replaced with the fallback terms you supplied.
+                                        @lang('laravel-cm::campaigns.send_test_hint')
                                     </p>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="col-sm-6 text-right">
-                                <button type="submit" class="btn btn-success">@lang('laravel-cm::crud.send-test')</button>
+                                <button type="submit" class="btn btn-success">@lang('laravel-cm::campaigns.send-test')</button>
                             </div>
 
                         </div>
