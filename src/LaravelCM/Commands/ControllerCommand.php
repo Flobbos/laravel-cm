@@ -71,7 +71,7 @@ class ControllerCommand extends GeneratorCommand{
      * @return string
      */
     protected function getStub(){
-        return __DIR__.'/../../resources/stubs/controllers/newsletter_controller.stub';
+        return __DIR__.'/../../resources/stubs/controllers/template_controller.stub';
     }
     
     /**
