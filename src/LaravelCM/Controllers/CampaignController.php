@@ -50,6 +50,7 @@ class CampaignController extends Controller{
     }
     
     public function create(ListContract $lists, TemplateContract $templates){
+        
         return view('laravel-cm::campaigns.create')->with([
             'lists' => $lists->get(),
             'templates' => $templates->getTemplatesFromDB()
@@ -77,13 +78,13 @@ class CampaignController extends Controller{
 
     }
     
-    public function edit($campaign_id, ListContract $lists) {
+    public function edit($campaign_id, ListContract $lists, TemplateContract $templates) {
         $drafts = $this->cmp->getDrafts();
         $campaign = $drafts->where('CampaignID', $campaign_id)->first();
         $listAndSegments = $this->cmp->getListsAndSegments($campaign->CampaignID);
         $campaign->ListIDs = $listAndSegments->Lists;
 
-        return view('laravel-cm::campaigns.edit')->withCampaign($campaign)->withLists($lists->get());
+        return view('laravel-cm::campaigns.edit')->withCampaign($campaign)->withLists($lists->get())->withTemplates($templates->get());
     }
 
     public function update($campaign_id, Request $request) {
