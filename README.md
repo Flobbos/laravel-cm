@@ -31,7 +31,7 @@ composer require flobbos/laravel-cm
 Next, add the service provider to `app/config/app.php`
 
 ```
-Flobbos\Crudable\CrudableServiceProvider::class,
+Flobbos\LaravelCM\LaravelCMServiceProvider::class,
 ```
 
 ## Configuration
@@ -260,7 +260,17 @@ documentation on how to use the package.
 ### Templates
 
 This will lead to the generated template controller functions/views where
-you can add your own content to your campaign templates. 
+you can add your own content to your campaign templates. You need to add the 
+following routes depending on where you put the generated controller.
+
+```php
+    Route::resource('templates', 'TemplateController', [
+        'as' => 'templates'
+    ]);
+    Route::get('templates/{id}/send-preview', 
+            'TemplateController@sendPreview')
+            ->name('templates.send-preview');
+```
 
 ### Campaigns
 
