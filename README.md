@@ -261,7 +261,7 @@ documentation on how to use the package.
 
 This will lead to the generated template controller functions/views where
 you can add your own content to your campaign templates. You need to add the 
-following routes depending on where you put the generated controller.
+following routes depending on your project and what you named the controller.
 
 ```php
     Route::resource('templates', 'TemplateController', [
