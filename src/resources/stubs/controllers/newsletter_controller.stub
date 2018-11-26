@@ -30,9 +30,7 @@ class DummyClass extends Controller{
      */
     public function create()
     {
-        return view('DummyViewPath.create')
-            ->withNewsItems($this->newsItems->get())
-            ->withEvents($this->events->get());
+        return view('DummyViewPath.create');
     }
 
     /**
@@ -48,12 +46,9 @@ class DummyClass extends Controller{
             'title' => 'required'
         ]);
 
-        $templateData = $request->except(['_token', 'news_items', 'events']);
+        $templateData = $request->except(['_token']);
         $templateData['template_name'] = str_slug($templateData['template_name']);
         $template = $this->templates->create($templateData);
-
-        $template->news_items()->sync($request->get('news_items', []));
-        $template->events()->sync($request->get('events', []));
 
         $this->templates->compile($template->template_name, [
             'template' => $template
@@ -70,7 +65,7 @@ class DummyClass extends Controller{
      */
     public function show($id)
     {
-        $template = $this->templates->with(['news_items', 'events'])->find($id);
+        $template = $this->templates->find($id);
         $this->templates->compile($template->template_name, [
             'template' => $template
         ]);
@@ -87,9 +82,7 @@ class DummyClass extends Controller{
     public function edit($id)
     {
         return view('DummyViewPath.edit')
-            ->withTemplate($this->templates->with(['news_items', 'events'])->find($id))
-            ->withNewsItems($this->newsItems->get())
-            ->withEvents($this->events->get());;
+            ->withTemplate($this->templates->find($id));
     }
 
     /**
@@ -105,11 +98,8 @@ class DummyClass extends Controller{
             'title' => 'required'
         ]);
 
-        $templateData = $request->except(['_token', 'news_items', 'events']);
+        $templateData = $request->except(['_token']);
         $template = $this->templates->update($id, $templateData, true);
-
-        $template->news_items()->sync($request->get('news_items', []));
-        $template->events()->sync($request->get('events', []));
 
         $this->templates->compile($template->template_name, [
             'template' => $template

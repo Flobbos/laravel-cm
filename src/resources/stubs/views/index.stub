@@ -50,7 +50,8 @@
                                                     <a href="{{ route('DummyRoute.show', $template->id) }}" target="_blank">
                                                         <i class="glyphicon glyphicon-search"></i> @lang('laravel-cm::templates.preview')
                                                     </a>
-                                                    <a href="{{ route('DummyRoute.send-preview', $template->id) }}">
+                                                    <a href="{{ route('DummyRoute.send-preview', $template->id) }}"
+                                                        @if(!config('laravel-cm.test_email') disabled title="@lang('laravel-cm::crud.no_preview_recipient')" @endif>
                                                         <i class="glyphicon glyphicon-envelope"></i> @lang('laravel-cm::templates.send_preview')
                                                     </a>
                                                 </li>

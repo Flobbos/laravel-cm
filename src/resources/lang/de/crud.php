@@ -24,4 +24,6 @@ return [
     'invalid_file_upload' => 'Es gab ein Problem beim Upload der Datei.',
     'yes' => 'Ja',
     'no' => 'Nein',
+    //Templates
+    'no_preview_recipient' => 'Das Feld "test_email" in der laravel-cm config ist leer.'
 ];

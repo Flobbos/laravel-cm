@@ -22,16 +22,6 @@
                             <input type="text" class="form-control" name="template_name" value="{{ old('template_name') }}">
                         </div>
 
-                        <div class="form-group">
-                            <label for="title">@lang('laravel-cm::templates.title')</label>
-                            <input type="text" class="form-control" name="title" value="{{ old('title') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="title">@lang('laravel-cm::templates.intro')</label>
-                            <vue-editor name="intro" content="{{ old('intro') }}"></vue-editor>
-                        </div>
-
                         <!-- Put DB based content here --> 
 
                     </div>

@@ -3,9 +3,8 @@
 return [
     'menu_title' => 'Templates',
     'create_headline' => 'Neues Template erstellen',
+    'edit_headline' => 'Template bearbeiten',
     'template_name' => 'Template-Name',
-    'title' => 'Titel',
-    'intro' => 'Intro-Text',
     'generate_template' => 'Template generieren',
     'regenerate_template' => 'Template neu generieren',
     'edit_headline' => 'Template editieren',
