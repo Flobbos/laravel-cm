@@ -8,5 +8,6 @@ return [
     'subscribers_title' => 'Empfänger',
     'subscribers' => 'Unter "Subscribers" kann die Liste der Empfänger eingesehen werden und auch E-Mail-Adressen importiert werden.',
     'config' => 'Konfiguration',
+    'short_docs' => 'Kurzdokumentation',
     
 ];

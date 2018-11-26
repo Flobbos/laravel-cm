@@ -7,7 +7,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading panel-default">
-                    <h3 class="panel-title">Settings & Docs:</h4>
+                    <h3 class="panel-title">@lang('laravel-cm::dashboard.short_docs')</h3>
                 </div>
 
                 <div class="panel-body">
@@ -33,12 +33,21 @@
                         @lang('laravel-cm::dashboard.subscribers')
                     </p>
                     
-                    <h4>@lagn('laravel-cm::dashboard.config')</h4>
+                </div>
+            </div>
+            
+            <div class="panel panel-default">
+                
+                <div class="panel-heading panel-default">
+                    <h3 class="panel-title">@lang('laravel-cm::dashboard.config')</h3>
+                </div>
+                
+                <div class="panel-body">
                     @foreach(config('laravel-cm') as $key => $config)
                     {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
                     @endforeach
                 </div>
-
+                
                 <div class="panel-footer">
 
                     <div class="row">
