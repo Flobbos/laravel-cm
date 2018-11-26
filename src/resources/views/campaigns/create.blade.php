@@ -35,12 +35,12 @@
 
                         <div class="form-group">
                             <label class="control-label" for="FromEmail">@lang('laravel-cm::campaigns.sender_address')</label>
-                            <input class="form-control" placeholder="mr@aweso.me" type="text" name="FromEmail" value="{{old('FromEmail')}}" />
+                            <input class="form-control" placeholder="mr@aweso.me" type="text" name="FromEmail" value="{{old('FromEmail',config('laravel-cm.from_email'))}}" />
                         </div>
 
                         <div class="form-group">
                             <label class="control-label" for="ReplyTo">@lang('laravel-cm::campaigns.reply_to_address')</label>
-                            <input class="form-control"placeholder="mrs@aweso.me" type="text" name="ReplyTo" value="{{old('ReplyTo')}}" />
+                            <input class="form-control"placeholder="mrs@aweso.me" type="text" name="ReplyTo" value="{{old('ReplyTo',config('laravel-cm.reply_to'))}}" />
                         </div>
 
                         <div class="form-group">

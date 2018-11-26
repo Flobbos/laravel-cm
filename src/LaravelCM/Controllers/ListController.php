@@ -75,9 +75,9 @@ class ListController extends Controller{
     public function destroy($list_id){
         try{
             $this->lists->delete($list_id);
-            return redirect()->back()->withMessage(trans('laravel-cm::lists.delete_success',['list_id'=>$list_id]));
+            return redirect()->back()->withMessage(trans('laravel-cm::crud.delete_success',['list_id'=>$list_id]));
         } catch (Exception $ex) {
-            return redirect()->back()->withMessage(trans('laravel-cm::lists.delete_error',['list_id'=>$list_id]));
+            return redirect()->back()->withMessage(trans('laravel-cm::crud.delete_error',['list_id'=>$list_id]));
         }
     }
     
