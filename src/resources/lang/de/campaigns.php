@@ -14,6 +14,8 @@ return [
     'current_template' => '(aktuell)',
     'edit_title' => 'Kampagne bearbeiten',
     'unschedule' => 'Versand abbrechen',
+    'update_success' => 'Die Kampagne wurde erfolgreich aktualisiert.',
+    'invalid_campaign_id' => 'Kampagne konnte nicht gefunden werden. Bitte aktualisieren.',
     
     //Buttons
     'summary' => 'Zusammenfassung',
@@ -55,11 +57,13 @@ return [
     'confirmation_emails_placeholder' => 'Liste von E-Mail-Adressen mit Komma getrennt für die Versandbestätigung',
     'send_date' => 'Versand-Datum & Uhrzeit',
     'schedule_success' => 'Die Kampagne wurde erfolgreich datiert und wird versendet.',
+    'unschedule_success' => 'Die Kampagne wurde erfolgreich gestoppt.',
     
     //Send test
     'send_test_title' => 'Kampagne Testversand',
     'send_test_emails' => 'Maximal :max_email Adressen für den Testversand mit Komma getrennt.',
     'send_test_hint' => 'Beim Testversand werden personalisierte Tags mit Standardwerten ersetzt.',
     'send-test' => 'Versenden',
+    'test_send_success' => 'Testversand durchgeführt.',
     
 ];

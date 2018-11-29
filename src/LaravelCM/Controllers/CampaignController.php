@@ -134,6 +134,10 @@ class CampaignController extends Controller{
 
     public function scheduleCampaign($campaign_id){
         $campaign = $this->cmp->getCampaignDetails($campaign_id);
+        //Check if campaign ID is valid.
+        if(is_null($campaign)){
+            return redirect()->back()->withErrors(trans('laravel-cm::campaigns.invalid_campaign_id'));
+        }
         return view('laravel-cm::campaigns.schedule')->with([
             'campaign' => $campaign
         ]);
@@ -160,7 +164,7 @@ class CampaignController extends Controller{
     public function destroy($campaign_id){
         try{
             $this->cmp->delete($campaign_id);
-            return redirect()->back()->withMessage(trans('laravel-cm::campaigns.delete_success'));
+            return redirect()->back()->withMessage(trans('laravel-cm::crud.delete_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
