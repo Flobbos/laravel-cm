@@ -48,7 +48,7 @@ class ListController extends Controller{
         ]);
         try{
             $result = $this->lists->create($request->except('_token'));
-            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('laravel-cm::crud.record_created').' ID: '.$result->get('body'));
+            return redirect()->route('laravel-cm::lists.index')->withMessage(trans('laravel-cm::crud.record_created').' ID: '.$result);
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
         }

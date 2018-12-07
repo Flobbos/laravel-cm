@@ -58,7 +58,7 @@ class Lists extends BaseClient implements ListContract, ResultFormatContract{
         $result = $this->makeCall('post','lists/'.$this->getClientID(), [
             'json' => $list_options,
         ]);
-        if($result->get('code') != '200'){
+        if($result->get('code') != '201'){
             throw new Exception($result->get('body'));
         }
         return $result->get('body');

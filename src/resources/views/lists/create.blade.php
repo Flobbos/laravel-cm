@@ -36,8 +36,8 @@
                         <div class="form-group">
                             <label class="control-label" for="ConfirmedOptIn">@lang('laravel-cm::lists.double_opt_in')</label>
                             <select name="ConfirmedOptIn" class="form-control">
-                                <option value="false">@lang('laravel-cm::crud.yes')</option>
-                                <option value="true">@lang('laravel-cm::crud.no')</option>
+                                <option value="true">@lang('laravel-cm::crud.yes')</option>
+                                <option value="false">@lang('laravel-cm::crud.no')</option>
                             </select>
                         </div>
                         
