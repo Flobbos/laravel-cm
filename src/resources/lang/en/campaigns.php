@@ -59,6 +59,7 @@ return [
     'send_test_title' => 'Campaign send test',
     'send_test_emails' => 'Max :max_email email addresses receiving test emails.',
     'send_test_hint' => 'During testing personalization tags will be replaced with standard values.',
+    'test_send_success' => 'The test email was sent successfully',
     'send-test' => 'Send',
     
 ];

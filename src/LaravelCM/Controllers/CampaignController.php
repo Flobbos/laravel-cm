@@ -79,12 +79,21 @@ class CampaignController extends Controller{
     }
     
     public function edit($campaign_id, ListContract $lists, TemplateContract $templates) {
-        $drafts = $this->cmp->getDrafts();
-        $campaign = $drafts->where('CampaignID', $campaign_id)->first();
-        $listAndSegments = $this->cmp->getListsAndSegments($campaign->CampaignID);
-        $campaign->ListIDs = $listAndSegments->Lists;
+        try{
+            //Get all draft campaigns
+            $drafts = $this->cmp->getDrafts();
+            //Get campaign by ID from collection
+            $campaign = $drafts->where('CampaignID', $campaign_id)->first();
+            //Get all lists and segments attached to this campaign
+            $listAndSegments = $this->cmp->getListsAndSegments($campaign->CampaignID);
+            //Add lists to campaign object. 
+            $campaign->ListIDs = $listAndSegments->Lists;
 
-        return view('laravel-cm::campaigns.edit')->withCampaign($campaign)->withLists($lists->get())->withTemplates($templates->get());
+            return view('laravel-cm::campaigns.edit')->withCampaign($campaign)->withLists($lists->get())->withTemplates($templates->get());
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+        
     }
 
     public function update($campaign_id, Request $request) {
@@ -121,11 +130,11 @@ class CampaignController extends Controller{
             'emails' => 'required|emails'
         ]);
 
-        $emails = explode(',', $request->get('emails'));
-
-        $this->cmp->sendPreview($campaign_id, $emails);
-
         try{
+            //Explode list of emails from request string
+            $emails = explode(',', $request->get('emails'));
+            //Send actual preview with emails in array form
+            $this->cmp->sendPreview($campaign_id, $emails);
             return redirect()->back()->withMessage(trans('laravel-cm::campaigns.test_send_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
@@ -133,14 +142,20 @@ class CampaignController extends Controller{
     }
 
     public function scheduleCampaign($campaign_id){
-        $campaign = $this->cmp->getCampaignDetails($campaign_id);
-        //Check if campaign ID is valid.
-        if(is_null($campaign)){
-            return redirect()->back()->withErrors(trans('laravel-cm::campaigns.invalid_campaign_id'));
+        try{
+            //Retrieve campaign details
+            $campaign = $this->cmp->getCampaignDetails($campaign_id);
+            //Check if campaign ID is valid.
+            if(is_null($campaign)){
+                return redirect()->back()->withErrors(trans('laravel-cm::campaigns.invalid_campaign_id'));
+            }
+            return view('laravel-cm::campaigns.schedule')->with([
+                'campaign' => $campaign
+            ]);
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
         }
-        return view('laravel-cm::campaigns.schedule')->with([
-            'campaign' => $campaign
-        ]);
+        
     }
     
     public function saveScheduleCampaign(Request $request, $campaign_id){
