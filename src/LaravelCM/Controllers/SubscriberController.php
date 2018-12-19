@@ -63,11 +63,16 @@ class SubscriberController extends Controller{
      * @return type
      */
     public function showDetails($email, Request $request){
-        $subscriber = $this->subscribers->setListID($request->get('listID'))->getDetails($email);
-        //dd($subscriber);
-        return view('laravel-cm::subscribers.show')->with([
-            'subscriber'=>$subscriber->get('body')
-        ]);
+        try{
+            $subscriber = $this->subscribers->setListID($request->get('listID'))->getDetails($email);
+            
+            return view('laravel-cm::subscribers.show')->with([
+                'subscriber'=>$subscriber->get('body')
+            ]);
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+        
     }
     
     public function edit($email, Request $request, ListContract $lists){
@@ -125,7 +130,12 @@ class SubscriberController extends Controller{
      * @return type
      */
     public function showImport(ListContract $lists){
-        return view('laravel-cm::subscribers.import')->withLists($lists->get());
+        try{
+            return view('laravel-cm::subscribers.import')->withLists($lists->get());
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+        
     }
     
     /**
