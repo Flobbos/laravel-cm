@@ -159,6 +159,13 @@ class CampaignController extends Controller{
     }
     
     public function saveScheduleCampaign(Request $request, $campaign_id){
+        
+        //Validate minimum required fields
+        $this->validate($request, [
+            'SendDate' => 'required',
+            'ConfirmationEmail' => 'required'
+        ]);
+        
         try{
             $this->cmp->scheduleCampaign($campaign_id, $request->get('SendDate'), $request->get('ConfirmationEmail'));
             return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
