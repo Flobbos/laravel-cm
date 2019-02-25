@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
 use Flobbos\LaravelCM\Models\NewsletterTemplate;
+use Flobbos\LaravelCM\RemoteCompiler;
 
 class Templates implements TemplateContract {
 
@@ -109,13 +110,19 @@ class Templates implements TemplateContract {
         //Check if template exists
         $this->templateExists($template_name);
         //Start compiling if nothing went wrong
-        $this->compileSass();
-        $this->copyImages();
-        $this->html = $this->saveViewAsHtml($this->template, $data);
-        $this->inlineStyles();
+        if(config('laravel-cm.use_api')){
+            //API compiler
+            $this->remoteCompiler($data);
+        }
+        else{
+            //local compiler
+            $this->localCompiler($data);
+        }
+        
+        
         return true;
     }
-
+    
     /**
      * Compile inky template to html and save it to storage
      *
@@ -241,6 +248,42 @@ class Templates implements TemplateContract {
             }
         }
         return;
+    }
+    
+    private function localCompiler(array $data){
+        $this->compileSass();
+        $this->copyImages();
+        $this->html = $this->saveViewAsHtml($this->template, $data);
+        $this->inlineStyles();
+        return;
+    }
+    
+    private function remoteCompiler(array $data){
+        $viewPath = $this->template . '.views.' . $this->template;
+
+        $html = View::make($viewPath, $data)->render();
+        
+        //Resolve API
+        $api = resolve(RemoteCompiler::class);
+        $compiled = $api->compile($html, $this->getResourceFiles());
+        
+        $this->disk->put($this->template . '/' . $this->template . '.html', $compiled);
+
+        return $compiled;
+    }
+    
+    private function getResourceFiles(){
+
+        $files = File::files(resource_path('laravel-cm/'.$this->template.'/assets/scss'));
+        $resource_files = [];
+        foreach($files as $file){
+            $resource_files[] = [
+                'name'     => 'sass-files[]',
+                'filename' => File::name($file) == $this->template?'template.'.File::extension($file):File::name($file) . '.' . File::extension($file),
+                'contents' => File::get($file)
+            ];
+        }
+        return $resource_files;
     }
     
 }

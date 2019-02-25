@@ -34,4 +34,9 @@ return [
     'test_email' => 'tester@example.com',
     //Default testing subject
     'test_subject' => 'Campaign Preview',
+    
+    //Remote compiler option
+    'use_api' => false,
+    'api_url' => '',
+    'api_token' => ''
 ];

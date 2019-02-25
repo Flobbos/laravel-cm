@@ -5,6 +5,7 @@ namespace DummyNamespace;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
+use Exception;
 
 class DummyClass extends Controller{
 
@@ -63,14 +64,21 @@ class DummyClass extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $template = $this->templates->find($id);
-        $this->templates->compile($template->template_name, [
-            'template' => $template
-        ]);
-        $template_path = public_path('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html');
-        return \File::get($template_path);
+    public function show($id){
+        
+        try{
+            $template = $this->templates->find($id);
+            if(!config('laravel-cm.use_api')){
+                $this->templates->compile($template->template_name, [
+                    'template' => $template
+                ]);
+            }
+            $template_path = public_path('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html');
+            return \File::get($template_path);
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage());
+        }
+        
     }
 
     /**
