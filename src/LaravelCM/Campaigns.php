@@ -10,6 +10,7 @@ use Flobbos\LaravelCM\Exceptions\MethodNotFoundException;
 class Campaigns extends BaseClient implements CampaignContract{
     
     use Traits\ResultFormat;
+    protected $skip_key = 'listID';
     
     public function getDrafts() {
         $drafts = $this->makeCall('get','clients/'.$this->getClientID().'/drafts',[]);
@@ -122,19 +123,6 @@ class Campaigns extends BaseClient implements CampaignContract{
             throw new Exception($result->get('body'));
         }
         return true;
-    }
-    
-    public function makeCall($method = 'get', $url, array $request_data) {
-        //dd($this->mergeRequestData($request_data));
-        try{
-            return $this->formatResult(
-                $this->callApi('listID')->{$method}($url.'.'.$this->getFormat(),
-                $this->mergeRequestData($request_data)));
-        } catch (RequestException $ex) {
-            $response_body = $this->formatBody($ex->getResponse()->getBody());
-            throw new Exception('Code '.$response_body->Code.': '.$response_body->Message);
-        }
-        
     }
     
 }

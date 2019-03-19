@@ -10,7 +10,7 @@ use Exception;
 class Lists extends BaseClient implements ListContract, ResultFormatContract{
     
     use Traits\ResultFormat;
-    
+    protected $skip_key = 'listID';
     /**
      * Get all lists for the current client
      * @return Collection
@@ -95,14 +95,4 @@ class Lists extends BaseClient implements ListContract, ResultFormatContract{
         return true;
     }
     
-    public function makeCall($method = 'get', $url, array $request_data){
-        try{
-            return $this->formatResult(
-                $this->callApi('listID')->{$method}($url.'.'.$this->getFormat(),
-                $this->mergeRequestData($request_data)));
-        } catch (RequestException $ex) {
-            $response_body = $this->formatBody($ex->getResponse()->getBody());
-            throw new Exception('Code '.$response_body->Code.': '.$response_body->Message);
-        }
-    }
 }

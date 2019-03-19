@@ -74,7 +74,6 @@ class LaravelCMServiceProvider extends ServiceProvider{
         $this->app->bind('Flobbos\LaravelCM\Contracts\ListContract', Lists::class);
         $this->app->bind('Flobbos\LaravelCM\Contracts\SubscriberContract', Subscribers::class);
         $this->app->bind('Flobbos\LaravelCM\Contracts\TemplateContract', Templates::class);
-        $this->app->bind('Flobbos\LaravelCM\Contracts\ImportContract', Importer::class);
         // Register new storage-disk
         config(['filesystems.disks.laravel_cm' => [
             'driver' => 'local',
@@ -82,13 +81,8 @@ class LaravelCMServiceProvider extends ServiceProvider{
             'url' => env('APP_URL').'/laravel-cm',
             'visibility' => 'public'
         ]]);
-        //Set excel import mode to force collections
-        config(['excel.import.force_sheets_collection'=>true]);
-        //Set excel import mode to leave headers intact
-        config(['excel.import.heading'=>'original']);
         // Disable default inliner of laravel-blinky-package
         config(['view.laravel_blinky' => ['use_inliner' => false]]);
-
         // Register template-location
         $this->app['view']->addLocation(resource_path('laravel-cm'));
     }

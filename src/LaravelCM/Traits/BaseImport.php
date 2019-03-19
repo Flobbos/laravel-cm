@@ -3,7 +3,7 @@
 namespace Flobbos\LaravelCM\Traits;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Flobbos\LaravelCM\Imports\SubscriberImport;
 
 trait BaseImport {
     
@@ -37,47 +37,12 @@ trait BaseImport {
     }
     
     /**
-     * Initialize results array/collection
-     * @param type $results_format
-     * @return void
-     */
-    public function initResults($results_format = null): self {
-        if(!is_null($results_format)){
-            $this->results = $results_format;
-            return $this;
-        }
-        $this->results = collect([]);
-        return $this;
-    }
-    
-    /**
      * Load uploaded file into Excel
      * @param type $file
      * @return void
      */
-    public function loadFile($file): void{
-        //dd($this->excel);
-        //$this->excel->load('storage/xls/'.$file, function($reader){
-        Excel::load('storage/xls/'.$file, function($reader){
-            //Go through sheets
-            $reader->each(function($sheet){
-                // Loop through all rows
-                $sheet->each(function($row){
-                    $this->pushRow($row);
-                });
-            });
-        });
-        return;
-    }
-    
-    /**
-     * Push a new row collection onto the results collection
-     * @param type $row
-     */
-    protected function pushRow($row): void{
-        if(!empty($row->first())){
-            $this->results->push($row);
-        }
+    public function importFile($file): void{
+        $this->results = (new SubscriberImport)->toCollection('storage/xls/'.$file);
         return;
     }
     

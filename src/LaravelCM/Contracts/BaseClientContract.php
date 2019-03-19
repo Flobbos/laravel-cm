@@ -90,7 +90,7 @@ interface BaseClientContract{
      * @param type $skip_key
      * @return Guzzle\Client
      */
-    public function callApi($skip_key = null): \GuzzleHttp\Client;
+    public function callApi(): \GuzzleHttp\Client;
     
     /**
      * Make API call to retrieve data

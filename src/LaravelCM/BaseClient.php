@@ -9,7 +9,7 @@ use Flobbos\LaravelCM\Exceptions\ConfigKeyNotSetException;
 
 abstract class BaseClient implements BaseClientContract{
     
-    protected $guzzle,$base_uri;
+    protected $guzzle,$base_uri,$skip_key;
     protected $options = [];
     
     public function __construct() {
@@ -152,12 +152,11 @@ abstract class BaseClient implements BaseClientContract{
     
     /**
      * Check api options and skip optional values
-     * @param type $skip_key
      * @return Guzzle client
      */
-    private function checkOptions($skip_key): void{
+    private function checkOptions(): void{
         foreach($this->options as $k=>$v){
-            if(empty($v) && $skip_key != $k){
+            if(empty($v) && $this->skip_key != $k){
                 throw new ConfigKeyNotSetException('No '.$k.' found. Please update your settings or generate a resource');
             }
         }
@@ -167,14 +166,22 @@ abstract class BaseClient implements BaseClientContract{
     /**
      * Call the guzzle Client and provide optional validation key to skip
      * when validating options
-     * @param type $skip_key
      * @return Guzzle\Client
      */
-    public function callApi($skip_key = null): \GuzzleHttp\Client{
-        $this->checkOptions($skip_key);
+    public function callApi(): \GuzzleHttp\Client{
+        $this->checkOptions();
         return $this->guzzle;
     }
     
-    abstract public function makeCall($method = 'get', $url, array $request_data);
+    public function makeCall($method = 'get', $url, array $request_data){
+        try{
+            return $this->formatResult(
+                $this->callApi()->{$method}($url.'.'.$this->getFormat(),
+                $this->mergeRequestData($request_data)));
+        } catch (RequestException $ex) {
+            $response_body = $this->formatBody($ex->getResponse()->getBody());
+            throw new Exception('Code '.$response_body->Code.': '.$response_body->Message);
+        }
+    }
     
 }

@@ -45,7 +45,7 @@ class SubscriberController extends Controller{
                 'unconfirmed' => collect([]),
                 'unsubscribed' => collect([]),
                 'bounced' => collect([]),
-                'lists' => $email_lists?:collect([]),
+                'lists' => $email_lists ?? collect([]),
             ])->withErrors($ex->getMessage().' -- '.$ex->getFile());
         }
         return view('laravel-cm::subscribers.index')->with([

@@ -15,17 +15,10 @@ interface ImportContract {
     public function handleUpload(Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = false): string;
     
     /**
-     * Initialize results array/collection
-     * @param type $results_format
-     * @return void
-     */
-    public function initResults($results_format = null): self;
-    
-    /**
      * Load uploaded file into Excel
      * @param type $file
      * @return void
      */
-    public function loadFile($file): self;
+    public function importFile($file): self;
     
 }

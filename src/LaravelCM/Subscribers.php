@@ -159,13 +159,13 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Import
     public function import(Request $request, $field = 'excel') {
         //Handle upload and populate result
-        $this->initResults()->loadFile($this->handleUpload($request, 'excel', '/xls'));
+        $this->importFile($this->handleUpload($request, 'excel', '/xls'));
         //Process subscriber list
         $subscribers['Subscribers'] = [];
         $subscribers['Resubscribe'] = true;
         $subscribers['QueueSubscriptionBasedAutoResponders'] = false;
         $subscribers['RestartSubscriptionBasedAutoresponders'] = false;
-        foreach($this->results as $k=>$result){
+        foreach($this->results->first() as $k=>$result){
             $subscribers['Subscribers'][] = array_merge($result->toArray(),['ConsentToTrack' => 'Yes']);
         }
         //Set list ID
@@ -180,16 +180,4 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         return $result->get('body');
     }
 
-
-    public function makeCall($method = 'get', $url, array $request_data){
-        try{
-            return $this->formatResult(
-                $this->callApi()->{$method}($url.'.'.$this->getFormat(),
-                $this->mergeRequestData($request_data)));
-        } catch (RequestException $ex) {
-            $response_body = $this->formatBody($ex->getResponse()->getBody());
-            throw new Exception('Code '.$response_body->Code.': '.$response_body->Message);
-        }
-    }
-    
 }
