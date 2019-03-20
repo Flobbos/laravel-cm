@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
-use Flobbos\LaravelCM\Models\NewsletterTemplate;
+use App\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;
 
 class Templates implements TemplateContract {

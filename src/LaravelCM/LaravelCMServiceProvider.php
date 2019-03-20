@@ -19,6 +19,10 @@ class LaravelCMServiceProvider extends ServiceProvider{
         $this->publishes([
             __DIR__.'/../resources/defaults/template' => resource_path('laravel-cm/default')
         ]);
+        //Publishes defaults
+        $this->publishes([
+            __DIR__.'/Models' => app_path('/')
+        ]);
         
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
