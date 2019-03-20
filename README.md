@@ -38,7 +38,11 @@ Flobbos\LaravelCM\LaravelCMServiceProvider::class,
 
 ### Publish configuration file
 
-Laravel 5.*
+This step is very important because it publishes the NewsletterTemplate model
+to the App folder so you can set your own fillable fields as  well as 
+relationships you may need. The template generator needs to have this model
+present otherwise you will receive an error.
+
 ```bash
 php artisan vendor:publish 
 ```
