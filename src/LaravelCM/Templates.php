@@ -49,6 +49,20 @@ class Templates implements TemplateContract {
     }
     
     /**
+     * Update Template
+     * @param array $data
+     * @return bool
+     */
+    public function update($id, array $data, $return_model = false){
+        $model = $this->find($id);
+        if($return_model){
+            $model->update($data);
+            return $model;
+        }
+        return $model->update($data);
+    }
+    
+    /**
      * Set relations for templates
      * @param type $relations
      * @return $this
@@ -155,16 +169,16 @@ class Templates implements TemplateContract {
             // Set foundation-email imports
             __DIR__ . '/../resources/defaults/assets/foundation-emails'
         ];
-
+        
         $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');
 
         $scss = new ScssCompiler();
         $scss->setImportPaths($importPaths);
 
         $scssContent = File::get($src);
+        
         $css = trim(preg_replace('/\s+/', ' ', $scss->compile($scssContent)));
-
-
+        //dd($this->disk);
         return $this->disk->put($this->template . '/assets/style.css', $css);
     }
 
@@ -174,11 +188,9 @@ class Templates implements TemplateContract {
      * @return void
      */
     public function copyImages() {
-
         $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
-        $dest = $this->disk->path($this->template . '/assets');
+        $dest = $this->disk->path($this->template . '/assets/images');
         return File::copyDirectory($imageFolder, $dest);
-
     }
 
     /**
@@ -204,9 +216,8 @@ class Templates implements TemplateContract {
         $results = $crawler->html();
 
         // get the styles
-        
+
         $styles = $stylesheetsHrefs->map(function ($stylesheet) {
-            
             $path = $this->template . '/assets/style.css';
             return $this->disk->get($path);
         })->implode("\n\n");
@@ -238,13 +249,16 @@ class Templates implements TemplateContract {
         $stubPath = resource_path('laravel-cm/default');
         $destPath = resource_path('laravel-cm/' . $this->template);
 
-        // Rename copied files to template-name
-        File::copyDirectory( $stubPath,  $destPath );
-        $files = File::allFiles($destPath);
-        foreach($files as $file) {
-            if(strpos($file->getFilename(), 'template') !== false) {
-                $renamePath = $file->getPath() . '/' . str_replace('template', str_slug($this->template), $file->getFilename());
-                File::move($file->getPathname(), $renamePath);
+        if(!File::exists( $destPath)) {
+            // Rename copied files to template-name
+            File::copyDirectory($stubPath, $destPath);
+            $files = File::allFiles($destPath);
+            foreach ($files as $file) {
+                if (strpos($file->getFilename(), 'template') !== false) {
+                    $filename = config('laravel-cm.use_api') ? str_replace('inky', 'blade', $file->getFilename()) : $file->getFilename();
+                    $renamePath = $file->getPath() . '/' . str_replace('template', str_slug($this->template), $filename);
+                    File::move($file->getPathname(), $renamePath);
+                }
             }
         }
         return;
@@ -262,12 +276,14 @@ class Templates implements TemplateContract {
         $viewPath = $this->template . '.views.' . $this->template;
 
         $html = View::make($viewPath, $data)->render();
-        
+
         //Resolve API
         $api = resolve(RemoteCompiler::class);
         $compiled = $api->compile($html, $this->getResourceFiles());
         
         $this->disk->put($this->template . '/' . $this->template . '.html', $compiled);
+
+        $this->copyImages();
 
         return $compiled;
     }
@@ -275,6 +291,7 @@ class Templates implements TemplateContract {
     private function getResourceFiles(){
 
         $files = File::files(resource_path('laravel-cm/'.$this->template.'/assets/scss'));
+
         $resource_files = [];
         foreach($files as $file){
             $resource_files[] = [
@@ -283,6 +300,7 @@ class Templates implements TemplateContract {
                 'contents' => File::get($file)
             ];
         }
+
         return $resource_files;
     }
     
