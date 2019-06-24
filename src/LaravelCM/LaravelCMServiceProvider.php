@@ -81,8 +81,8 @@ class LaravelCMServiceProvider extends ServiceProvider{
         // Register new storage-disk
         config(['filesystems.disks.laravel_cm' => [
             'driver' => 'local',
-            'root' => public_path('laravel-cm'),
-            'url' => env('APP_URL').'/laravel-cm',
+            'root' => public_path('laravel-cm-assets'),
+            'url' => env('APP_URL').'/laravel-cm-assets',
             'visibility' => 'public'
         ]]);
         // Disable default inliner of laravel-blinky-package
