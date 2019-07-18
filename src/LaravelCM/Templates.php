@@ -119,8 +119,9 @@ class Templates implements TemplateContract {
     public function compile(string $template_name, array $data = []) {
         //Set template
         $this->setTemplate($template_name);
-        //Generate template files
-        $this->generateTemplate();
+        if(!File::exists(resource_path('laravel-cm/' . $template_name))){
+            $this->generateTemplate();
+        }
         //Check if template exists
         $this->templateExists($template_name);
         //Start compiling if nothing went wrong
