@@ -38,5 +38,7 @@ return [
     //Remote compiler option
     'use_api' => false,
     'api_url' => '',
-    'api_token' => ''
+    'api_token' => '',
+    //Your bootstrap version
+    'bootstrap' => 4,
 ];

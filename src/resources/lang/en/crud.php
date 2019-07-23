@@ -22,6 +22,8 @@ return [
     'record_deleted' => 'The entry was removed successfully',
     //File error
     'invalid_file_upload' => 'A problem was encountered during the file upload',
+    'yes' => 'Yes',
+    'no' => 'No',
     //Templates
     'no_preview_recipient' => 'Please fill in "test_email" in laravel-cm config.'
 ];
