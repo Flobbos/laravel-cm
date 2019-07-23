@@ -43,8 +43,7 @@ class DummyClass extends Controller{
     public function store(Request $request)
     {
         $request->validate([
-            'template_name' => 'required|unique:newsletter_templates',
-            'title' => 'required'
+            'template_name' => 'required|unique:newsletter_templates'
         ]);
 
         $templateData = $request->except(['_token']);
@@ -102,8 +101,7 @@ class DummyClass extends Controller{
      */
     public function update(Request $request, $id) {
         $request->validate([
-            'template_name' => 'required',
-            'title' => 'required'
+            'template_name' => 'required'
         ]);
 
         $templateData = $request->except(['_token']);
