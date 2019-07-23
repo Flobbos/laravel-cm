@@ -168,6 +168,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         foreach($this->results->first() as $k=>$result){
             $subscribers['Subscribers'][] = array_merge($result->toArray(),['ConsentToTrack' => 'Yes']);
         }
+        
         //Set list ID
         $this->setListID($request->get('listID'));
         //Sync to CM

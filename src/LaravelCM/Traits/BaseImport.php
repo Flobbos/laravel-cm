@@ -42,7 +42,7 @@ trait BaseImport {
      * @return void
      */
     public function importFile($file): void{
-        $this->results = (new SubscriberImport)->toCollection('storage/xls/'.$file);
+        $this->results = (new SubscriberImport)->toCollection(storage_path('app/public/xls/').$file);
         return;
     }
     
