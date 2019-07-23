@@ -94,5 +94,8 @@ class LaravelCMServiceProvider extends ServiceProvider{
         config(['view.laravel_blinky' => ['use_inliner' => false]]);
         // Register template-location
         $this->app['view']->addLocation(resource_path('laravel-cm'));
+        //Grab loader and register static routes facade
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('CMRoutes', 'Flobbos\LaravelCM\Facades\CMRoutes');
     }
 }
