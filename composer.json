@@ -18,7 +18,7 @@
         "php": ">=7.0.0",
         "illuminate/support": ">=5.5.0",
         "scssphp/scssphp": "^1.0.2",
-        "vanderb/laravel-blinky": ">=0.1",
+        "frogbob/laravel-blinky": ">=0.0.1",
         "symfony/dom-crawler": "4.x",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "maatwebsite/excel": "^3.1",
