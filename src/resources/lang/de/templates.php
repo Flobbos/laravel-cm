@@ -11,4 +11,6 @@ return [
     'preview' => 'Vorschau',
     'html_preview' => 'HTML-Vorschau',
     'send_preview' => 'E-Mail-Vorschau',
+    'template_updated' => 'Template wurde aktualisiert',
+    'preview_sent' => 'Vorschau wurde an die Standardaddresse versandt',
 ];
