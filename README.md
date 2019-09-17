@@ -13,6 +13,7 @@ in the DB.
 
 * [Installation](#installation)
 * [Configuration](#configuration)
+* [Assets](#assets)
 * [Generators](#generators)
 * [Usage](#usage)
 * [Exceptions](#exceptions)
@@ -200,7 +201,30 @@ version and Laravel-CM will load the appropriate views automatically.
 ```php
 'bootstrap' => 4,
 ```
-    
+
+## Assets
+
+### Naming conventions
+
+The package contains a defaults folder which has the following structure:
+
+```php
+/defaults
+    /template
+        /assets
+            /scss
+                settings.scss
+                template.scss
+        /views
+            template.inky.php
+```
+
+This folder will get copied into your resources folder and you should put your
+default template design into these files. You can also add an images folder 
+which will also get copied once a new template gets generated. 
+
+The default should only contain your base layout. Subsequent changes should be
+made to the files that have been generated for a particular newsletter template.
 
 ## Generators
 
