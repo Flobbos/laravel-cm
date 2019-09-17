@@ -89,6 +89,10 @@ class Templates implements TemplateContract {
     public function delete($id){
         $model = $this->find($id);
         if(!is_null($model)){
+            //Delete public assets
+            $this->disk->deleteDirectory(str_slug($model->template_name));
+            //Delete resource files
+            File::deleteDirectory($this->srcTemplatePath.'/'.str_slug($model->template_name));
             return $model->delete();
         }
         return false;
@@ -234,15 +238,6 @@ class Templates implements TemplateContract {
             throw new TemplateNotFoundException('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
         }
         return true;
-    }
-    
-    /**
-     * Remove assets-folder
-     *
-     * @return void
-     */
-    public function clearAssets() {
-        return $this->disk->deleteDirectory($this->cm_template_id . '/assets');
     }
     
     private function generateTemplate(){

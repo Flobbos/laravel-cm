@@ -41,7 +41,7 @@ interface TemplateContract{
     
     /**
      * Delete a template
-     * @param type $id
+     * @param int $id
      * @return boolean
      */
     public function delete($id);
