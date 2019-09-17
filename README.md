@@ -180,6 +180,27 @@ Default subject for preview emails
 ```php
 'test_subject' => 'Campaign Preview'
 ```
+### Remote compiler
+
+The package offers a way to use a remote compiler instead of the built in php
+compiler for SASS. The compiler is not open to the public but you can contact
+me if you wish to use it
+
+```php
+'use_api' => false,
+'api_url' => '',
+'api_token' => '',
+```
+
+### Bootstrap version
+
+You can now select which version of Bootstrap you want to use. Just set the 
+version and Laravel-CM will load the appropriate views automatically. 
+
+```php
+'bootstrap' => 4,
+```
+    
 
 ## Generators
 
@@ -321,13 +342,11 @@ exist.
 
  Laravel  | LaravelCM
 :---------|:----------
- 5.6      | >=0.0.2
- 5.5      | >=0.0.2
- 5.4      | >=0.0.2
- 5.3      | >=0.0.2
+ 5.6      | >=1.0.0
+ 5.5      | >=1.0.0
+ 5.4      | >=1.0.0
+ 5.3      | >=1.0.0
 
-Lower versions of Laravel are not supported. This package also uses Bootstrap3
-and therefore the views generated are not compatible with Laravel 5.7. 
-A seperate branch/version will be compatible with Laravel 5.7.x. 
+Lower versions of Laravel are not supported. 
 
 
