@@ -11,4 +11,9 @@ return [
     'preview' => 'Vorschau',
     'html_preview' => 'HTML-Vorschau',
     'send_preview' => 'E-Mail-Vorschau',
+    'main_title' => 'Templates',
+    'list_name' => 'Template-Name',
+    'template_slug' => 'Datei-Name',
+    'template_updated' => 'Template wurde aktualisiert',
+    'preview_sent' => 'Vorschau wurde an die Standardaddresse versandt',
 ];

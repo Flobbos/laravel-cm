@@ -19,6 +19,13 @@ interface TemplateContract{
     public function create(array $data);
     
     /**
+     * Update Template
+     * @param array $data
+     * @return bool
+     */
+    public function update($id, array $data, $return_model = false);
+    
+    /**
      * Set relations for templates
      * @param type $relations
      * @return $this
@@ -34,7 +41,7 @@ interface TemplateContract{
     
     /**
      * Delete a template
-     * @param type $id
+     * @param int $id
      * @return boolean
      */
     public function delete($id);

@@ -26,8 +26,13 @@ class LaravelCMServiceProvider extends ServiceProvider{
         
         //Add Laravel CM routes
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        //Add views
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-cm');
+        //Add views depending on bootstrap setting in config
+        if(config('laravel-cm.bootstrap') == 3){
+            $this->loadViewsFrom(__DIR__.'/../resources/views/bootstrap3', 'laravel-cm');
+        }
+        else{
+            $this->loadViewsFrom(__DIR__.'/../resources/views/bootstrap4', 'laravel-cm');
+        }
         //Add language files
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-cm');
 
@@ -89,5 +94,8 @@ class LaravelCMServiceProvider extends ServiceProvider{
         config(['view.laravel_blinky' => ['use_inliner' => false]]);
         // Register template-location
         $this->app['view']->addLocation(resource_path('laravel-cm'));
+        //Grab loader and register static routes facade
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('CMRoutes', 'Flobbos\LaravelCM\Facades\CMRoutes');
     }
 }

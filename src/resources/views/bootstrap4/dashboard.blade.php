@@ -4,13 +4,15 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::dashboard.short_docs')</h3>
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::dashboard.short_docs')</h3>
+                    Bootstrap4
                 </div>
 
-                <div class="panel-body">
+                <div class="card-body">
+                    
                     @include('laravel-cm::notifications')
                     
                     <h4>1. Templates</h4>
@@ -36,19 +38,19 @@
                 </div>
             </div>
             
-            <div class="panel panel-default">
+            <div class="card mt-4">
                 
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::dashboard.config')</h3>
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::dashboard.config')</h3>
                 </div>
                 
-                <div class="panel-body">
+                <div class="card-body">
                     @foreach(config('laravel-cm') as $key => $config)
                     {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
                     @endforeach
                 </div>
                 
-                <div class="panel-footer">
+                <div class="card-footer">
 
                     <div class="row">
 

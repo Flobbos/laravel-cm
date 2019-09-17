@@ -14,7 +14,7 @@ class ControllerCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'laravel-cm:controller {name} {--route=laravel-cm.templates} {--views=laravel-cm.templates}';
+    protected $signature = 'laravel-cm:controller {name} {--route=laravel-cm.templates}';
 
     /**
      * The console command description.
@@ -36,7 +36,7 @@ class ControllerCommand extends GeneratorCommand{
     }
     
     protected function replaceViewPath($name){
-        return $this->option('views');
+        return 'laravel-cm.templates';
     }
     
     protected function replaceDummyRoute($name){

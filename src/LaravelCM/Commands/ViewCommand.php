@@ -14,7 +14,7 @@ class ViewCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'laravel-cm:views {path} {--route=laravel-cm.templates}';
+    protected $signature = 'laravel-cm:views {version} {--route=laravel-cm.templates}';
 
     /**
      * The console command description.

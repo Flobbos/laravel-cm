@@ -43,8 +43,7 @@ class DummyClass extends Controller{
     public function store(Request $request)
     {
         $request->validate([
-            'template_name' => 'required|unique:newsletter_templates',
-            'title' => 'required'
+            'template_name' => 'required|unique:newsletter_templates'
         ]);
 
         $templateData = $request->except(['_token']);
@@ -102,8 +101,7 @@ class DummyClass extends Controller{
      */
     public function update(Request $request, $id) {
         $request->validate([
-            'template_name' => 'required',
-            'title' => 'required'
+            'template_name' => 'required'
         ]);
 
         $templateData = $request->except(['_token']);
@@ -136,7 +134,7 @@ class DummyClass extends Controller{
         $template = $this->templates->find($id);
         \Mail::send([], [], function($message) use ($template) {
             $message->to(config('laravel-cm.test_email'));
-            $message->subject(config('larave-cm.test_subject'));
+            $message->subject(config('laravel-cm.test_subject'));
             $message->setBody(\File::get($template->template_file_path), 'text/html');
         });
 
