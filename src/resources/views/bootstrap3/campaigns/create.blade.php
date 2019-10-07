@@ -30,7 +30,7 @@
 
                         <div class="form-group">
                             <label class="control-label" for="FromName">@lang('laravel-cm::campaigns.sender_name')</label>
-                            <input class="form-control" placeholder="Mr Awesome" type="text" name="FromName" value="{{old('FromName')}}" />
+                            <input class="form-control" placeholder="Mr Awesome" type="text" name="FromName" value="{{old('FromName',config('laravel-cm.from_name'))}}" />
                         </div>
 
                         <div class="form-group">
@@ -42,20 +42,25 @@
                             <label class="control-label" for="ReplyTo">@lang('laravel-cm::campaigns.reply_to_address')</label>
                             <input class="form-control"placeholder="mrs@aweso.me" type="text" name="ReplyTo" value="{{old('ReplyTo',config('laravel-cm.reply_to'))}}" />
                         </div>
-
+                        
+                        @if($templates->isEmpty())
+                        <p>@lang('laravel-cm::campaigns.no_templates_error')</p>
+                        @else
                         <div class="form-group">
                             <label class="control-label" for="HtmlUrl">@lang('laravel-cm::campaigns.html_url')</label>
-                            @if($templates->isEmpty())
-                            <input class="form-control" type="text" name="HtmlUrl" value="{{old('HtmlUrl', url('laravel-cm'))}}" />
-                            @else
                             <select class="form-control" name="HtmlUrl">
                                 @foreach($templates as $template)
-                                <option value="{{url('laravel-cm/'.$template->template_name.'/'.$template->template_name.'.html')}}">{{$template->template_name}}</option>
+                                @if(old('HtmlUrl') == $template->template_file_url)
+                                <option selected value="{{$template->template_file_url}}">{{$template->template_name}}</option>
+                                @else
+                                <option value="{{$template->template_file_url}}">{{$template->template_name}}</option>
+                                @endif
                                 @endforeach
                             </select>
-                            @endif
+                            
                         </div>
-
+                        @endif
+                        
                         <div class="form-group">
                             <label class="control-label" for="ListID">@lang('laravel-cm::campaigns.recipient_lists')</label>
                             <select multiple name="ListIDs[]" class="form-control">

@@ -22,6 +22,8 @@ return [
     'subscribe_success' => 'http://example.com/success',
     //Unsubscribe URL
     'unsubscribe_success' => 'http://example.com/unsubscribe_success',
+    //Standard from name
+    'from_name' => 'Your Company',
     //Standard from address
     'from_email' => 'newsletter@example.com',
     //Standard reply to address

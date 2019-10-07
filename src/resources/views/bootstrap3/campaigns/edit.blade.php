@@ -53,7 +53,7 @@
                             <select id="HtmlUrl" class="form-control" name="HtmlUrl">
                                 <option value="{{ $campaign->PreviewURL }}">{{ $campaign->PreviewURL }} @lang('laravel-cm::campaigns.current_template')</option>
                                 @foreach($templates as $template)
-                                <option value="{{ url('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html') }}">{{ $template->template_name }}</option>
+                                <option value="{{ $template->template_file_url }}">{{ $template->template_name }}</option>
                                 @endforeach
                             </select>
                         </div>
