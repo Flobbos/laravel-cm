@@ -36,10 +36,11 @@ return [
     'test_email' => 'tester@example.com',
     //Default testing subject
     'test_subject' => 'Campaign Preview',
-    
+    //Asset path
+    'asset_path' => 'laravel-cm-assets',
     //Remote compiler option
     'use_api' => false,
-    'api_url' => '',
+    'api_url' => 'https://blinky.ultrabold.net/api/generate',
     'api_token' => '',
     //Your bootstrap version
     'bootstrap' => 4,

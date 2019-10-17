@@ -15,7 +15,7 @@ class NewsletterTemplate extends Model{
     
     
     public function getTemplateUrlAttribute() {
-        return url('laravel-cm-assets/' . $this->template_name);
+        return url(config('laravel-cm.asset_path').'/' . $this->template_name);
     }
 
     public function getTemplateFileUrlAttribute() {
@@ -23,7 +23,7 @@ class NewsletterTemplate extends Model{
     }
 
     public function getTemplatePathAttribute() {
-        return public_path('laravel-cm-assets/' . $this->template_name);
+        return public_path(config('laravel-cm.asset_path')'/' . $this->template_name);
     }
 
     public function getTemplateFilePathAttribute() {
