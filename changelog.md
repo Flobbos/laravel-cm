@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 1.0.3
+
+- fixed resource path issues
+- moved asset paths to config
+
 ### v. 1.0.2
 
 - fixed templates lang files
