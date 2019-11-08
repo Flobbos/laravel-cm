@@ -79,7 +79,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$subscribed->links()}}
+                    {{$subscribed->setPath('subscribers')->appends(request()->except('page'))->links()}}
                     @endif
                 </div>
             </div>

@@ -39,6 +39,10 @@ return [
     
     //Remote compiler option
     'use_api' => false,
+    //Regular Foundation Emails
+    //'api_url' => 'https://blinky.ultrabold.net/api/generate',
+    //MJML compiler
+    //'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
     'api_url' => '',
     'api_token' => '',
     //Your bootstrap version
