@@ -5,7 +5,7 @@ namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Symfony\Component\DomCrawler\Crawler;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
-use Leafo\ScssPhp\Compiler as ScssCompiler;
+use ScssPhp\ScssPhp\Compiler as ScssCompiler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;

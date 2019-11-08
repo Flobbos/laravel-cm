@@ -36,7 +36,8 @@ return [
     'test_email' => 'tester@example.com',
     //Default testing subject
     'test_subject' => 'Campaign Preview',
-    
+    //Asset path
+    'asset_path' => 'laravel-cm-assets',
     //Remote compiler option
     'use_api' => false,
     //Regular Foundation Emails
