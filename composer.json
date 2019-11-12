@@ -23,8 +23,6 @@
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "guzzlehttp/guzzle": "~6.0",
         "laravel/helpers": "^1.1",
-        "ext-gd": "*",
-        "phpoffice/phpspreadsheet": "^1.9",
         "maatwebsite/excel": "^3.1"
     },
     "extra": {
