@@ -78,6 +78,8 @@ class LaravelCMServiceProvider extends ServiceProvider{
             Commands\ControllerCommand::class,
             Commands\ViewCommand::class,
         ]);
+        //Register image helper
+        require_once(__DIR__.'/Helpers/cm_image.php');
         //Bindings
         $this->app->bind('Flobbos\LaravelCM\Contracts\CampaignContract', Campaigns::class);
         $this->app->bind('Flobbos\LaravelCM\Contracts\ListContract', Lists::class);

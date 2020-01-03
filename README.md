@@ -9,6 +9,11 @@ submit them to Campaign Monitor as content for your newsletter issues.
 It comes complete with a CRUD implementation for saving your content templates
 in the DB. 
 
+**As of version 2.0.0 local compiling is no longer possible**
+
+The local compiling options created too many problems with unpredictable results
+coming from otherwise functional css/html. The base template now comes in MJML. 
+
 ### Docs
 
 * [Installation](#installation)
@@ -216,7 +221,7 @@ The package contains a defaults folder which has the following structure:
                 settings.scss
                 template.scss
         /views
-            template.inky.php
+            template.blade.php
 ```
 
 This folder will get copied into your resources folder and you should put your
