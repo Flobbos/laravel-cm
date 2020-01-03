@@ -67,12 +67,10 @@ class DummyClass extends Controller{
         
         try{
             $template = $this->templates->find($id);
-            if(!config('laravel-cm.use_api')){
-                $this->templates->compile($template->template_name, [
-                    'template' => $template
-                ]);
-            }
-            $template_path = public_path('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html');
+            $this->templates->compile($template->template_name, [
+                'template' => $template
+            ]);
+            $template_path = public_path('laravel-cm-assets/' . $template->template_name . '/' . $template->template_name . '.html');
             return \File::get($template_path);
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
