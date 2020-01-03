@@ -4,6 +4,7 @@ namespace Flobbos\LaravelCM\Traits;
 
 use Illuminate\Http\Request;
 use Flobbos\LaravelCM\Imports\SubscriberImport;
+use Exception;
 
 trait BaseImport {
     
@@ -21,7 +22,7 @@ trait BaseImport {
      */
     public function handleUpload(Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true): string{
         if(is_null($request->file($fieldname)) || !$request->file($fieldname)->isValid()){
-            throw new \Exception(trans('crud.invalid_file_upload'));
+            throw new Exception(trans('crud.invalid_file_upload'));
         }
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(),'.'.$request->file($fieldname)->getClientOriginalExtension());
