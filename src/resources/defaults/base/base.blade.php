@@ -3,8 +3,8 @@
     <mj-title>Welcome to Laravel-CM Base-Template</mj-title>
   </mj-head>
   <mj-body>
-    <mj-wrapper>
-      Laravel CM Base Template
+    <mj-wrapper full-width="full-width" full-width>
+      {{-- CONTENT --}}
     </mj-wrapper>
   </mj-body>
 </mjml>
