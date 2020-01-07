@@ -67,7 +67,7 @@ interface TemplateContract{
      *
      * @return void
      */
-    public function compile(string $template_name, array $data = [], string $layout);
+    public function compile(string $template_name, array $data = [], string $layout = null);
 
     /**
      * Compile inky template to html and save it to storage
