@@ -16,7 +16,7 @@ class DummyClass extends Controller{
 
     public function __construct(TemplateContract $templates){
         $this->templates = $templates;
-        $this->layouts = File::directories(resource_path('laravel-cm/layouts'));
+        $this->layouts = $this->templates->getLayouts();
     }
 
     /**
