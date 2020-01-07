@@ -123,7 +123,8 @@ class Templates implements TemplateContract {
     public function compile(string $template_name, array $data = []) {
         //Set template
         $this->setTemplate($template_name);
-        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) || $data['template']->isDirty('layout')) {
+
+        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) || array_get($data['template']->getChanges(), 'layout')) {
             $this->generateTemplate($data['template']->layout);
         }
         //Check if template exists
@@ -195,7 +196,7 @@ class Templates implements TemplateContract {
         
         //Empty target
         File::deleteDirectory($destPath);
-        
+
         if (!File::exists($destPath)) {
             // Rename copied files to template-name
             File::copyDirectory($stubPath, $destPath);
