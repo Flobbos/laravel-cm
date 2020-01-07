@@ -124,7 +124,7 @@ class Templates implements TemplateContract {
         //Set template
         $this->setTemplate($template_name);
         if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) || $data['template']->isDirty('layout')) {
-            $this->generateTemplate($layout);
+            $this->generateTemplate($data['template']->layout);
         }
         //Check if template exists
         $this->templateExists($template_name);
@@ -192,7 +192,10 @@ class Templates implements TemplateContract {
         // Copy stub to new template
         $stubPath = resource_path('laravel-cm/layouts/'.$layout);
         $destPath = resource_path('laravel-cm/templates/' . $this->template);
-
+        
+        //Empty target
+        File::deleteDirectory($destPath);
+        
         if (!File::exists($destPath)) {
             // Rename copied files to template-name
             File::copyDirectory($stubPath, $destPath);
