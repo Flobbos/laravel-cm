@@ -60,7 +60,7 @@ class DummyClass extends Controller{
 
         $this->templates->compile($template->template_name, [
             'template' => $template
-        ], $request->get('layout'));
+        ]);
 
         return redirect()->route('DummyViewPath.index')->withMessage(trans('laravel-cm::templates.template_created'));
     }
