@@ -67,7 +67,7 @@ interface TemplateContract{
      *
      * @return void
      */
-    public function compile(string $template_name, array $data = []);
+    public function compile(string $template_name, array $data = [], string $layout);
 
     /**
      * Compile inky template to html and save it to storage
@@ -79,13 +79,6 @@ interface TemplateContract{
     public function saveViewAsHtml($view, $data);
 
     /**
-     * Compile template scss to css and save file to storage
-     *
-     * @return void
-     */
-    public function compileSass();
-
-    /**
      * Copy images to storage
      *
      * @return void
@@ -93,16 +86,16 @@ interface TemplateContract{
     public function copyImages();
 
     /**
-     * Run Style-Inliner to inline template styles to html-document
-     *
-     * @return void
-     */
-    public function inlineStyles();
-    
-    /**
      * Check if the template file exists
      * @param type $name
      */
     public function templateExists(string $template_name);
+    
+    /**
+     * Get base layouts from disk
+     * @return Array
+     * @throws NoLayoutsException
+     */
+    public function getLayouts();
     
 }

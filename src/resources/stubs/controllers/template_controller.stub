@@ -12,11 +12,8 @@ class DummyClass extends Controller{
 
     protected $templates;
 
-    protected $layouts = [];
-
     public function __construct(TemplateContract $templates){
         $this->templates = $templates;
-        $this->layouts = $this->templates->getLayouts();
     }
 
     /**
@@ -35,7 +32,13 @@ class DummyClass extends Controller{
      */
     public function create()
     {
-        return view('DummyViewPath.create')->withLayouts($this->layouts);
+        try{
+            $layouts = $this->templates->getLayouts();
+            return view('DummyViewPath.create')->withLayouts($layouts);
+        } catch (Exception $ex) {
+            return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
+        }
+        
     }
 
     /**
@@ -47,7 +50,8 @@ class DummyClass extends Controller{
     public function store(Request $request)
     {
         $request->validate([
-            'template_name' => 'required|unique:newsletter_templates'
+            'template_name' => 'required|unique:newsletter_templates',
+            'layout' => 'required',
         ]);
 
         $templateData = $request->except(['_token']);
@@ -56,7 +60,7 @@ class DummyClass extends Controller{
 
         $this->templates->compile($template->template_name, [
             'template' => $template
-        ]);
+        ], $request->get('layout'));
 
         return redirect()->route('DummyViewPath.index')->withMessage(trans('laravel-cm::templates.template_created'));
     }
@@ -90,9 +94,15 @@ class DummyClass extends Controller{
      */
     public function edit($id)
     {
-        return view('DummyViewPath.edit')
-            ->withLayouts($this->layouts);
+        try{
+            $layouts = $this->templates->getLayouts();
+            return view('DummyViewPath.edit')
+            ->withLayouts($layouts);
             ->withTemplate($this->templates->find($id));
+        } catch (Exception $ex) {
+            return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
+        }
+        
     }
 
     /**
