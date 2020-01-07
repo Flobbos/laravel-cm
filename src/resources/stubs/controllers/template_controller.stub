@@ -5,14 +5,18 @@ namespace DummyNamespace;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class DummyClass extends Controller{
 
     protected $templates;
 
+    protected $layouts = [];
+
     public function __construct(TemplateContract $templates){
         $this->templates = $templates;
+        $this->layouts = File::directories(resource_path('laravel-cm/layouts'));
     }
 
     /**
@@ -31,7 +35,7 @@ class DummyClass extends Controller{
      */
     public function create()
     {
-        return view('DummyViewPath.create');
+        return view('DummyViewPath.create')->withLayouts($this->layouts);
     }
 
     /**
@@ -87,6 +91,7 @@ class DummyClass extends Controller{
     public function edit($id)
     {
         return view('DummyViewPath.edit')
+            ->withLayouts($this->layouts);
             ->withTemplate($this->templates->find($id));
     }
 

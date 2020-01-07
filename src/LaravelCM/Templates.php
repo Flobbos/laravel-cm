@@ -299,5 +299,14 @@ class Templates implements TemplateContract {
 
         return $resource_files;
     }
+
+    public function getLayouts() {
+      $files = File::directories(resource_path('laravel-cm/layouts'));
+      $layouts = [];
+      foreach($files as $layout) {
+        $layouts[] = basename($layout);
+      }
+      return $layouts;
+    }
     
 }
