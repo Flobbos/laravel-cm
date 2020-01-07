@@ -123,7 +123,7 @@ class Templates implements TemplateContract {
     public function compile(string $template_name, array $data = []) {
         //Set template
         $this->setTemplate($template_name);
-        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name))) {
+        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) && !is_null($layout)) {
             $this->generateTemplate($layout);
         }
         //Check if template exists
@@ -159,13 +159,13 @@ class Templates implements TemplateContract {
      * @return void
      */
     public function copyImages() {
-        $imageFolder = resource_path('laravel-cm/' . $this->template . '/assets/images');
-        $dest = $this->disk->path($this->template . '/assets/images');
+        $imageFolder = resource_path('laravel-cm/templates/' . $this->template . '/assets/images');
+        $dest = $this->disk->path($this->template . '/images');
         return File::copyDirectory($imageFolder, $dest);
     }
 
     public function templateExists(string $template) {
-        if (!File::exists(resource_path('laravel-cm/' . $template))) {
+        if (!File::exists(resource_path('laravel-cm/templates/' . $template))) {
             throw new TemplateNotFoundException('Given template "' . $template . '" not found at ' . resource_path('laravel-cm'));
         }
         return true;
@@ -208,7 +208,7 @@ class Templates implements TemplateContract {
     }
 
     private function remoteCompiler(array $data) {
-        $viewPath = $this->template . '.views.' . $this->template;
+        $viewPath = $this->template . '.' . $this->template;
 
         $html = View::make($viewPath, $data)->render();
 

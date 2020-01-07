@@ -29,6 +29,7 @@
                                 <thead>
                                 <th>#</th>
                                 <th>@lang('laravel-cm::templates.template_name')</th>
+                                                <th>@lang('laravel-cm::templates.layout')</th>
                                 <th></th>
                                 </thead>
                                 <tbody>
@@ -36,6 +37,7 @@
                                     <tr>
                                         <td>{{$template->id}}</td>
                                         <td>{{str_replace('<br>', ' ', $template->template_name)}}</td>
+                                        <td>{{$template->layout}}</td>
                                         <td>
 
                                             <div class="btn-group float-right" role="group">
