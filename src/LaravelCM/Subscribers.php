@@ -159,7 +159,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Import
     public function import(Request $request, $field = 'excel') {
         //Handle upload and populate result
-        $this->importFile($this->handleUpload($request, 'excel', '/xls'));
+        $this->importFile($this->handleUpload($request, $field, '/xls'));
         //Process subscriber list
         $subscribers['Subscribers'] = [];
         $subscribers['Resubscribe'] = true;
