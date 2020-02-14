@@ -34,7 +34,8 @@ Add the package in your composer.json by executing the command.
 composer require flobbos/laravel-cm
 ```
 
-Next, add the service provider to `app/config/app.php`
+LaravelCM features auto discover for Laravel. In case this fails, just add the
+Service Provider to the app.php file.
 
 ```
 Flobbos\LaravelCM\LaravelCMServiceProvider::class,
@@ -188,13 +189,11 @@ Default subject for preview emails
 ```
 ### Remote compiler
 
-The package offers a way to use a remote compiler instead of the built in php
-compiler for SASS. The compiler is not open to the public but you can contact
-me if you wish to use it
+All compiling is done via remote compiler, which is offered free of charge for 
+all users of this package. Simply contact me for a valid API key to handle
+your remove compiling needs based on MJML. Set the token here
 
 ```php
-'use_api' => false,
-'api_url' => '',
 'api_token' => '',
 ```
 
@@ -211,21 +210,19 @@ version and Laravel-CM will load the appropriate views automatically.
 
 ### Naming conventions
 
-The package contains a defaults folder which has the following structure:
+A default layout file is provided for you to work with. Additional layout files
+can be generated depending on what you need. The folder structure is simple and
+as follows:
 
 ```php
-/defaults
-    /template
-        /assets
-            /scss
-                settings.scss
-                template.scss
-        /views
-            template.blade.php
+/resources
+    /defaults
+        template.blade.php
+        base.scss
 ```
 
 This folder will get copied into your resources folder and you should put your
-default template design into these files. You can also add an images folder 
+default layout design into these files. You can also add an images folder 
 which will also get copied once a new template gets generated. 
 
 The default should only contain your base layout. Subsequent changes should be
@@ -256,6 +253,15 @@ the path you gave to the controller command.
 
 ```php
 php artisan laravel-cm:views /view/path --route=laravel-cm.templates
+```
+
+### Layouts Generator
+
+You can generate a new layout by simply using the following command. This will 
+generate a new blank layout file for you to edit. 
+
+```php
+php artisan laravel-cm:layout name-of-layout
 ```
 
 ## Usage
