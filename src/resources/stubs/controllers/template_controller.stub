@@ -62,7 +62,7 @@ class DummyClass extends Controller{
             'template' => $template
         ]);
 
-        return redirect()->route('DummyViewPath.index')->withMessage(trans('laravel-cm::templates.template_created'));
+        return redirect()->route('DummyRoute.index')->withMessage(trans('laravel-cm::templates.template_created'));
     }
 
     /**
@@ -97,7 +97,7 @@ class DummyClass extends Controller{
         try{
             $layouts = $this->templates->getLayouts();
             return view('DummyViewPath.edit')
-            ->withLayouts($layouts);
+            ->withLayouts($layouts)
             ->withTemplate($this->templates->find($id));
         } catch (Exception $ex) {
             return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
@@ -114,7 +114,8 @@ class DummyClass extends Controller{
      */
     public function update(Request $request, $id) {
         $request->validate([
-            'template_name' => 'required'
+            'template_name' => 'required',
+            'layout' => 'required',
         ]);
 
         $templateData = $request->except(['_token']);

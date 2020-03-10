@@ -25,5 +25,6 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     //Templates
-    'no_preview_recipient' => 'Please fill in "test_email" in laravel-cm config.'
+    'no_preview_recipient' => 'Please fill in "test_email" in laravel-cm config.',
+    'dashboard' => 'Dashboard',
 ];

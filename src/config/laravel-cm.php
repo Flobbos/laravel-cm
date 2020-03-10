@@ -40,7 +40,6 @@ return [
     'asset_path' => 'laravel-cm-assets',
     //MJML compiler
     'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
-    'api_url' => '',
     'api_token' => '',
     //Your bootstrap version
     'bootstrap' => 4,
