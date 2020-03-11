@@ -17,4 +17,8 @@ return [
     'template_updated' => 'Template wurde aktualisiert',
     'preview_sent' => 'Vorschau wurde an die Standardaddresse versandt',
     'layout' => 'Layout',
+    'title' => 'Title',
+    'change-layout' => 'Change layout',
+    'select_layout' => 'Choose layout',
+    'template_created' => 'Template created successfully',
 ];

@@ -68,7 +68,7 @@
 
                                             <form class="btn-group"
                                                 action="{{ route('DummyRoute.destroy',$template->id) }}"
-                                                method="POST" v-on:submit.prevent="confirmDelete">
+                                                method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-sm btn-danger"
@@ -90,5 +90,4 @@
         </div>
     </div>
 </div>
-<simplert ref="simplert"></simplert>
 @stop

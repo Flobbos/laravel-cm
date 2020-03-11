@@ -14,7 +14,7 @@ class ViewCommand extends GeneratorCommand{
      *
      * @var string
      */
-  protected $signature = 'laravel-cm:views {path} {--route=laravel-cm.templates}';
+  protected $signature = 'laravel-cm:views {path} {--route=admin.newsletter-template}';
 
     /**
      * The console command description.
@@ -25,6 +25,7 @@ class ViewCommand extends GeneratorCommand{
     
     protected $type = 'Views';
     private $current_stub;
+    protected $route;
     
     /**
      * Get the stub file for the generator.
@@ -56,8 +57,7 @@ class ViewCommand extends GeneratorCommand{
     }
     
     protected function getDirectoryName($name){
-        //dd($name);
-        return  str_plural(strtolower(kebab_case($name)));
+        return  Str::plural(strtolower(Str::kebab($name)));
     }
     
     /**
@@ -67,11 +67,11 @@ class ViewCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function replaceDummyRoute($name){
-        return $this->option('route');
+    protected function replaceDummyRoute(){
+        return $this->route ?? $this->option('route');
     }
     
-    protected function replaceViewPath($name){
+    protected function replaceViewPath(){
         return str_replace('/', '.', $this->argument('path'));
     }
     
@@ -86,8 +86,8 @@ class ViewCommand extends GeneratorCommand{
     protected function buildClass($name){
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
-            'DummyViewPath' => $this->replaceViewPath($name),
-            'DummyRoute' => $this->replaceDummyRoute($name)
+            'DummyViewPath' => $this->replaceViewPath(),
+            'DummyRoute' => $this->replaceDummyRoute()
         ];
         return str_replace(
             array_keys($replace), array_values($replace), $this->generateClass($name)
@@ -115,7 +115,15 @@ class ViewCommand extends GeneratorCommand{
      * @return mixed
      */
     public function handle(){
+        $this->info('WELCOME TO LARAVEL-CM');
+        
         $this->comment('Building new template views.');
+        
+        $this->info('The views will use the following route: '.$this->option('route'));
+        
+        if ($this->confirm("Would you like to change this?", false)) {
+            $this->route = $this->ask('What route would you like to set?',$this->option('route'));
+        }
         
         $path = $this->getPath(strtolower(Str::kebab($this->getPathInput())));
         if ($this->alreadyExists($this->getPathInput())) {

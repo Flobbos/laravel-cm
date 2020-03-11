@@ -12,6 +12,8 @@ use App\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;
 use Flobbos\LaravelCM\Exceptions\NoLayoutsException;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class Templates implements TemplateContract {
 
@@ -90,9 +92,9 @@ class Templates implements TemplateContract {
         $model = $this->find($id);
         if (!is_null($model)) {
             //Delete public assets
-            $this->disk->deleteDirectory(str_slug($model->template_name));
+            $this->disk->deleteDirectory(Str::slug($model->template_name));
             //Delete resource files
-            File::deleteDirectory($this->srcTemplatePath . '/' . str_slug($model->template_name));
+            File::deleteDirectory($this->srcTemplatePath . '/' . Str::slug($model->template_name));
             return $model->delete();
         }
         return false;
@@ -124,7 +126,7 @@ class Templates implements TemplateContract {
         //Set template
         $this->setTemplate($template_name);
 
-        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) || array_get($data['template']->getChanges(), 'layout')) {
+        if (!File::exists(resource_path('laravel-cm/templates/' . $template_name)) || Arr::get($data['template']->getChanges(), 'layout')) {
             $this->generateTemplate($data['template']->layout);
         }
         //Check if template exists
@@ -203,7 +205,7 @@ class Templates implements TemplateContract {
             $files = File::allFiles($destPath);
             foreach ($files as $file) {
                 if (strpos($file->getFilename(), $layout) !== false) {
-                    $renamePath = $file->getPath() . '/' . str_replace($layout, str_slug($this->template), $file->getFilename());
+                    $renamePath = $file->getPath() . '/' . str_replace($layout, Str::slug($this->template), $file->getFilename());
                     File::move($file->getPathname(), $renamePath);
                 }
             }

@@ -14,7 +14,7 @@ class ControllerCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'laravel-cm:controller {name} {--route=laravel-cm.templates}';
+    protected $signature = 'laravel-cm:controller {name} {--route=admin.newsletter-template}';
 
     /**
      * The console command description.
@@ -24,6 +24,8 @@ class ControllerCommand extends GeneratorCommand{
     protected $description = 'Generate the template controller';
     
     protected $type = 'Controller';
+    
+    protected $route,$view_path;
     
     /**
      * Get the default namespace for the class.
@@ -35,12 +37,12 @@ class ControllerCommand extends GeneratorCommand{
         return $rootNamespace.'\Http\Controllers';
     }
     
-    protected function replaceViewPath($name){
-        return 'laravel-cm.templates';
+    protected function replaceViewPath(){
+        return $this->view_path ?? 'laravel-cm.templates';
     }
     
-    protected function replaceDummyRoute($name){
-        return $this->option('route');
+    protected function replaceDummyRoute(){
+        return $this->route ?? $this->option('route');
     }
     
     /**
@@ -57,7 +59,7 @@ class ControllerCommand extends GeneratorCommand{
         $replace["use {$controllerNamespace}\Controller;\n"] = '';
         $replace = array_merge($replace, [
             'DummyViewPath' => $this->replaceViewPath($name),
-            'DummyRoute' => $this->replaceDummyRoute($name)
+            'DummyRoute' => $this->replaceDummyRoute()
         ]);
         //dd($replace);
         return str_replace(
@@ -80,7 +82,22 @@ class ControllerCommand extends GeneratorCommand{
      * @return mixed
      */
     public function handle(){
+        $this->info('WELCOME TO LARAVEL-CM');
+        
         $this->comment('Building template controller');
+        
+        $this->info('The template controller will use the following route: '.$this->option('route'));
+        
+        if ($this->confirm("Would you like to change this?", false)) {
+            $this->route = $this->ask('What route would you like to set?',$this->option('route'));
+        }
+        
+        $this->info('The template controller will use the following view path: '.$this->replaceViewPath());
+        
+        if ($this->confirm("Would you like to change this?", false)) {
+            $this->info('Please use dot notation for the view path.');
+            $this->view_path = $this->ask('What view path would you like to set?',$this->replaceViewPath());
+        }
         
         $name = $this->qualifyClass($this->getNameInput());
         $path = $this->getPath($name);
