@@ -43,7 +43,7 @@ class ViewCommand extends GeneratorCommand{
     }
     
     protected function getPathInput(){
-        return trim($this->argument('path'));
+        return str_replace('.', '/', trim($this->argument('path')));
     }
     
     /**
