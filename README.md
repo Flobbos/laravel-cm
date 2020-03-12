@@ -41,18 +41,55 @@ Service Provider to the app.php file.
 Flobbos\LaravelCM\LaravelCMServiceProvider::class,
 ```
 
-## Configuration
-
 ### Publish configuration file
 
 This step is very important because it publishes the NewsletterTemplate model
 to the App folder so you can set your own fillable fields as  well as 
 relationships you may need. The template generator needs to have this model
-present otherwise you will receive an error.
+present otherwise you will receive an error. 
+
+This also publishes the inital base layout that will be used to generate 
+newsletter templates. 
 
 ```bash
 php artisan vendor:publish 
 ```
+
+### Generate Controller
+
+You need to generate the controller that handles generating the templates from
+the base layout or any other layout you generated. 
+
+```bash
+php artisan laravel-cm:controller NewsletterTemplateController --route=
+```
+You can give this command a route that will be used but you will also be asked
+for it during generation. This route is where all the magic happens. The default
+is admin.newsletter-template. 
+
+### Generate Views
+
+Next up are the views you need for running your template generation
+
+```bash
+php artisan laravel-cm:views path.to.routes --route=
+```
+
+Here you need to use the route previously defined for your controller. The default
+is the same but you will also be asked during the generation process. 
+
+### Migrations
+
+During the publishing process the migration for the newsletter_templates table
+was also published. Add all fields you need and run the migration. 
+
+```bash
+php artisan migrate
+```
+
+That's it. You're ready to roll. Let's move on to the configuration
+
+## Configuration
 
 ### Client API Key
 
@@ -217,8 +254,9 @@ as follows:
 ```php
 /resources
     /defaults
-        template.blade.php
-        base.scss
+        /base
+            base.blade.php
+            base.scss
 ```
 
 This folder will get copied into your resources folder and you should put your
@@ -240,7 +278,7 @@ where the default routes for the views/controller should be and the views
 parameter tells the controller where the view path should be.
 
 ```php
-php artisan laravel-cm:controller NewsletterController --route=laravel-cm.templates --views=laravel-cm.templates
+php artisan laravel-cm:controller NewsletterController --route=admin.newsletter-template --views=laravel-cm.templates
 ```
 
 ### Views generator
@@ -268,69 +306,38 @@ php artisan laravel-cm:layout name-of-layout
 
 ### Adding the package 
 
-After the installation all you need to do is add the links to the parts of the 
-package you want to use to your layout file. 
+### Routes
 
-Example: 
+Routes that are used by LaravelCM need to be added to your routes file.
 
-```html
-<li class="has-dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-       aria-expanded="false">
-        Newsletter <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <a href="{{route('laravel-cm::dashboard')}}">
-                Dashboard
-            </a>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <a href="{{ route('admin.newsletters.templates.index') }}">
-                Templates
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('laravel-cm::campaigns.index') }}">
-                Campaigns
-            </a>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <a href="{{ route('laravel-cm::lists.index') }}">
-                Lists
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('laravel-cm::subscribers.index') }}">
-                Subscribers
-            </a>
-        </li>
-
-    </ul>
-</li>
+```php
+CMRoutes::load();
 ```
+This is all you need to do for the routes to load. 
+
+If you want to add the routes to your NewsletterTemplateController manually you
+can prevent the automated addition of the routes like so:
+
+```php
+CMRoutes::load(false);
+```
+
+### Menu items
+
+If you're using a standard Bootstrap3/4 top bar menu you can simply include all
+necessary links with a dropdown like so:
+
+```php
+@include('laravel-cm::menu')
+```
+
+In your main layout blade file or where ever your top bar is located.
+
 
 ### Dashboard
 
 The dashboard contains an overview of your config settings and a mini 
 documentation on how to use the package. 
-
-### Templates
-
-This will lead to the generated template controller functions/views where
-you can add your own content to your campaign templates. You need to add the 
-following routes depending on your project and what you named the controller.
-
-```php
-    Route::resource('templates', 'TemplateController', [
-        'as' => 'templates'
-    ]);
-    Route::get('templates/{id}/send-preview', 
-            'TemplateController@sendPreview')
-            ->name('templates.send-preview');
-```
 
 ### Campaigns
 
