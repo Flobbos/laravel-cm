@@ -3,6 +3,7 @@
 namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\CampaignContract;
 use Flobbos\LaravelCM\BaseClient;
+use GuzzleHttp\Exception\RequestException;
 use Exception;
 use Flobbos\LaravelCM\Exceptions\MethodNotFoundException;
 

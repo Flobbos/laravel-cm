@@ -5,14 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use GuzzleHttp\Psr7\Response;
 
 trait ResultFormat{
-        
-    /**
-     * formatResult
-     * Format the result set from a Guzzle response
-     * @param  Guzzle\Response $result
-     * @param  bool $raw_body
-     * @return array
-     */
+    
     public function formatResult(Response $result, $raw_body = false){
         //dd($result);
         return collect([
@@ -22,13 +15,7 @@ trait ResultFormat{
             'body' => $raw_body?$result->getBody():$this->formatBody($result->getBody())
         ]);
     }
-        
-    /**
-     * formatBody
-     * Format the response body 
-     * @param  string $body
-     * @return Object
-     */
+    
     public function formatBody($body){
         $string = '';
         while(!$body->eof()){
@@ -36,14 +23,7 @@ trait ResultFormat{
         }
         return json_decode($string);
     }
-        
-    /**
-     * formatSubscribers
-     *
-     * @param  Object $result_body
-     * @param  string $pageName
-     * @return LengthAwarePaginator
-     */
+    
     public function formatSubscribers($result_body, $pageName = 'page'){
         $items = [];
         foreach($result_body->Results as $s){

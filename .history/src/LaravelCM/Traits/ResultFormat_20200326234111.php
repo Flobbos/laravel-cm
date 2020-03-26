@@ -22,13 +22,7 @@ trait ResultFormat{
             'body' => $raw_body?$result->getBody():$this->formatBody($result->getBody())
         ]);
     }
-        
-    /**
-     * formatBody
-     * Format the response body 
-     * @param  string $body
-     * @return Object
-     */
+    
     public function formatBody($body){
         $string = '';
         while(!$body->eof()){
@@ -36,14 +30,7 @@ trait ResultFormat{
         }
         return json_decode($string);
     }
-        
-    /**
-     * formatSubscribers
-     *
-     * @param  Object $result_body
-     * @param  string $pageName
-     * @return LengthAwarePaginator
-     */
+    
     public function formatSubscribers($result_body, $pageName = 'page'){
         $items = [];
         foreach($result_body->Results as $s){
