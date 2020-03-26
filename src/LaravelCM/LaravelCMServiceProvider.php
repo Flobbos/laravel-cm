@@ -4,6 +4,7 @@ namespace Flobbos\LaravelCM;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\AliasLoader;
 
 class LaravelCMServiceProvider extends ServiceProvider {
 
@@ -43,7 +44,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
                 'email' => 'required|email',
             ];
             if ($value) {
-                $validator = \Validator::make(['emails' => $value], [
+                $validator = Validator::make(['emails' => $value], [
                     'emails' => 'max:' . config('laravel-cm.max_test_emails')
                 ]);
                 if ($validator->fails()) {
@@ -54,7 +55,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
                     $data = [
                         'email' => $email
                     ];
-                    $validator = \Validator::make($data, $rules);
+                    $validator = Validator::make($data, $rules);
                     if ($validator->fails()) {
                         return false;
                     }
@@ -95,7 +96,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
     // Register template-location
     $this->app['view']->addLocation(resource_path('laravel-cm/templates'));
     //Grab loader and register static routes facade
-    $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+    $loader = AliasLoader::getInstance();
     $loader->alias('CMRoutes', 'Flobbos\LaravelCM\Facades\CMRoutes');
   }
 }

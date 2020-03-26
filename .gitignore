@@ -8,3 +8,6 @@ coverage/
 .settings
 .project
 .buildpath
+.push.settings.jsonc
+.vscode-upload.json
+.history
