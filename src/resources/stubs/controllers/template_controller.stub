@@ -8,6 +8,8 @@ use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class DummyClass extends Controller{
 
@@ -80,7 +82,7 @@ class DummyClass extends Controller{
                 'template' => $template
             ]);
             $template_path = public_path('laravel-cm-assets/' . $template->template_name . '/' . $template->template_name . '.html');
-            return \File::get($template_path);
+            return File::get($template_path);
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
@@ -147,10 +149,10 @@ class DummyClass extends Controller{
 
     public function sendPreview($id) {
         $template = $this->templates->find($id);
-        \Mail::send([], [], function($message) use ($template) {
+        Mail::send([], [], function($message) use ($template) {
             $message->to(config('laravel-cm.test_email'));
             $message->subject(config('laravel-cm.test_subject'));
-            $message->setBody(\File::get($template->template_file_path), 'text/html');
+            $message->setBody(File::get($template->template_file_path), 'text/html');
         });
 
         return redirect()->back()->withMessage(trans('laravel-cm::templates.preview_sent'));

@@ -22,7 +22,7 @@
                         <div class="card-body">
 
                             @include('laravel-cm::notifications')
-
+                            @if(config('laravel-cm.multi_layout'))
                             <div class="form-group">
                                 <label for="title">@lang('laravel-cm::templates.change-layout')</label>
                                 <select name="layout" class="form-control">
@@ -32,7 +32,7 @@
                                   @endforeach
                                 </select>
                             </div>
-
+                            @endif
                             <div class="form-group">
                                 <label for="template_name">@lang('laravel-cm::templates.template_name')</label>
                                 <input type="hidden" name="template_name" value="{{ old('template_name', $template->template_name) }}">

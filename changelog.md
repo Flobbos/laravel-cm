@@ -1,5 +1,13 @@
 ## Version History
 
+### v. 2.0.0
+
+- added support for Laravel 6 and 7
+- moved to multi layout option
+- included Bootstrap 4 ready to use menu component
+- added option to prevent loading routes for templates
+- updated migrations
+
 ### v. 1.0.3
 
 - fixed resource path issues

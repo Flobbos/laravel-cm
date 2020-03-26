@@ -6,6 +6,7 @@ use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
 use App\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;

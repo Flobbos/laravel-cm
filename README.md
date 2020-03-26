@@ -87,6 +87,35 @@ was also published. Add all fields you need and run the migration.
 php artisan migrate
 ```
 
+### Adding the package 
+
+### Routes
+
+Routes that are used by LaravelCM need to be added to your routes file.
+
+```php
+CMRoutes::load();
+```
+This is all you need to do for the routes to load. 
+
+If you want to add the routes to your NewsletterTemplateController manually you
+can prevent the automated addition of the routes like so:
+
+```php
+CMRoutes::load(false);
+```
+
+### Menu items
+
+If you're using a standard Bootstrap3/4 top bar menu you can simply include all
+necessary links with a dropdown like so:
+
+```php
+@include('laravel-cm::menu')
+```
+
+In your main layout blade file or where ever your top bar is located.
+
 That's it. You're ready to roll. Let's move on to the configuration
 
 ## Configuration
@@ -304,36 +333,6 @@ php artisan laravel-cm:layout name-of-layout
 
 ## Usage
 
-### Adding the package 
-
-### Routes
-
-Routes that are used by LaravelCM need to be added to your routes file.
-
-```php
-CMRoutes::load();
-```
-This is all you need to do for the routes to load. 
-
-If you want to add the routes to your NewsletterTemplateController manually you
-can prevent the automated addition of the routes like so:
-
-```php
-CMRoutes::load(false);
-```
-
-### Menu items
-
-If you're using a standard Bootstrap3/4 top bar menu you can simply include all
-necessary links with a dropdown like so:
-
-```php
-@include('laravel-cm::menu')
-```
-
-In your main layout blade file or where ever your top bar is located.
-
-
 ### Dashboard
 
 The dashboard contains an overview of your config settings and a mini 
@@ -384,9 +383,10 @@ exist.
 
  Laravel  | LaravelCM
 :---------|:----------
- 6.0      | >=2.0.0
- 5.8      | >=2.0.0
- 5.7      | >=2.0.0
+ 7.x      | >2.0.*
+ 6.x      | >2.0.*
+ 5.8      | >2.0.*
+ 5.7      | >2.0.*
  5.6      | >=1.0.0/2.0.0
  5.5      | >=1.0.0/2.0.0
  5.4      | >=1.0.0

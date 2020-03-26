@@ -29,15 +29,19 @@
                                 <thead>
                                 <th>#</th>
                                 <th>@lang('laravel-cm::templates.template_name')</th>
-                                                <th>@lang('laravel-cm::templates.layout')</th>
+                                @if(config('laravel-cm.multi_layout'))
+                                <th>@lang('laravel-cm::templates.layout')</th>
+                                @endif
                                 <th></th>
                                 </thead>
                                 <tbody>
                                 @foreach($templates as $template)
                                     <tr>
                                         <td>{{$template->id}}</td>
-                                        <td>{{str_replace('<br>', ' ', $template->template_name)}}</td>
+                                        <td>{{$template->template_name}}</td>
+                                        @if(config('laravel-cm.multi_layout'))
                                         <td>{{$template->layout}}</td>
+                                        @endif
                                         <td>
 
                                             <div class="btn-group float-right" role="group">

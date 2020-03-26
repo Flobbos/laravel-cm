@@ -6,6 +6,7 @@ use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
 use App\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;
@@ -215,21 +216,7 @@ class Templates implements TemplateContract {
         return;
     }
 
-    private function remoteCompiler(array $data) {
-        $viewPath = $this->template . '.' . $this->template;
-
-        $html = View::make($viewPath, $data)->render();
-
-        //Resolve API
-        $api = resolve(RemoteCompiler::class);
-        $compiled = $api->compile($html, $this->getResourceFiles());
-
-        $this->disk->put($this->template . '/' . $this->template . '.html', $compiled);
-
-        $this->copyImages();
-
-        return $compiled;
-    }
+    
 
     private function getResourceFiles() {
 

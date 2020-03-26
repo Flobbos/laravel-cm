@@ -2,6 +2,8 @@
 
 
 return [
+    //Multi layout option
+    'multi_layout' => false,
     //Your client API Key from CM
     'client_api_key' => 'your secret key',
     //The client ID from CM
@@ -14,6 +16,10 @@ return [
     'storage_path' => 'xls',
     //URL path where to load api
     'url_path'=>'newsletters',
+    //Folder where you want to keep your templates
+    'layout_path' => 'laravel-cm/layouts',
+    //Folder where you want to keep your templates
+    'template_path' => 'laravel-cm/templates',
     //Default format to use JSON|XML
     'format' => 'json',
     //Confirmation emails
