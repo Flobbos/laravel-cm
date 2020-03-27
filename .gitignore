@@ -10,4 +10,4 @@ coverage/
 .buildpath
 .push.settings.jsonc
 .vscode-upload.json
-.history
+/.history
