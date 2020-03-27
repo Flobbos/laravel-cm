@@ -19,7 +19,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
     ], 'migrations');
     //Publishes defaults
     $this->publishes([
-      __DIR__ . '/../resources/defaults/base' => resource_path('laravel-cm/layouts/base')
+      __DIR__ . '/../resources/defaults/base' => resource_path(config('laravel-cm.layout_path').'/base')
     ]);
     //Publishes defaults
     $this->publishes([

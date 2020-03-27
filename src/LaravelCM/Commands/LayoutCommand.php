@@ -116,6 +116,11 @@ class LayoutCommand extends GeneratorCommand {
 
         $this->info('WELCOME TO LARAVEL-CM');
 
+        if(!config('laravel-cm.multi_layout')){
+            $this->error('Your config is set to single layout. Generating a new layout will not make a difference.');
+            exit;
+        }
+
         $this->comment('Building new layout.');
 
         $path = $this->getPath(strtolower($this->getPathInput()));

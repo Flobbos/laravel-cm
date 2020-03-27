@@ -5,6 +5,8 @@
   <mj-body>
     <mj-wrapper full-width="full-width" full-width>
       {{-- CONTENT --}}
+      //Base layout file
+      //Add your content here
     </mj-wrapper>
   </mj-body>
 </mjml>
