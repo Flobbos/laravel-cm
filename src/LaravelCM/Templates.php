@@ -14,7 +14,8 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
-class Templates implements TemplateContract {
+class Templates implements TemplateContract
+{
 
     protected $disk;
     protected $template;
@@ -23,7 +24,8 @@ class Templates implements TemplateContract {
     protected $html;
     protected $template_db;
 
-    public function __construct(NewsletterTemplate $template_db) {
+    public function __construct(NewsletterTemplate $template_db)
+    {
 
         $this->disk = Storage::disk('laravel_cm');
         $this->srcTemplatePath = $this->getTemplatePath();
@@ -37,7 +39,8 @@ class Templates implements TemplateContract {
      * Get all templates in DB
      * @return type
      */
-    public function get() {
+    public function get()
+    {
         return $this->template_db->get();
     }
 
@@ -45,7 +48,8 @@ class Templates implements TemplateContract {
      * Create new template in DB
      * @return type
      */
-    public function create(array $data) {
+    public function create(array $data)
+    {
         return $this->template_db->create($data);
     }
 
@@ -54,7 +58,8 @@ class Templates implements TemplateContract {
      * @param array $data
      * @return bool
      */
-    public function update($id, array $data, $return_model = false) {
+    public function update($id, array $data, $return_model = false)
+    {
         $model = $this->find($id);
         if ($return_model) {
             $model->update($data);
@@ -68,7 +73,8 @@ class Templates implements TemplateContract {
      * @param type $relations
      * @return $this
      */
-    public function with($relations) {
+    public function with($relations)
+    {
         $this->template_db->with($relations);
         return $this;
     }
@@ -78,7 +84,8 @@ class Templates implements TemplateContract {
      * @param type $id
      * @return type
      */
-    public function find($id) {
+    public function find($id)
+    {
         return $this->template_db->find($id);
     }
 
@@ -87,7 +94,8 @@ class Templates implements TemplateContract {
      * @param type $id
      * @return boolean
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $model = $this->find($id);
         if (!is_null($model)) {
             //Delete public assets
@@ -103,16 +111,19 @@ class Templates implements TemplateContract {
      * Get all templates from DB
      * @return type
      */
-    public function getTemplatesFromDB() {
+    public function getTemplatesFromDB()
+    {
         return $this->template_db->all();
     }
 
-    public function setTemplate(string $template_name) {
+    public function setTemplate(string $template_name)
+    {
         $this->template = $template_name;
         return $this;
     }
 
-    public function getTemplate() {
+    public function getTemplate()
+    {
         return $this->template;
     }
 
@@ -121,7 +132,8 @@ class Templates implements TemplateContract {
      *
      * @return void
      */
-    public function compile(string $template_name, array $data = []) {
+    public function compile(string $template_name, array $data = [])
+    {
         //Set template
         $this->setTemplate($template_name);
 
@@ -130,10 +142,10 @@ class Templates implements TemplateContract {
         }
         //Check if template exists
         $this->templateExists($template_name);
-        
+
         //Start compiling if nothing went wrong
         $this->remoteCompiler($data);
-        
+
         return true;
     }
 
@@ -144,7 +156,8 @@ class Templates implements TemplateContract {
      * @param array $data
      * @return void
      */
-    public function saveViewAsHtml($view, $data) {
+    public function saveViewAsHtml($view, $data)
+    {
 
         $viewPath = $view . '.views.' . $view;
 
@@ -160,26 +173,29 @@ class Templates implements TemplateContract {
      *
      * @return void
      */
-    public function copyImages() {
+    public function copyImages()
+    {
         $imageFolder = $this->getImagePath();
         $dest = $this->disk->path($this->template . '/images');
         return File::copyDirectory($imageFolder, $dest);
     }
 
-    public function templateExists(string $template) {
+    public function templateExists(string $template)
+    {
         if (!File::exists($this->getTemplatePath($template))) {
             throw new TemplateNotFoundException('Given template "' . $template . '" not found at ' . resource_path('laravel-cm'));
         }
         return true;
     }
-    
+
     /**
      * 
      * @return type
      * @throws NoLayoutsException
      */
-    public function getLayouts() {
-        if(!config('laravel-cm.multi_layouts')){
+    public function getLayouts()
+    {
+        if (!config('laravel-cm.multi_layout')) {
             return [];
         }
         $files = File::directories($this->getLayoutPath());
@@ -193,11 +209,48 @@ class Templates implements TemplateContract {
         return $layouts;
     }
 
-    private function generateTemplate(string $layout) {
+    /**
+     * Get the validation rules for storing a new template
+     * @return array
+     */
+    public function getValidationRulesStore(): array
+    {
+        if (config('laravel-cm.multi_layout')) {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+                'layout' => 'required',
+            ];
+        } else {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        }
+    }
+
+    /**
+     * Get validation rules for updating a template
+     *
+     * @return array
+     */
+    public function getValidationRulesUpdate(): array
+    {
+        if (config('laravel-cm.multi_layout')) {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        } else {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        }
+    }
+
+    private function generateTemplate(string $layout)
+    {
         // Copy stub to new template
         $stubPath = $this->getLayoutPath($layout);
         $destPath = $this->getTemplatePath($this->template);
-        
+
         //Empty target
         File::deleteDirectory($destPath);
 
@@ -215,7 +268,8 @@ class Templates implements TemplateContract {
         return;
     }
 
-    private function remoteCompiler(array $data) {
+    private function remoteCompiler(array $data)
+    {
         $viewPath = $this->template . '.' . $this->template;
 
         $html = View::make($viewPath, $data)->render();
@@ -231,7 +285,8 @@ class Templates implements TemplateContract {
         return $compiled;
     }
 
-    private function getResourceFiles() {
+    private function getResourceFiles()
+    {
 
         $files = iterator_to_array(
             Finder::create()->files()->ignoreDotFiles(true)->in($this->getTemplatePath($this->template))->depth(0)->name('*.scss')->sortByName(),
@@ -248,17 +303,19 @@ class Templates implements TemplateContract {
 
         return $resource_files;
     }
-    
-    private function getLayoutPath(string $layout = null){
-        return resource_path(config('laravel-cm.template_path').$layout);
-    }
-    
-    private function getTemplatePath(){
-        return resource_path(config('laravel-cm.template_path').'/'.$this->getTemplate());
-    }
-    
-    private function getImagePath(){
-        return $this->getTemplatePath(). '/assets/images';
+
+    private function getLayoutPath(string $layout = null)
+    {
+        return resource_path(config('laravel-cm.layout_path') . $layout);
     }
 
+    private function getTemplatePath()
+    {
+        return resource_path(config('laravel-cm.template_path') . '/' . $this->getTemplate());
+    }
+
+    private function getImagePath()
+    {
+        return $this->getTemplatePath() . '/assets/images';
+    }
 }

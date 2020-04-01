@@ -15,7 +15,7 @@ return [
     //Storage path for uploaded imports
     'storage_path' => 'xls',
     //URL path where to load api
-    'url_path'=>'newsletters',
+    'url_path' => 'newsletters',
     //Folder where you want to keep your templates
     'layout_path' => 'laravel-cm/layouts',
     //Folder where you want to keep your templates
@@ -36,6 +36,8 @@ return [
     'reply_to' => 'replies@example.com',
     //Front-end
     'layout_file' => 'admin',
+    //Default newsletter template route
+    'newsletter_template_route' => 'admin.newsletter-templates.',
     // Max. email-addresse for test-sending
     'max_test_emails' => 5,
     //Default testing address

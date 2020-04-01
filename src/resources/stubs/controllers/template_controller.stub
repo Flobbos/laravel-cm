@@ -52,10 +52,7 @@ class DummyClass extends Controller{
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'template_name' => 'required|unique:newsletter_templates',
-            'layout' => 'required',
-        ]);
+        $request->validate($this->templates->getValidationRulesStore());
 
         $templateData = $request->except(['_token']);
         $templateData['template_name'] = Str::slug($templateData['template_name']);
@@ -116,10 +113,7 @@ class DummyClass extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $request->validate([
-            'template_name' => 'required',
-            'layout' => 'required',
-        ]);
+        $request->validate($this->templates->getValidationRulesUpdate());
 
         $templateData = $request->except(['_token']);
         $template = $this->templates->update($id, $templateData, true);

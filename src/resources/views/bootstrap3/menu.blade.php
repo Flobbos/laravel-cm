@@ -7,7 +7,7 @@
             @lang('laravel-cm::crud.dashboard')
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{ route('admin.newsletter-template.index') }}">
+        <a class="dropdown-item" href="{{ route(config('laravel-cm.newsletter_template_route').'index') }}">
             @lang('laravel-cm::templates.menu_title')
         </a>
         <a class="dropdown-item" href="{{ route('laravel-cm::campaigns.index') }}">
@@ -20,6 +20,5 @@
         <a class="dropdown-item" href="{{ route('laravel-cm::subscribers.index') }}">
             @lang('laravel-cm::subscribers.menu_title')
         </a>
-
     </ul>
 </li>
