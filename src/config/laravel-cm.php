@@ -18,6 +18,8 @@ return [
     'url_path' => 'newsletters',
     //Folder where you want to keep your templates
     'layout_path' => 'laravel-cm/layouts',
+    //Default layout
+    'base_layout' => 'base',
     //Folder where you want to keep your templates
     'template_path' => 'laravel-cm/templates',
     //Default format to use JSON|XML

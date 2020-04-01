@@ -138,7 +138,7 @@ class Templates implements TemplateContract
         $this->setTemplate($template_name);
 
         if (!File::exists($this->getTemplatePath($template_name)) || Arr::get($data['template']->getChanges(), 'layout')) {
-            $this->generateTemplate($data['template']->layout ?? null);
+            $this->generateTemplate($data['template']->layout ?? config('laravel-cm.base_layout', 'base'));
         }
         //Check if template exists
         $this->templateExists($template_name);
@@ -245,7 +245,7 @@ class Templates implements TemplateContract
         }
     }
 
-    private function generateTemplate(string $layout)
+    private function generateTemplate(string $layout = null)
     {
         // Copy stub to new template
         $stubPath = $this->getLayoutPath($layout);
@@ -306,7 +306,10 @@ class Templates implements TemplateContract
 
     private function getLayoutPath(string $layout = null)
     {
-        return resource_path(config('laravel-cm.layout_path') . $layout);
+        if(!$layout) {
+            $layout = config('laravel-cm.base_layout', 'base');
+        }
+        return resource_path(config('laravel-cm.layout_path') . '/' . $layout);
     }
 
     private function getTemplatePath()
