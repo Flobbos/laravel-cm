@@ -25,7 +25,7 @@
                 </div>
                 <div class="card-body">
                     @if($drafts->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table">
                         <thead>
@@ -80,7 +80,7 @@
                 <div class="card-body">
                     
                     @if($scheduled->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
@@ -118,7 +118,7 @@
                 <div class="card-body">
                     
                     @if($sent->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>

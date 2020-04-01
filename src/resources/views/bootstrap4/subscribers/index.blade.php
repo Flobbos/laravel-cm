@@ -90,7 +90,7 @@
                 <div class="card-body">
                     <!-- unsubscribed -->
                     @if($unsubscribed->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
@@ -158,7 +158,7 @@
                 <div class="card-body">
                     <!-- unconfirmed -->
                     @if($bounced->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
