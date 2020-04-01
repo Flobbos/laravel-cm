@@ -306,7 +306,7 @@ class Templates implements TemplateContract
 
     private function getLayoutPath(string $layout = null)
     {
-        return resource_path(config('laravel-cm.layout_path') . $layout);
+        return resource_path(config('laravel-cm.layout_path') . '/' . $layout);
     }
 
     private function getTemplatePath()
