@@ -17,21 +17,6 @@
                     <div class="panel-body">
 
                         @include('laravel-cm::notifications')
-                        @if(config('laravel-cm.multi_layout'))
-                        <div class="form-group">
-                            <label for="title">@lang('laravel-cm::templates.change-layout')</label>
-                            <select name="layout" class="form-control">
-                              <option></option>
-                              @foreach($layouts as $layout)
-                              @if($layout == $template->layout)
-                              <option value="{{ $layout }}" selected>{{ $layout }}</option>
-                              @else
-                              <option value="{{ $layout }}">{{ $layout }}</option>
-                              @endif
-                              @endforeach
-                            </select>
-                        </div>
-                        @endif
 
                         <div class="form-group">
                             <label for="template_name">@lang('laravel-cm::templates.template_name')</label>
