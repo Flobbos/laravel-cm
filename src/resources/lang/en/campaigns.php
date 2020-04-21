@@ -14,7 +14,7 @@ return [
     'current_template' => '(current)',
     'edit_title' => 'Edit campaign',
     'unschedule' => 'Cancel sending',
-    
+
     //Buttons
     'summary' => 'Summary',
     'send' => 'Send',
@@ -22,12 +22,12 @@ return [
     'schedule' => 'Schedule',
     'details' => 'Details',
     'create_button' => 'New campaign',
-    
+
     //Panel headlines
     'drafts' => 'Draft campaigns',
     'scheduled' => 'Scheduled campaigns',
     'sent' => 'Sent campaigns',
-    
+
     //Summary page
     'email_readers' => 'Email readers',
     'lists_segments' => 'Lists and segments',
@@ -46,7 +46,7 @@ return [
     'version' => 'Version',
     'percentage' => 'Percentage',
     'subscribers' => 'Subscribers',
-    
+
     //Schedule
     'schedule_title' => 'Schedule campaign',
     'preview' => 'Preview-URL',
@@ -54,12 +54,16 @@ return [
     'confirmation_emails_placeholder' => 'List of comma separated email addresses for confirmation',
     'send_date' => 'Send date & time',
     'schedule_success' => 'The campaign was successfully scheduled.',
-    
+
     //Send test
     'send_test_title' => 'Campaign send test',
     'send_test_emails' => 'Max :max_email email addresses receiving test emails.',
     'send_test_hint' => 'During testing personalization tags will be replaced with standard values.',
     'test_send_success' => 'The test email was sent successfully',
     'send-test' => 'Send',
-    
+
+    //Send preview validation
+    'emails_required' => 'Please enter at least one email address',
+    'emails_emails' => 'Valid email addresses, comma separated, without spaces.',
+
 ];

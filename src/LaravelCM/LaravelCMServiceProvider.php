@@ -6,9 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\AliasLoader;
 
-class LaravelCMServiceProvider extends ServiceProvider {
+class LaravelCMServiceProvider extends ServiceProvider
+{
 
-  public function boot() {
+  public function boot()
+  {
     //Publish config
     $this->publishes([
       __DIR__ . '/../config/laravel-cm.php' => config_path('laravel-cm.php'),
@@ -19,7 +21,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
     ], 'migrations');
     //Publishes defaults
     $this->publishes([
-      __DIR__ . '/../resources/defaults/base' => resource_path(config('laravel-cm.layout_path').'/base')
+      __DIR__ . '/../resources/defaults/base' => resource_path(config('laravel-cm.layout_path') . '/base')
     ]);
     //Publishes defaults
     $this->publishes([
@@ -37,42 +39,43 @@ class LaravelCMServiceProvider extends ServiceProvider {
     //Add language files
     $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'laravel-cm');
 
-        //Extend validation rules
-        Validator::extend("emails", function($attribute, $values, $parameters) {
-            $value = explode(',', $values);
-            $rules = [
-                'email' => 'required|email',
-            ];
-            if ($value) {
-                $validator = Validator::make(['emails' => $value], [
-                    'emails' => 'max:' . config('laravel-cm.max_test_emails')
-                ]);
-                if ($validator->fails()) {
-                    return false;
-                }
+    //Extend validation rules
+    Validator::extend("emails", function ($attribute, $values, $parameters) {
+      $value = explode(',', $values);
+      $rules = [
+        'email' => 'required|email',
+      ];
+      if ($value) {
+        $validator = Validator::make(['emails' => $value], [
+          'emails' => 'max:' . config('laravel-cm.max_test_emails')
+        ]);
+        if ($validator->fails()) {
+          return false;
+        }
 
-                foreach ($value as $email) {
-                    $data = [
-                        'email' => $email
-                    ];
-                    $validator = Validator::make($data, $rules);
-                    if ($validator->fails()) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        });
-
-    }
+        foreach ($value as $email) {
+          $data = [
+            'email' => $email
+          ];
+          $validator = Validator::make($data, $rules);
+          if ($validator->fails()) {
+            return false;
+          }
+        }
+        return true;
+      }
+    });
+  }
 
   /**
    * Register the service provider.
    */
-  public function register() {
+  public function register()
+  {
     //Merge config
     $this->mergeConfigFrom(
-      __DIR__ . '/../config/laravel-cm.php', 'laravel-cm'
+      __DIR__ . '/../config/laravel-cm.php',
+      'laravel-cm'
     );
     //register commands
     $this->commands([
@@ -94,7 +97,7 @@ class LaravelCMServiceProvider extends ServiceProvider {
       'visibility' => 'public'
     ]]);
     // Register template-location
-    $this->app['view']->addLocation(resource_path('laravel-cm/templates'));
+    $this->app['view']->addLocation(resource_path(config('laravel-cm.template_path')));
     //Grab loader and register static routes facade
     $loader = AliasLoader::getInstance();
     $loader->alias('CMRoutes', 'Flobbos\LaravelCM\Facades\CMRoutes');

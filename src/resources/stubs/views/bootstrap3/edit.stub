@@ -17,7 +17,6 @@
                     <div class="panel-body">
 
                         @include('laravel-cm::notifications')
-
                         <div class="form-group">
                             <label for="template_name">@lang('laravel-cm::templates.template_name')</label>
                             <input type="hidden" name="template_name" value="{{ old('template_name', $template->template_name) }}">

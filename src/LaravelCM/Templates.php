@@ -198,9 +198,9 @@ class Templates implements TemplateContract
         if (!config('laravel-cm.multi_layout')) {
             return [];
         }
-        $files = File::directories($this->getLayoutPath());
+        $files = File::directories(resource_path(config('laravel-cm.layout_path')));
         if (empty($files)) {
-            throw new NoLayoutsException();
+            throw new NoLayoutsException(resource_path(config('laravel-cm.layout_path')));
         }
         $layouts = [];
         foreach ($files as $layout) {
@@ -272,7 +272,7 @@ class Templates implements TemplateContract
     {
         $viewPath = $this->template . '.' . $this->template;
 
-        $html = View::make($viewPath, $data)->render();
+        $html = View::make($this->getTemplateViewPath($viewPath), $data)->render();
 
         //Resolve API
         $api = resolve(RemoteCompiler::class);
@@ -320,5 +320,11 @@ class Templates implements TemplateContract
     private function getImagePath()
     {
         return $this->getTemplatePath() . '/assets/images';
+    }
+
+    private function getTemplateViewPath($viewPath)
+    {
+        return $viewPath;
+        return str_replace('/', '.', rtrim(config('laravel-cm.template_path'), '/')) . '.' . $viewPath;
     }
 }

@@ -9,17 +9,20 @@ use Flobbos\LaravelCM\Contracts\ListContract;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Exception;
 
-class CampaignController extends Controller{
-    
+class CampaignController extends Controller
+{
+
     protected $cmp;
-    
-    public function __construct(CampaignContract $cmp) {
+
+    public function __construct(CampaignContract $cmp)
+    {
         $this->cmp = $cmp;
     }
-    
+
     //Campaigns
-    public function index(){
-        try{
+    public function index()
+    {
+        try {
             $drafts = $this->cmp->getDrafts();
             $scheduled = $this->cmp->getScheduled();
             $sent = $this->cmp->getSent();
@@ -33,8 +36,9 @@ class CampaignController extends Controller{
         }
     }
 
-    public function show($campaign_id){
-        try{
+    public function show($campaign_id)
+    {
+        try {
             $summary = $this->cmp->getCampaignSummary($campaign_id);
             $users = $this->cmp->getEmailClientUsage($campaign_id);
             $lists = $this->cmp->getListsAndSegments($campaign_id);
@@ -48,16 +52,18 @@ class CampaignController extends Controller{
             return redirect()->back()->withErrors($ex->getMessage());
         }
     }
-    
-    public function create(ListContract $lists, TemplateContract $templates){
-        
+
+    public function create(ListContract $lists, TemplateContract $templates)
+    {
+
         return view('laravel-cm::campaigns.create')->with([
             'lists' => $lists->get(),
             'templates' => $templates->getTemplatesFromDB()
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         //dd($request->all());
         $request->validate([
             'Name' => 'required',
@@ -69,17 +75,17 @@ class CampaignController extends Controller{
             'ListIDs' => 'required'
         ]);
 
-        try{
+        try {
             $campaign_id = $this->cmp->createDraft($request->except('_token'));
-            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.create_success',['campaign_id'=>$campaign_id]));
+            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.create_success', ['campaign_id' => $campaign_id]));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
         }
-
     }
-    
-    public function edit($campaign_id, ListContract $lists, TemplateContract $templates) {
-        try{
+
+    public function edit($campaign_id, ListContract $lists, TemplateContract $templates)
+    {
+        try {
             //Get all draft campaigns
             $drafts = $this->cmp->getDrafts();
             //Get campaign by ID from collection
@@ -93,10 +99,10 @@ class CampaignController extends Controller{
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
-        
     }
 
-    public function update($campaign_id, Request $request) {
+    public function update($campaign_id, Request $request)
+    {
         $request->validate([
             'Name' => 'required',
             'Subject' => 'required',
@@ -107,32 +113,36 @@ class CampaignController extends Controller{
             'ListIDs' => 'required'
         ]);
 
-        try{
+        try {
             $this->cmp->delete($campaign_id);
             $new_campaign_id = $this->cmp->createDraft($request->except(['_token']));
 
-            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.update_success',['new_campaign_id'=>$new_campaign_id]));
+            return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.update_success', ['new_campaign_id' => $new_campaign_id]));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
-
     }
 
-    public function showCampaignPreview($campaign_id){
+    public function showCampaignPreview($campaign_id)
+    {
         return view('laravel-cm::campaigns.send-test')->with([
             'campaign_id' => $campaign_id
         ]);
     }
-    
-    public function sendCampaignPreview(Request $request, $campaign_id){
+
+    public function sendCampaignPreview(Request $request, $campaign_id)
+    {
 
         $request->validate([
             'emails' => 'required|emails'
+        ], [
+            'emails.emails' => trans('laravel-cm::campaigns.emails_emails'),
+            'emails.required' => trans('laravel-cm::campaigns.emails_required'),
         ]);
 
-        try{
+        try {
             //Explode list of emails from request string
-            $emails = explode(',', $request->get('emails'));
+            $emails = array_map('trim', explode(',', $request->get('emails')));
             //Send actual preview with emails in array form
             $this->cmp->sendPreview($campaign_id, $emails);
             return redirect()->back()->withMessage(trans('laravel-cm::campaigns.test_send_success'));
@@ -141,12 +151,13 @@ class CampaignController extends Controller{
         }
     }
 
-    public function scheduleCampaign($campaign_id){
-        try{
+    public function scheduleCampaign($campaign_id)
+    {
+        try {
             //Retrieve campaign details
             $campaign = $this->cmp->getCampaignDetails($campaign_id);
             //Check if campaign ID is valid.
-            if(is_null($campaign)){
+            if (is_null($campaign)) {
                 return redirect()->back()->withErrors(trans('laravel-cm::campaigns.invalid_campaign_id'));
             }
             return view('laravel-cm::campaigns.schedule')->with([
@@ -155,41 +166,42 @@ class CampaignController extends Controller{
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
-        
     }
-    
-    public function saveScheduleCampaign(Request $request, $campaign_id){
-        
+
+    public function saveScheduleCampaign(Request $request, $campaign_id)
+    {
+
         //Validate minimum required fields
         $this->validate($request, [
             'SendDate' => 'required',
             'ConfirmationEmail' => 'required'
         ]);
-        
-        try{
+
+        try {
             $this->cmp->scheduleCampaign($campaign_id, $request->get('SendDate'), $request->get('ConfirmationEmail'));
             return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withInput()->withErrors($ex->getMessage());
         }
     }
-    
-    public function unScheduleCampaign($campaign_id){
-        try{
+
+    public function unScheduleCampaign($campaign_id)
+    {
+        try {
             $this->cmp->unScheduleCampaign($campaign_id);
             return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.unschedule_success'));
         } catch (Exception $ex) {
             return redirect()->route('laravel-cm::campaigns.index')->withErrors($ex->getMessage());
         }
     }
-    
-    public function destroy($campaign_id){
-        try{
+
+    public function destroy($campaign_id)
+    {
+        try {
             $this->cmp->delete($campaign_id);
             return redirect()->back()->withMessage(trans('laravel-cm::crud.delete_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
     }
-    
 }
