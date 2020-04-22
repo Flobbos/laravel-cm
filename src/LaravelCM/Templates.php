@@ -319,7 +319,7 @@ class Templates implements TemplateContract
 
     private function getImagePath()
     {
-        return $this->getTemplatePath() . '/assets/images';
+        return $this->getTemplatePath() . '/images';
     }
 
     private function getTemplateViewPath($viewPath)
