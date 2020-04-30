@@ -5,8 +5,6 @@ namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\BaseClient;
 use Flobbos\LaravelCM\Contracts\SubscriberContract;
 use Flobbos\LaravelCM\Contracts\ResultFormatContract;
-use Illuminate\Pagination\LengthAwarePaginator;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -159,7 +157,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Import
     public function import(Request $request, $field = 'excel') {
         //Handle upload and populate result
-        $this->importFile($this->handleUpload($request, 'excel', '/xls'));
+        $this->importFile($this->handleUpload($request, $field, '/xls'));
         //Process subscriber list
         $subscribers['Subscribers'] = [];
         $subscribers['Resubscribe'] = true;

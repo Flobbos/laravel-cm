@@ -27,15 +27,19 @@
                         <thead>
                         <th>#</th>
                         <th>@lang('laravel-cm::templates.list_name')</th>
-                        <th>@lang('laravel-cm::templates.template_slug')</th>
+                        @if(config('laravel-cm.multi_layout'))
+                        <th>@lang('laravel-cm::templates.layout')</th>
+                        @endif
                         <th></th>
                         </thead>
                         <tbody>
                             @foreach($templates as $template)
                             <tr>
                                 <td>{{$template->id}}</td>
-                                <td>{{str_replace('<br>', ' ', $template->title)}}</td>
                                 <td>{{$template->template_name}}</td>
+                                @if(config('laravel-cm.multi_layout'))
+                                <td>{{$template->layout}}</td>
+                                @endif
                                 <td>
 
                                     <div class="btn-group pull-right" role="group">
@@ -68,7 +72,7 @@
 
                                             <form class="btn-group"
                                                 action="{{ route('DummyRoute.destroy',$template->id) }}"
-                                                method="POST" v-on:submit.prevent="confirmDelete">
+                                                method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-sm btn-danger"
@@ -90,5 +94,4 @@
         </div>
     </div>
 </div>
-<simplert ref="simplert"></simplert>
 @stop

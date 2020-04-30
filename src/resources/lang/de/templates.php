@@ -16,4 +16,10 @@ return [
     'template_slug' => 'Datei-Name',
     'template_updated' => 'Template wurde aktualisiert',
     'preview_sent' => 'Vorschau wurde an die Standardaddresse versandt',
+    'layout' => 'Layout',
+    'title' => 'Titel',
+    'change-layout' => 'Layout wechseln',
+    'select_layout' => 'Layout auswählen',
+    'template_created' => 'Template wurde erstellt',
+    
 ];

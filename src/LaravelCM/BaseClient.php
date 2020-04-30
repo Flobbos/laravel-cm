@@ -3,7 +3,6 @@
 namespace Flobbos\LaravelCM;
 use Flobbos\LaravelCM\Contracts\BaseClientContract;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Exception;
 use Flobbos\LaravelCM\Exceptions\ConfigKeyNotSetException;
 

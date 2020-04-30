@@ -191,7 +191,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('crud.cancel') }}</a>
+                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
                         </div>
 
                     </div>

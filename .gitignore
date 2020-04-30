@@ -5,3 +5,9 @@ coverage/
 /nbproject
 /.vscode
 /.idea
+.settings
+.project
+.buildpath
+.push.settings.jsonc
+.vscode-upload.json
+/.history

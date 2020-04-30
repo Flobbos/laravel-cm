@@ -2,9 +2,7 @@
 
 namespace Flobbos\LaravelCM\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Exception;
 
 class NewsletterController extends Controller{
     

@@ -6,7 +6,7 @@ Route::group(['middleware'=>['web','auth'],'namespace'=>'Flobbos\LaravelCM\Contr
     //Subscribers
     Route::get('subscribers/details/{email}','SubscriberController@showDetails')->name('subscribers.details');
     Route::put('subscribers/resubscribe/{email}','SubscriberController@resubscribe')->name('subscribers.resubscribe');
-    Route::get('subscribers/unsubscribe/{email}','SubscriberController@unsubscribe')->name('subscribers.unsubscribe');
+    Route::delete('subscribers/unsubscribe/{email}','SubscriberController@unsubscribe')->name('subscribers.unsubscribe');
     Route::get('subscribers/show-import','SubscriberController@showImport')->name('subscribers.show-import');
     Route::post('subscribers/import','SubscriberController@import')->name('subscribers.import');
     Route::resource('subscribers','SubscriberController')->only(['index','edit','update']);

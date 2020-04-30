@@ -25,5 +25,6 @@ return [
     'yes' => 'Ja',
     'no' => 'Nein',
     //Templates
-    'no_preview_recipient' => 'Das Feld "test_email" in der laravel-cm config ist leer.'
+    'no_preview_recipient' => 'Das Feld "test_email" in der laravel-cm config ist leer.',
+    'dashboard' => 'Dashboard',
 ];

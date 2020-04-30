@@ -27,7 +27,7 @@
                 </div>
                 <div class="panel-body">
                     @if($drafts->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table">
                         <thead>
@@ -82,7 +82,7 @@
                 <div class="panel-body">
                     
                     @if($scheduled->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
@@ -120,7 +120,7 @@
                 <div class="panel-body">
                     
                     @if($sent->isEmpty())
-                    @lang('crud.no_entries')
+                    @lang('laravel-cm::crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>

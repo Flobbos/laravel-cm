@@ -16,7 +16,7 @@ return [
     'unschedule' => 'Versand abbrechen',
     'update_success' => 'Die Kampagne wurde erfolgreich aktualisiert.',
     'invalid_campaign_id' => 'Kampagne konnte nicht gefunden werden. Bitte aktualisieren.',
-    
+
     //Buttons
     'summary' => 'Zusammenfassung',
     'send' => 'Versenden',
@@ -24,12 +24,12 @@ return [
     'schedule' => 'Versand',
     'details' => 'Details',
     'create_button' => 'Neue Kampagne',
-    
+
     //Panel headlines
     'drafts' => 'Vorbereitete Kampagnen',
     'scheduled' => 'Terminierte Kampagnen',
     'sent' => 'Versendete Kampagnen',
-    
+
     //Summary page
     'email_readers' => 'Email-Programme',
     'lists_segments' => 'Listen und Segmente',
@@ -49,7 +49,7 @@ return [
     'version' => 'Version',
     'percentage' => 'Prozent-Anteil',
     'subscribers' => 'Abonennten',
-    
+
     //Schedule
     'schedule_title' => 'Versand terminieren',
     'preview' => 'Preview-URL',
@@ -58,12 +58,16 @@ return [
     'send_date' => 'Versand-Datum & Uhrzeit',
     'schedule_success' => 'Die Kampagne wurde erfolgreich datiert und wird versendet.',
     'unschedule_success' => 'Die Kampagne wurde erfolgreich gestoppt.',
-    
+
     //Send test
     'send_test_title' => 'Kampagne Testversand',
     'send_test_emails' => 'Maximal :max_email Adressen für den Testversand mit Komma getrennt.',
     'send_test_hint' => 'Beim Testversand werden personalisierte Tags mit Standardwerten ersetzt.',
     'send-test' => 'Versenden',
     'test_send_success' => 'Testversand durchgeführt.',
-    
+
+    //Send preview validation
+    'emails_required' => 'Bitte mindestens eine E-Mail-Adresse eingeben',
+    'emails_emails' => 'Valide E-Mail-Adressen, mit Komma getrennt und ohne Leerzeichen',
+
 ];

@@ -5,7 +5,11 @@ namespace DummyNamespace;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
+use Illuminate\Support\Facades\Storage;
 use Exception;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class DummyClass extends Controller{
 
@@ -31,7 +35,13 @@ class DummyClass extends Controller{
      */
     public function create()
     {
-        return view('DummyViewPath.create');
+        try{
+            $layouts = $this->templates->getLayouts();
+            return view('DummyViewPath.create')->withLayouts($layouts);
+        } catch (Exception $ex) {
+            return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
+        }
+        
     }
 
     /**
@@ -42,19 +52,17 @@ class DummyClass extends Controller{
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'template_name' => 'required|unique:newsletter_templates'
-        ]);
+        $request->validate($this->templates->getValidationRulesStore());
 
         $templateData = $request->except(['_token']);
-        $templateData['template_name'] = str_slug($templateData['template_name']);
+        $templateData['template_name'] = Str::slug($templateData['template_name']);
         $template = $this->templates->create($templateData);
 
         $this->templates->compile($template->template_name, [
             'template' => $template
         ]);
 
-        return redirect()->route('DummyViewPath.index')->withMessage(trans('laravel-cm::templates.template_created'));
+        return redirect()->route('DummyRoute.index')->withMessage(trans('laravel-cm::templates.template_created'));
     }
 
     /**
@@ -67,13 +75,11 @@ class DummyClass extends Controller{
         
         try{
             $template = $this->templates->find($id);
-            if(!config('laravel-cm.use_api')){
-                $this->templates->compile($template->template_name, [
-                    'template' => $template
-                ]);
-            }
-            $template_path = public_path('laravel-cm/' . $template->template_name . '/' . $template->template_name . '.html');
-            return \File::get($template_path);
+            $this->templates->compile($template->template_name, [
+                'template' => $template
+            ]);
+            $template_path = public_path('laravel-cm-assets/' . $template->template_name . '/' . $template->template_name . '.html');
+            return File::get($template_path);
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
@@ -88,8 +94,15 @@ class DummyClass extends Controller{
      */
     public function edit($id)
     {
-        return view('DummyViewPath.edit')
+        try{
+            $layouts = $this->templates->getLayouts();
+            return view('DummyViewPath.edit')
+            ->withLayouts($layouts)
             ->withTemplate($this->templates->find($id));
+        } catch (Exception $ex) {
+            return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
+        }
+        
     }
 
     /**
@@ -100,9 +113,7 @@ class DummyClass extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $request->validate([
-            'template_name' => 'required'
-        ]);
+        $request->validate($this->templates->getValidationRulesUpdate());
 
         $templateData = $request->except(['_token']);
         $template = $this->templates->update($id, $templateData, true);
@@ -132,10 +143,10 @@ class DummyClass extends Controller{
 
     public function sendPreview($id) {
         $template = $this->templates->find($id);
-        \Mail::send([], [], function($message) use ($template) {
+        Mail::send([], [], function($message) use ($template) {
             $message->to(config('laravel-cm.test_email'));
             $message->subject(config('laravel-cm.test_subject'));
-            $message->setBody(\File::get($template->template_file_path), 'text/html');
+            $message->setBody(File::get($template->template_file_path), 'text/html');
         });
 
         return redirect()->back()->withMessage(trans('laravel-cm::templates.preview_sent'));

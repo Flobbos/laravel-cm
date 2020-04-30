@@ -8,9 +8,8 @@ class NewsletterTemplate extends Model{
     
     protected $fillable = [
         'template_name',
-        'title',
-        'intro',
-        'issue'
+        'layout', //remove this if you're using a single layout
+        'title'
     ];
     
     

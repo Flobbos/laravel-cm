@@ -2,6 +2,8 @@
 
 
 return [
+    //Multi layout option
+    'multi_layout' => false,
     //Your client API Key from CM
     'client_api_key' => 'your secret key',
     //The client ID from CM
@@ -13,7 +15,13 @@ return [
     //Storage path for uploaded imports
     'storage_path' => 'xls',
     //URL path where to load api
-    'url_path'=>'newsletters',
+    'url_path' => 'newsletters',
+    //Folder where you want to keep your templates
+    'layout_path' => 'laravel-cm/layouts',
+    //Default layout
+    'base_layout' => 'base',
+    //Folder where you want to keep your templates
+    'template_path' => 'laravel-cm/templates',
     //Default format to use JSON|XML
     'format' => 'json',
     //Confirmation emails
@@ -30,6 +38,8 @@ return [
     'reply_to' => 'replies@example.com',
     //Front-end
     'layout_file' => 'admin',
+    //Default newsletter template route
+    'newsletter_template_route' => 'admin.newsletter-templates.',
     // Max. email-addresse for test-sending
     'max_test_emails' => 5,
     //Default testing address
@@ -38,13 +48,8 @@ return [
     'test_subject' => 'Campaign Preview',
     //Asset path
     'asset_path' => 'laravel-cm-assets',
-    //Remote compiler option
-    'use_api' => false,
-    //Regular Foundation Emails
-    //'api_url' => 'https://blinky.ultrabold.net/api/generate',
     //MJML compiler
-    //'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
-    'api_url' => '',
+    'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
     'api_token' => '',
     //Your bootstrap version
     'bootstrap' => 4,

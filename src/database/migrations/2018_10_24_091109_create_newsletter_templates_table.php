@@ -16,6 +16,8 @@ class CreateNewsletterTemplatesTable extends Migration
         Schema::create('newsletter_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('template_name');
+            $table->string('layout');
+            $table->string('title');
             $table->timestamps();
         });
     }

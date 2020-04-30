@@ -3,18 +3,19 @@
 namespace Flobbos\LaravelCM;
 
 use Flobbos\LaravelCM\Contracts\TemplateContract;
-use Symfony\Component\DomCrawler\Crawler;
-use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
-use ScssPhp\ScssPhp\Compiler as ScssCompiler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Artisan;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
 use App\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;
+use Flobbos\LaravelCM\Exceptions\NoLayoutsException;
+use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
-class Templates implements TemplateContract {
+class Templates implements TemplateContract
+{
 
     protected $disk;
     protected $template;
@@ -23,76 +24,84 @@ class Templates implements TemplateContract {
     protected $html;
     protected $template_db;
 
-    public function __construct(NewsletterTemplate $template_db) {
+    public function __construct(NewsletterTemplate $template_db)
+    {
 
         $this->disk = Storage::disk('laravel_cm');
-        $this->srcTemplatePath = resource_path('laravel-cm/' . $this->template);
+        $this->srcTemplatePath = $this->getTemplatePath();
         $this->distTemplatePath = $this->disk->path($this->template);
         $this->template_db = $template_db;
     }
-    
+
     //CRUD methods
+
     /**
      * Get all templates in DB
      * @return type
      */
-    public function get(){
+    public function get()
+    {
         return $this->template_db->get();
     }
-    
+
     /**
      * Create new template in DB
      * @return type
      */
-    public function create(array $data){
+    public function create(array $data)
+    {
         return $this->template_db->create($data);
     }
-    
+
     /**
      * Update Template
      * @param array $data
      * @return bool
      */
-    public function update($id, array $data, $return_model = false){
+    public function update($id, array $data, $return_model = false)
+    {
         $model = $this->find($id);
-        if($return_model){
+        if ($return_model) {
             $model->update($data);
             return $model;
         }
         return $model->update($data);
     }
-    
+
     /**
      * Set relations for templates
      * @param type $relations
      * @return $this
      */
-    public function with($relations){
+    public function with($relations)
+    {
         $this->template_db->with($relations);
         return $this;
     }
-    
+
     /**
      * Find a specific template
      * @param type $id
      * @return type
      */
-    public function find($id){
+    public function find($id)
+    {
         return $this->template_db->find($id);
     }
-    
+
     /**
      * Delete a template
      * @param type $id
      * @return boolean
      */
-    public function delete($id){
+    public function delete($id)
+    {
         $model = $this->find($id);
-        if(!is_null($model)){
+        if (!is_null($model)) {
             //Delete public assets
-            $this->disk->deleteDirectory(str_slug($model->template_name));
+            $this->disk->deleteDirectory(Str::slug($model->template_name));
             //Delete resource files
-            File::deleteDirectory($this->srcTemplatePath.'/'.str_slug($model->template_name));
+            File::deleteDirectory($this->srcTemplatePath . '/' . Str::slug($model->template_name));
             return $model->delete();
         }
         return false;
@@ -102,16 +111,19 @@ class Templates implements TemplateContract {
      * Get all templates from DB
      * @return type
      */
-    public function getTemplatesFromDB() {
+    public function getTemplatesFromDB()
+    {
         return $this->template_db->all();
     }
 
-    public function setTemplate(string $template_name) {
+    public function setTemplate(string $template_name)
+    {
         $this->template = $template_name;
         return $this;
     }
-    
-    public function getTemplate() {
+
+    public function getTemplate()
+    {
         return $this->template;
     }
 
@@ -120,28 +132,23 @@ class Templates implements TemplateContract {
      *
      * @return void
      */
-    public function compile(string $template_name, array $data = []) {
+    public function compile(string $template_name, array $data = [])
+    {
         //Set template
         $this->setTemplate($template_name);
-        if(!File::exists(resource_path('laravel-cm/' . $template_name))){
-            $this->generateTemplate();
+
+        if (!File::exists($this->getTemplatePath($template_name)) || Arr::get($data['template']->getChanges(), 'layout')) {
+            $this->generateTemplate($data['template']->layout ?? config('laravel-cm.base_layout', 'base'));
         }
         //Check if template exists
         $this->templateExists($template_name);
+
         //Start compiling if nothing went wrong
-        if(config('laravel-cm.use_api')){
-            //API compiler
-            $this->remoteCompiler($data);
-        }
-        else{
-            //local compiler
-            $this->localCompiler($data);
-        }
-        
-        
+        $this->remoteCompiler($data);
+
         return true;
     }
-    
+
     /**
      * Compile inky template to html and save it to storage
      *
@@ -149,7 +156,8 @@ class Templates implements TemplateContract {
      * @param array $data
      * @return void
      */
-    public function saveViewAsHtml($view, $data) {
+    public function saveViewAsHtml($view, $data)
+    {
 
         $viewPath = $view . '.views.' . $view;
 
@@ -158,33 +166,6 @@ class Templates implements TemplateContract {
         $this->disk->put($this->template . '/' . $this->template . '.html', $html);
 
         return $html;
-
-    }
-
-    /**
-     * Compile template scss to css and save file to storage
-     *
-     * @return void
-     */
-    public function compileSass() {
- 
-        $importPaths = [
-            // Set template imports
-            resource_path('laravel-cm/'.$this->template.'/assets/scss'),
-            // Set foundation-email imports
-            __DIR__ . '/../resources/defaults/assets/foundation-emails'
-        ];
-        
-        $src = resource_path('laravel-cm/'.$this->template.'/assets/scss/'.$this->template.'.scss');
-
-        $scss = new ScssCompiler();
-        $scss->setImportPaths($importPaths);
-
-        $scssContent = File::get($src);
-        
-        $css = trim(preg_replace('/\s+/', ' ', $scss->compile($scssContent)));
-        //dd($this->disk);
-        return $this->disk->put($this->template . '/assets/style.css', $css);
     }
 
     /**
@@ -192,112 +173,158 @@ class Templates implements TemplateContract {
      *
      * @return void
      */
-    public function copyImages() {
-        $imageFolder = resource_path('laravel-cm/'.$this->template.'/assets/images');
-        $dest = $this->disk->path($this->template . '/assets/images');
+    public function copyImages()
+    {
+        $imageFolder = $this->getImagePath();
+        $dest = $this->disk->path($this->template . '/images');
         return File::copyDirectory($imageFolder, $dest);
     }
 
-    /**
-     * Run Style-Inliner to inline template styles to html-document
-     *
-     * @return void
-     */
-    public function inlineStyles() {
-
-        $crawler = new Crawler();
-        $crawler->addHtmlContent($this->html);
-        
-        $stylesheets = $crawler->filter('link[rel=stylesheet]');
-        // collect hrefs
-        $stylesheetsHrefs = collect($stylesheets->extract('href'));
-        // remove links
-        // $stylesheets->each(function (Crawler $crawler) {;
-        //     foreach ($crawler as $node) {
-        //         $node->parentNode->removeChild($node);
-        //     }
-        // });
-
-        $results = $crawler->html();
-
-        // get the styles
-
-        $styles = $stylesheetsHrefs->map(function ($stylesheet) {
-            $path = $this->template . '/assets/style.css';
-            return $this->disk->get($path);
-        })->implode("\n\n");
-
-        $inliner = new CssToInlineStyles();
-
-        return $this->disk->put($this->template . '/' . $this->template . '.html', $inliner->convert($results, $styles));
-
-    }
-    
-    public function templateExists(string $template){
-        if(!File::exists(resource_path('laravel-cm/' . $template))) {
-            throw new TemplateNotFoundException('Given template "'.$template.'" not found at ' . resource_path('laravel-cm'));
+    public function templateExists(string $template)
+    {
+        if (!File::exists($this->getTemplatePath($template))) {
+            throw new TemplateNotFoundException('Given template "' . $template . '" not found at ' . resource_path('laravel-cm'));
         }
         return true;
     }
-    
-    private function generateTemplate(){
-        // Copy stub to new template
-        $stubPath = resource_path('laravel-cm/default');
-        $destPath = resource_path('laravel-cm/' . $this->template);
 
-        if(!File::exists( $destPath)) {
+    /**
+     * 
+     * @return type
+     * @throws NoLayoutsException
+     */
+    public function getLayouts()
+    {
+        if (!config('laravel-cm.multi_layout')) {
+            return [];
+        }
+        $files = File::directories(resource_path(config('laravel-cm.layout_path')));
+        if (empty($files)) {
+            throw new NoLayoutsException(resource_path(config('laravel-cm.layout_path')));
+        }
+        $layouts = [];
+        foreach ($files as $layout) {
+            $layouts[] = basename($layout);
+        }
+        return $layouts;
+    }
+
+    /**
+     * Get the validation rules for storing a new template
+     * @return array
+     */
+    public function getValidationRulesStore(): array
+    {
+        if (config('laravel-cm.multi_layout')) {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+                'layout' => 'required',
+            ];
+        } else {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        }
+    }
+
+    /**
+     * Get validation rules for updating a template
+     *
+     * @return array
+     */
+    public function getValidationRulesUpdate(): array
+    {
+        if (config('laravel-cm.multi_layout')) {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        } else {
+            return [
+                'template_name' => 'required|unique:newsletter_templates',
+            ];
+        }
+    }
+
+    private function generateTemplate(string $layout = null)
+    {
+        // Copy stub to new template
+        $stubPath = $this->getLayoutPath($layout);
+        $destPath = $this->getTemplatePath($this->template);
+
+        //Empty target
+        File::deleteDirectory($destPath);
+
+        if (!File::exists($destPath)) {
             // Rename copied files to template-name
             File::copyDirectory($stubPath, $destPath);
             $files = File::allFiles($destPath);
             foreach ($files as $file) {
-                if (strpos($file->getFilename(), 'template') !== false) {
-                    $filename = config('laravel-cm.use_api') ? str_replace('inky', 'blade', $file->getFilename()) : $file->getFilename();
-                    $renamePath = $file->getPath() . '/' . str_replace('template', str_slug($this->template), $filename);
+                if (strpos($file->getFilename(), $layout) !== false) {
+                    $renamePath = $file->getPath() . '/' . str_replace($layout, Str::slug($this->template), $file->getFilename());
                     File::move($file->getPathname(), $renamePath);
                 }
             }
         }
         return;
     }
-    
-    private function localCompiler(array $data){
-        $this->compileSass();
-        $this->copyImages();
-        $this->html = $this->saveViewAsHtml($this->template, $data);
-        $this->inlineStyles();
-        return;
-    }
-    
-    private function remoteCompiler(array $data){
-        $viewPath = $this->template . '.views.' . $this->template;
 
-        $html = View::make($viewPath, $data)->render();
+    private function remoteCompiler(array $data)
+    {
+        $viewPath = $this->template . '.' . $this->template;
+
+        $html = View::make($this->getTemplateViewPath($viewPath), $data)->render();
 
         //Resolve API
         $api = resolve(RemoteCompiler::class);
         $compiled = $api->compile($html, $this->getResourceFiles());
-        
+
         $this->disk->put($this->template . '/' . $this->template . '.html', $compiled);
 
         $this->copyImages();
 
         return $compiled;
     }
-    
-    private function getResourceFiles(){
 
-        $files = File::files(resource_path('laravel-cm/'.$this->template.'/assets/scss'));
+    private function getResourceFiles()
+    {
 
+        $files = iterator_to_array(
+            Finder::create()->files()->ignoreDotFiles(true)->in($this->getTemplatePath($this->template))->depth(0)->name('*.scss')->sortByName(),
+            false
+        );
         $resource_files = [];
-        foreach($files as $file){
+        foreach ($files as $file) {
             $resource_files[] = [
-                'name'     => 'sass-files[]',
-                'filename' => File::name($file) == $this->template?'template.'.File::extension($file):File::name($file) . '.' . File::extension($file),
+                'name' => 'sass-files[]',
+                'filename' => File::name($file) == $this->template ? 'template.' . File::extension($file) : File::name($file) . '.' . File::extension($file),
                 'contents' => File::get($file)
             ];
         }
 
         return $resource_files;
     }
-    
+
+    private function getLayoutPath(string $layout = null)
+    {
+        if (!$layout) {
+            $layout = config('laravel-cm.base_layout', 'base');
+        }
+        return resource_path(config('laravel-cm.layout_path') . '/' . $layout);
+    }
+
+    private function getTemplatePath()
+    {
+        return resource_path(config('laravel-cm.template_path') . '/' . $this->getTemplate());
+    }
+
+    private function getImagePath()
+    {
+        return $this->getTemplatePath() . '/images';
+    }
+
+    private function getTemplateViewPath($viewPath)
+    {
+        return $viewPath;
+        return str_replace('/', '.', rtrim(config('laravel-cm.template_path'), '/')) . '.' . $viewPath;
+    }
 }

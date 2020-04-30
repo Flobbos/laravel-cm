@@ -14,7 +14,7 @@ class ViewCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'laravel-cm:views {version} {--route=laravel-cm.templates}';
+  protected $signature = 'laravel-cm:views {path} {--route=admin.newsletter-template}';
 
     /**
      * The console command description.
@@ -25,6 +25,7 @@ class ViewCommand extends GeneratorCommand{
     
     protected $type = 'Views';
     private $current_stub;
+    protected $route;
     
     /**
      * Get the stub file for the generator.
@@ -32,15 +33,17 @@ class ViewCommand extends GeneratorCommand{
      * @return string
      */
     protected function getStub(){
+        $bs = config('laravel-cm.bootstrap');
+
         return [
-            'index.blade.php'=>__DIR__.'/../../resources/stubs/views/index.stub',
-            'create.blade.php'=>__DIR__.'/../../resources/stubs/views/create.stub',
-            'edit.blade.php'=>__DIR__.'/../../resources/stubs/views/edit.stub'
-            ];
+            'index.blade.php'=>__DIR__.'/../../resources/stubs/views/bootstrap'.$bs.'/index.stub',
+            'create.blade.php'=>__DIR__.'/../../resources/stubs/views/bootstrap'.$bs.'/create.stub',
+            'edit.blade.php'=>__DIR__.'/../../resources/stubs/views/bootstrap'.$bs.'/edit.stub'
+        ];
     }
     
     protected function getPathInput(){
-        return trim($this->argument('path'));
+        return str_replace('.', '/', trim($this->argument('path')));
     }
     
     /**
@@ -54,8 +57,7 @@ class ViewCommand extends GeneratorCommand{
     }
     
     protected function getDirectoryName($name){
-        //dd($name);
-        return  str_plural(strtolower(kebab_case($name)));
+        return  Str::plural(strtolower(Str::kebab($name)));
     }
     
     /**
@@ -65,11 +67,11 @@ class ViewCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function replaceDummyRoute($name){
-        return $this->option('route');
+    protected function replaceDummyRoute(){
+        return $this->route ?? $this->option('route');
     }
     
-    protected function replaceViewPath($name){
+    protected function replaceViewPath(){
         return str_replace('/', '.', $this->argument('path'));
     }
     
@@ -84,8 +86,8 @@ class ViewCommand extends GeneratorCommand{
     protected function buildClass($name){
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
-            'DummyViewPath' => $this->replaceViewPath($name),
-            'DummyRoute' => $this->replaceDummyRoute($name)
+            'DummyViewPath' => $this->replaceViewPath(),
+            'DummyRoute' => $this->replaceDummyRoute()
         ];
         return str_replace(
             array_keys($replace), array_values($replace), $this->generateClass($name)
@@ -113,9 +115,17 @@ class ViewCommand extends GeneratorCommand{
      * @return mixed
      */
     public function handle(){
+        $this->info('WELCOME TO LARAVEL-CM');
+        
         $this->comment('Building new template views.');
         
-        $path = $this->getPath(strtolower(kebab_case($this->getPathInput())));
+        $this->info('The views will use the following route: '.$this->option('route'));
+        
+        if ($this->confirm("Would you like to change this?", false)) {
+            $this->route = $this->ask('What route would you like to set?',$this->option('route'));
+        }
+        
+        $path = $this->getPath(strtolower(Str::kebab($this->getPathInput())));
         if ($this->alreadyExists($this->getPathInput())) {
             $this->error($this->type.' already exists!');
             return false;
