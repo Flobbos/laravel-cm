@@ -10,6 +10,7 @@ It comes complete with a CRUD implementation for saving your content templates
 in the DB.
 
 **As of version 2.0.0 local compiling is no longer possible**
+
 **As of version 2.0.0 only [MJML](https://mjml.io/) will be accepted**
 
 The local compiling options created too many problems with unpredictable results
