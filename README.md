@@ -4,27 +4,70 @@
 
 **Integration for the v3.2 Campagin Monitor API**
 
-This package allows you to generate templates using your own resources and 
+This package allows you to generate templates using your own resources and
 submit them to Campaign Monitor as content for your newsletter issues.
 It comes complete with a CRUD implementation for saving your content templates
-in the DB. 
+in the DB.
 
 **As of version 2.0.0 local compiling is no longer possible**
+**As of version 2.0.0 only [MJML](https://mjml.io/) will be accepted**
 
 The local compiling options created too many problems with unpredictable results
-coming from otherwise functional css/html. The base template now comes in MJML. 
+coming from otherwise functional css/html. The base template now comes in MJML.
 
 ### Docs
 
-* [Installation](#installation)
-* [Configuration](#configuration)
-* [Assets](#assets)
-* [Generators](#generators)
-* [Usage](#usage)
-* [Exceptions](#exceptions)
-* [Laravel compatibility](#laravel-compatibility)
+-   [Upgrading](#upgrading)
+-   [Installation](#installation)
+-   [Configuration](#configuration)
+-   [Assets](#assets)
+-   [Generators](#generators)
+-   [Usage](#usage)
+-   [Exceptions](#exceptions)
+-   [Laravel compatibility](#laravel-compatibility)
 
-## Installation 
+## Upgrading
+
+### Upgrade from Version 1.x to Version 2.x
+
+If you have previously used LaravelCM you need to follow a few steps to make your setup compatible
+with the new version of LaravelCM.
+
+### Base Layout/Template
+
+Since LaravelCM now offers a multi-layout solution we updated the nomenclature of the files as well
+as the directory structure. You need to copy your existing template images and SCSS to the newly created
+files.
+
+```bash
+.../resources/laravel-cm/layouts/base
+```
+
+Move all your template code to base.blade.php and all your SCSS to base.scss. These should no longer be
+located in an 'assets' folder. Images are copied to the 'images' folder in the base layout root directory.
+
+### Migrating the config
+
+LaravelCM 2.x provides a lot of new configuration variables that you need to set in order to get everything
+working. If you navigate to the dashboard of LaravelCM you will notice the new configuration options in the
+listing there. It is probably your best bet to delete your current configuration file and republish it from scratch.
+
+### Migration for multi layout option
+
+If you plan on using multiple layouts for your newsletters you need to add a field 'layouts' to your newsletter
+templates table so LaravelCM can keep track of this information.
+
+Your migration should look something like this:
+
+```php
+Schema::table('newsletter_templates', function(Blueprint $table){
+    $table->string('layout')->nullable();
+});
+```
+
+Once that field is added to your template model as well, you should be good to go.
+
+## Installation
 
 ### Install package
 
@@ -44,28 +87,29 @@ Flobbos\LaravelCM\LaravelCMServiceProvider::class,
 ### Publish configuration file
 
 This step is very important because it publishes the NewsletterTemplate model
-to the App folder so you can set your own fillable fields as  well as 
+to the App folder so you can set your own fillable fields as well as
 relationships you may need. The template generator needs to have this model
-present otherwise you will receive an error. 
+present otherwise you will receive an error.
 
-This also publishes the inital base layout that will be used to generate 
-newsletter templates. 
+This also publishes the inital base layout that will be used to generate
+newsletter templates.
 
 ```bash
-php artisan vendor:publish 
+php artisan vendor:publish
 ```
 
 ### Generate Controller
 
 You need to generate the controller that handles generating the templates from
-the base layout or any other layout you generated. 
+the base layout or any other layout you generated.
 
 ```bash
 php artisan laravel-cm:controller NewsletterTemplateController --route=
 ```
+
 You can give this command a route that will be used but you will also be asked
 for it during generation. This route is where all the magic happens. The default
-is admin.newsletter-template. 
+is admin.newsletter-template.
 
 ### Generate Views
 
@@ -76,18 +120,18 @@ php artisan laravel-cm:views path.to.routes --route=
 ```
 
 Here you need to use the route previously defined for your controller. The default
-is the same but you will also be asked during the generation process. 
+is the same but you will also be asked during the generation process.
 
 ### Migrations
 
 During the publishing process the migration for the newsletter_templates table
-was also published. Add all fields you need and run the migration. 
+was also published. Add all fields you need and run the migration.
 
 ```bash
 php artisan migrate
 ```
 
-### Adding the package 
+### Adding the package
 
 ### Routes
 
@@ -96,7 +140,8 @@ Routes that are used by LaravelCM need to be added to your routes file.
 ```php
 CMRoutes::load();
 ```
-This is all you need to do for the routes to load. 
+
+This is all you need to do for the routes to load.
 
 If you want to add the routes to your NewsletterTemplateController manually you
 can prevent the automated addition of the routes like so:
@@ -122,7 +167,7 @@ That's it. You're ready to roll. Let's move on to the configuration
 
 ### Client API Key
 
-Set your Campaign Monitor client API key here to have access to the API. 
+Set your Campaign Monitor client API key here to have access to the API.
 
 ```php
 'client_api_key' => 'your secret key'
@@ -130,7 +175,7 @@ Set your Campaign Monitor client API key here to have access to the API.
 
 ### Client ID
 
-Set your Campaign Monitor client ID. 
+Set your Campaign Monitor client ID.
 
 ```php
 'client_id' => 'your client ID'
@@ -138,8 +183,8 @@ Set your Campaign Monitor client ID.
 
 ### Default list ID
 
-If you have created a list at Campaign Monitor you can set a default list. If 
-not you can create a list using the API and insert it here later. 
+If you have created a list at Campaign Monitor you can set a default list. If
+not you can create a list using the API and insert it here later.
 
 ```php
 'default_list_id' => 'your default list ID'
@@ -156,8 +201,8 @@ change in the future with new releases of their API. For now, don't touch it.
 
 ### Storage path
 
-If you plan on importing XLS files with email addresses this determines the 
-storage path used for it. 
+If you plan on importing XLS files with email addresses this determines the
+storage path used for it.
 
 ```php
 'storage_path' => 'xls'
@@ -165,7 +210,7 @@ storage path used for it.
 
 ### URL Path
 
-Determine the base route for the package. 
+Determine the base route for the package.
 
 ```php
 'url_path'=>'laravel-cm'
@@ -174,7 +219,7 @@ Determine the base route for the package.
 ### Format
 
 Here you can set the default format being used to communicate with the API. For
-the moment only JSON is supported. 
+the moment only JSON is supported.
 
 ```php
 'format' => 'json'
@@ -183,7 +228,7 @@ the moment only JSON is supported.
 ### Confirmation emails
 
 By default you can have a list of up to 5 email addresses in a comma separated
-list where confirmations will be sent when a campaign is sent. 
+list where confirmations will be sent when a campaign is sent.
 
 ```php
 'confirmation_emails' => 'you@example.com,xyz@example.com',
@@ -200,7 +245,7 @@ can set it here so it will be automatically loaded into the forms.
 
 ### Unsubscribe success
 
-Same goes for unsubscribe success page. 
+Same goes for unsubscribe success page.
 
 ```php
 'unsubscribe_success' => 'http://example.com/unsubscribe_success'
@@ -208,7 +253,7 @@ Same goes for unsubscribe success page.
 
 ### From Email
 
-Default sender email for campaigns. This can still be changed in the form.   
+Default sender email for campaigns. This can still be changed in the form.
 
 ```php
 'from_email' => 'newsletter@example.com'
@@ -216,7 +261,7 @@ Default sender email for campaigns. This can still be changed in the form.
 
 ### Reply-to Email
 
-Default reply-to email for campaigns. This can still be changed in the form. 
+Default reply-to email for campaigns. This can still be changed in the form.
 
 ```php
 'reply_to' => 'replies@example.com'
@@ -224,7 +269,7 @@ Default reply-to email for campaigns. This can still be changed in the form.
 
 ### Layout file
 
-This determines the name of the layout file the package views will extend. 
+This determines the name of the layout file the package views will extend.
 
 ```php
 'layout_file' => 'admin'
@@ -240,7 +285,7 @@ Maximum number of preview test email addresses.
 
 ### Test email
 
-Default email address where preview mails are being sent to. 
+Default email address where preview mails are being sent to.
 
 ```php
 'test_email' => 'tester@example.com'
@@ -253,9 +298,10 @@ Default subject for preview emails
 ```php
 'test_subject' => 'Campaign Preview'
 ```
+
 ### Remote compiler
 
-All compiling is done via remote compiler, which is offered free of charge for 
+All compiling is done via remote compiler, which is offered free of charge for
 all users of this package. Simply contact me for a valid API key to handle
 your remove compiling needs based on MJML. Set the token here
 
@@ -265,8 +311,8 @@ your remove compiling needs based on MJML. Set the token here
 
 ### Bootstrap version
 
-You can now select which version of Bootstrap you want to use. Just set the 
-version and Laravel-CM will load the appropriate views automatically. 
+You can now select which version of Bootstrap you want to use. Just set the
+version and Laravel-CM will load the appropriate views automatically.
 
 ```php
 'bootstrap' => 4,
@@ -289,8 +335,8 @@ as follows:
 ```
 
 This folder will get copied into your resources folder and you should put your
-default layout design into these files. You can also add an images folder 
-which will also get copied once a new template gets generated. 
+default layout design into these files. You can also add an images folder
+which will also get copied once a new template gets generated.
 
 The default should only contain your base layout. Subsequent changes should be
 made to the files that have been generated for a particular newsletter template.
@@ -303,7 +349,7 @@ With this command you can generate a boiler plate controller where you can grab
 your content and generate the templates used for your campaigns.
 
 First parameter is the controller name. The route parameter tells the generator
-where the default routes for the views/controller should be and the views 
+where the default routes for the views/controller should be and the views
 parameter tells the controller where the view path should be.
 
 ```php
@@ -312,7 +358,7 @@ php artisan laravel-cm:controller NewsletterController --route=admin.newsletter-
 
 ### Views generator
 
-This command generates the views needed for making templates to be used in 
+This command generates the views needed for making templates to be used in
 your campaigns.
 
 First parameter is the path where the views should be located at. Should match
@@ -324,8 +370,8 @@ php artisan laravel-cm:views /view/path --route=laravel-cm.templates
 
 ### Layouts Generator
 
-You can generate a new layout by simply using the following command. This will 
-generate a new blank layout file for you to edit. 
+You can generate a new layout by simply using the following command. This will
+generate a new blank layout file for you to edit.
 
 ```php
 php artisan laravel-cm:layout name-of-layout
@@ -335,63 +381,61 @@ php artisan laravel-cm:layout name-of-layout
 
 ### Dashboard
 
-The dashboard contains an overview of your config settings and a mini 
-documentation on how to use the package. 
+The dashboard contains an overview of your config settings and a mini
+documentation on how to use the package.
 
 ### Campaigns
 
-The campaigns overview shows your draft/scheduled/sent campaigns that were 
+The campaigns overview shows your draft/scheduled/sent campaigns that were
 retrieved from Campaign Monitor via API. Here you can create/schedule/preview
-your campaigns as well as view basic statistical information. 
+your campaigns as well as view basic statistical information.
 
 ### Lists
 
 The lists section lets you create/edit different email lists that are synced
 to Campaign Monitor. Here you can also view basic statistical information about
-your list such as subscribes/unsubscribes/bounces. 
+your list such as subscribes/unsubscribes/bounces.
 
 ### Subscribers
 
-Here you can view all your subscriber information across different lists that 
-you can select. It also gives you the option to import large amounts of 
+Here you can view all your subscriber information across different lists that
+you can select. It also gives you the option to import large amounts of
 subscribers from and XLS file. The format should be:
 
 ```xls
 EmailAddress    Name
 ```
 
-Be careful if the subscribers are already confirmed and are imported into a 
-double-opt-in list, they will all receive a confirmation email where they 
-basically have to resubscribe. 
+Be careful if the subscribers are already confirmed and are imported into a
+double-opt-in list, they will all receive a confirmation email where they
+basically have to resubscribe.
 
-You can also manually unsubscribe users as well as resubscribe them and view 
-basic information about your subscribers. 
+You can also manually unsubscribe users as well as resubscribe them and view
+basic information about your subscribers.
 
 ## Exceptions
 
 ### ConfigKeyNotSetException
 
-This exception will be thrown if a configuration key is missing from your 
-config file but is needed to perform a certain API call. 
+This exception will be thrown if a configuration key is missing from your
+config file but is needed to perform a certain API call.
 
 ### TemplateNotFoundException
 
 This exception happens when you try to use a template that doesn't physically
-exist. 
+exist.
 
 ## Laravel compatibility
 
- Laravel  | LaravelCM
-:---------|:----------
- 7.x      | >2.0.*
- 6.x      | >2.0.*
- 5.8      | >2.0.*
- 5.7      | >2.0.*
- 5.6      | >=1.0.0/2.0.0
- 5.5      | >=1.0.0/2.0.0
- 5.4      | >=1.0.0
- 5.3      | >=1.0.0
+| Laravel | LaravelCM     |
+| :------ | :------------ |
+| 7.x     | >2.0.\*       |
+| 6.x     | >2.0.\*       |
+| 5.8     | >2.0.\*       |
+| 5.7     | >2.0.\*       |
+| 5.6     | >=1.0.0/2.0.0 |
+| 5.5     | >=1.0.0/2.0.0 |
+| 5.4     | >=1.0.0       |
+| 5.3     | >=1.0.0       |
 
-Lower versions of Laravel are not supported. 
-
-
+Lower versions of Laravel are not supported.

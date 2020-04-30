@@ -8,6 +8,7 @@ use Flobbos\LaravelCM\Contracts\CampaignContract;
 use Flobbos\LaravelCM\Contracts\ListContract;
 use Flobbos\LaravelCM\Contracts\TemplateContract;
 use Exception;
+use Carbon\Carbon;
 
 class CampaignController extends Controller
 {
@@ -178,7 +179,8 @@ class CampaignController extends Controller
         ]);
 
         try {
-            $this->cmp->scheduleCampaign($campaign_id, $request->get('SendDate'), $request->get('ConfirmationEmail'));
+            $send_date = Carbon::parse($request->get('SendDate'))->format('Y-m-d H:i');
+            $this->cmp->scheduleCampaign($campaign_id, $send_date, $request->get('ConfirmationEmail'));
             return redirect()->route('laravel-cm::campaigns.index')->withMessage(trans('laravel-cm::campaigns.schedule_success'));
         } catch (Exception $ex) {
             return redirect()->back()->withInput()->withErrors($ex->getMessage());
