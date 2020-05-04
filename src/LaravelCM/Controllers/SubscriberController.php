@@ -112,9 +112,9 @@ class SubscriberController extends Controller
     {
         try {
             if (!$this->subscribers->setListID($request->get('listID'))->resubscribe($email)) {
-                throw new Exception('E-Mail-Adresse konnte nicht erneut angemeldet werden.');
+                throw new Exception(trans('laravel-cm::subscribers.email_not_added'));
             }
-            return redirect()->route('laravel-cm::subscribers.index')->withMessage('Anmeldung erfolgreich');
+            return redirect()->route('laravel-cm::subscribers.index')->withMessage(trans('laravel-cm::subscribers.email_added'));
         } catch (Exception $ex) {
             return redirect()->back()->withInput()->withErrors($ex->getMessage());
         }
@@ -154,14 +154,14 @@ class SubscriberController extends Controller
     {
         //dd($request->all());
         if (!$request->hasFile('excel')) {
-            return redirect()->back()->withErrors('Keine Excel Datei gefunden.');
+            return redirect()->back()->withErrors(trans('laravel-cm::subscribers.no_xls_found'));
         }
         //Handle file upload
         try {
             $result = $this->subscribers->import($request);
             return redirect()->back()->with([
                 'result' => $result
-            ])->withMessage('Import erfolgreich');
+            ])->withMessage(trans('laravel-cm::subscribers.xls_imported'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }

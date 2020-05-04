@@ -14,19 +14,19 @@ class LaravelCMServiceProvider extends ServiceProvider
     //Publish config
     $this->publishes([
       __DIR__ . '/../config/laravel-cm.php' => config_path('laravel-cm.php'),
-    ], 'config');
+    ], 'laravel-cm-config');
     //Publish migrations
     $this->publishes([
       __DIR__ . '/../database/migrations/' => database_path('migrations'),
-    ], 'migrations');
+    ], 'laravel-cm-migrations');
     //Publishes defaults
     $this->publishes([
       __DIR__ . '/../resources/defaults/base' => resource_path(config('laravel-cm.layout_path') . '/base')
-    ]);
+    ], 'laravel-cm-layout');
     //Publishes defaults
     $this->publishes([
       __DIR__ . '/Models' => app_path('/')
-    ]);
+    ], 'laravel-cm-model');
 
     //Add Laravel CM routes
     $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
@@ -81,7 +81,8 @@ class LaravelCMServiceProvider extends ServiceProvider
     $this->commands([
       Commands\ControllerCommand::class,
       Commands\ViewCommand::class,
-      Commands\LayoutCommand::class
+      Commands\LayoutCommand::class,
+      Commands\InstallCommand::class,
     ]);
 
     //Bindings
@@ -92,8 +93,8 @@ class LaravelCMServiceProvider extends ServiceProvider
     // Register new storage-disk
     config(['filesystems.disks.laravel_cm' => [
       'driver' => 'local',
-      'root' => public_path('laravel-cm-assets'),
-      'url' => env('APP_URL') . '/laravel-cm-assets',
+      'root' => storage_path('app/public/laravel-cm-assets'),
+      'url' => env('APP_URL') . '/storage/laravel-cm-assets',
       'visibility' => 'public'
     ]]);
     // Register template-location

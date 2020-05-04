@@ -22,6 +22,7 @@ return [
     'schedule' => 'Schedule',
     'details' => 'Details',
     'create_button' => 'New campaign',
+    'create_success' => 'Campaign transmitted successfully',
 
     //Panel headlines
     'drafts' => 'Draft campaigns',
@@ -46,6 +47,7 @@ return [
     'version' => 'Version',
     'percentage' => 'Percentage',
     'subscribers' => 'Subscribers',
+    'scheduled_time' => 'Scheduled',
 
     //Schedule
     'schedule_title' => 'Schedule campaign',
