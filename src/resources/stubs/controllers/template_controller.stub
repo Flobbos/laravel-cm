@@ -11,11 +11,13 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
-class DummyClass extends Controller{
+class DummyClass extends Controller
+{
 
     protected $templates;
 
-    public function __construct(TemplateContract $templates){
+    public function __construct(TemplateContract $templates)
+    {
         $this->templates = $templates;
     }
 
@@ -24,7 +26,8 @@ class DummyClass extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         return view('DummyViewPath.index')->withTemplates($this->templates->get());
     }
 
@@ -35,13 +38,12 @@ class DummyClass extends Controller{
      */
     public function create()
     {
-        try{
+        try {
             $layouts = $this->templates->getLayouts();
             return view('DummyViewPath.create')->withLayouts($layouts);
         } catch (Exception $ex) {
             return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
         }
-        
     }
 
     /**
@@ -71,9 +73,10 @@ class DummyClass extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
-        
-        try{
+    public function show($id)
+    {
+
+        try {
             $template = $this->templates->find($id);
             $this->templates->compile($template->template_name, [
                 'template' => $template
@@ -83,7 +86,6 @@ class DummyClass extends Controller{
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
-        
     }
 
     /**
@@ -94,15 +96,14 @@ class DummyClass extends Controller{
      */
     public function edit($id)
     {
-        try{
+        try {
             $layouts = $this->templates->getLayouts();
             return view('DummyViewPath.edit')
-            ->withLayouts($layouts)
-            ->withTemplate($this->templates->find($id));
+                ->withLayouts($layouts)
+                ->withTemplate($this->templates->find($id));
         } catch (Exception $ex) {
             return redirect()->route('DummyRoute.index')->withErrors($ex->getMessage());
         }
-        
     }
 
     /**
@@ -112,7 +113,8 @@ class DummyClass extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $request->validate($this->templates->getValidationRulesUpdate());
 
         $templateData = $request->except(['_token']);
@@ -133,7 +135,7 @@ class DummyClass extends Controller{
      */
     public function destroy($id)
     {
-        try{
+        try {
             $this->templates->delete($id);
             return redirect()->route('DummyRoute.index')->withMessage(trans('laravel-cm::crud.record_deleted'));
         } catch (Exception $ex) {
@@ -141,14 +143,15 @@ class DummyClass extends Controller{
         }
     }
 
-    public function sendPreview($id) {
+    public function sendPreview($id)
+    {
         $template = $this->templates->find($id);
-        Mail::send([], [], function($message) use ($template) {
+        Mail::send([], [], function ($message) use ($template) {
             $message->to(config('laravel-cm.test_email'));
             $message->subject(config('laravel-cm.test_subject'));
             $message->setBody(File::get($template->template_file_path), 'text/html');
         });
 
-        return redirect()->back()->withMessage(trans('laravel-cm::templates.preview_sent'));
+        return redirect()->back()->withMessage(trans('laravel-cm::templates.preview_sent', ['email' => config('laravel-cm.test_email')]));
     }
 }

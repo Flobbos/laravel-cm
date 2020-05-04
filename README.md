@@ -41,7 +41,7 @@ as the directory structure. You need to copy your existing template images and S
 files.
 
 ```bash
-.../resources/laravel-cm/layouts/base
+../storage/app/laravel-cm/layouts/base
 ```
 
 Move all your template code to base.blade.php and all your SCSS to base.scss. These should no longer be
@@ -66,7 +66,21 @@ Schema::table('newsletter_templates', function(Blueprint $table){
 });
 ```
 
-Once that field is added to your template model as well, you should be good to go.
+Once that field is added to your template model as well, you should be good to go, after running the install
+command below to move the content to the appropriate locations.
+
+### Install Command
+
+LaravelCM 2.x features a new install command that takes care of publishing the config files and such.
+However, you can also run this to move your existing template files and layouts to the storage folder so
+they don't get lost after deployments.
+
+```bash
+php artisan laravel-cm:install --deployment
+```
+
+This command will only copy the existing template files from the resources folder to storage, delete the
+now empty laravel-cm folder and set a symlink to the newly created storage folder.
 
 ## Installation
 
@@ -85,6 +99,18 @@ Service Provider to the app.php file.
 Flobbos\LaravelCM\LaravelCMServiceProvider::class,
 ```
 
+### Running the installation routine
+
+Using the new install command you are guided through the process of publishing all necessary files as well
+as set up all required directories and symlinks.
+
+```bash
+php artisan laravel-cm:install
+```
+
+Follow the step by step process or alternatively you can just run everything at once. There is a prompt
+for that option.
+
 ### Publish configuration file
 
 This step is very important because it publishes the NewsletterTemplate model
@@ -96,7 +122,7 @@ This also publishes the inital base layout that will be used to generate
 newsletter templates.
 
 ```bash
-php artisan vendor:publish
+php artisan vendor:publish --tag=laravel-cm-config
 ```
 
 ### Generate Controller

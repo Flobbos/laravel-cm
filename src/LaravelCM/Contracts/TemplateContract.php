@@ -9,34 +9,34 @@ interface TemplateContract
 
     /**
      * Get all templates in DB
-     * @return type
+     * @return \Illuminate\Support\Collection
      */
     public function get();
 
     /**
      * Create new template in DB
-     * @return type
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $data);
 
     /**
      * Update Template
      * @param array $data
-     * @return bool
+     * @return bool|\Illuminate\Database\Eloquent\Model
      */
     public function update($id, array $data, $return_model = false);
 
     /**
      * Set relations for templates
-     * @param type $relations
+     * @param  array|string  $relations
      * @return $this
      */
     public function with($relations);
 
     /**
      * Find a specific template
-     * @param type $id
-     * @return type
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id);
 
@@ -48,18 +48,23 @@ interface TemplateContract
     public function delete($id);
 
     /**
-     * Get all templates from DB (alias for get)
+     * Get all templates from DB
+     * @return \Illuminate\Support\Collection
      */
     public function getTemplatesFromDB();
 
     /**
-     * Set current template
+     * Set the current template
+     *
      * @param string $template_name
+     * @return $this
      */
     public function setTemplate(string $template_name);
 
     /**
-     * Get current template
+     * Get the current template name in use
+     *
+     * @return string template name
      */
     public function getTemplate();
 

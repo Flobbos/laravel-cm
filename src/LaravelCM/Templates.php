@@ -37,7 +37,7 @@ class Templates implements TemplateContract
 
     /**
      * Get all templates in DB
-     * @return type
+     * @return \Illuminate\Support\Collection
      */
     public function get()
     {
@@ -46,7 +46,7 @@ class Templates implements TemplateContract
 
     /**
      * Create new template in DB
-     * @return type
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $data)
     {
@@ -56,7 +56,7 @@ class Templates implements TemplateContract
     /**
      * Update Template
      * @param array $data
-     * @return bool
+     * @return bool|\Illuminate\Database\Eloquent\Model
      */
     public function update($id, array $data, $return_model = false)
     {
@@ -70,19 +70,19 @@ class Templates implements TemplateContract
 
     /**
      * Set relations for templates
-     * @param type $relations
+     * @param  array|string  $relations
      * @return $this
      */
     public function with($relations)
     {
-        $this->template_db->with($relations);
+        $this->template_db = $this->template_db->with($relations);
         return $this;
     }
 
     /**
      * Find a specific template
-     * @param type $id
-     * @return type
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id)
     {
@@ -91,7 +91,7 @@ class Templates implements TemplateContract
 
     /**
      * Delete a template
-     * @param type $id
+     * @param int $id
      * @return boolean
      */
     public function delete($id)
@@ -109,19 +109,30 @@ class Templates implements TemplateContract
 
     /**
      * Get all templates from DB
-     * @return type
+     * @return \Illuminate\Support\Collection
      */
     public function getTemplatesFromDB()
     {
         return $this->template_db->all();
     }
 
+    /**
+     * Set the current template
+     *
+     * @param string $template_name
+     * @return $this
+     */
     public function setTemplate(string $template_name)
     {
         $this->template = $template_name;
         return $this;
     }
 
+    /**
+     * Get the current template name in use
+     *
+     * @return string template name
+     */
     public function getTemplate()
     {
         return $this->template;
@@ -189,8 +200,8 @@ class Templates implements TemplateContract
     }
 
     /**
-     * 
-     * @return type
+     * Get all layouts from disk
+     * @return array of layouts available
      * @throws NoLayoutsException
      */
     public function getLayouts()

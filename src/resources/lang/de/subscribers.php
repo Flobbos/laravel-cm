@@ -19,6 +19,10 @@ return [
     'details_title' => 'Details für Abonnent',
     'import_title' => 'Abonnenten importieren',
     'excel_file' => 'Excel-Datei',
+    'no_xls_found' => 'Keine Excel Datei gefunden.',
+    'xls_imported' => 'Import erfolgreich',
     'list_for_import' => 'Liste in die importiert werden soll',
     'subscribe' => 'Anmelden',
+    'email_added' => 'E-Mail-Adresse gespeichert.',
+    'email_not_added' => 'E-Mail-Adresse konnte nicht erneut angemeldet werden.',
 ];

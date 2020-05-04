@@ -24,6 +24,7 @@ return [
     'schedule' => 'Versand',
     'details' => 'Details',
     'create_button' => 'Neue Kampagne',
+    'create_success' => 'Kampagne erfolgreich übermittelt',
 
     //Panel headlines
     'drafts' => 'Vorbereitete Kampagnen',
@@ -49,6 +50,7 @@ return [
     'version' => 'Version',
     'percentage' => 'Prozent-Anteil',
     'subscribers' => 'Abonennten',
+    'scheduled_time' => 'Versandzeitpunk',
 
     //Schedule
     'schedule_title' => 'Versand terminieren',
