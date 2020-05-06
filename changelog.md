@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.0.1
+
+-   fixed a bug where the install command would fail on an existing storage folder
+
 ### v. 2.0.0
 
 -   added support for Laravel 6 and 7
