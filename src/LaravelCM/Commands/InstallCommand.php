@@ -35,7 +35,9 @@ class InstallCommand extends Command
         if (File::exists(resource_path('laravel-cm')) && !is_link(resource_path('laravel-cm'))) {
             $this->info('Moving existing files to storage.');
             //Create basic laravel-cm directory first
-            File::makeDirectory(storage_path('app/laravel-cm/'));
+            if (!File::exists(storage_path('app/laravel-cm'))) {
+                File::makeDirectory(storage_path('app/laravel-cm/'));
+            }
             //Move all existing directories over
             foreach (File::directories(resource_path('laravel-cm')) as $directory) {
                 File::moveDirectory($directory, storage_path('app/laravel-cm/' . basename($directory)));
