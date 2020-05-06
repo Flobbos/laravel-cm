@@ -40,7 +40,7 @@ class InstallCommand extends Command
             }
             //Move all existing directories over
             foreach (File::directories(resource_path('laravel-cm')) as $directory) {
-                File::moveDirectory($directory, storage_path('app/laravel-cm/' . basename($directory)));
+                File::moveDirectory($directory, storage_path('app/laravel-cm/' . basename($directory)),true);
             }
             //Delete now empty directory in resources
             File::deleteDirectory(resource_path('laravel-cm'));
