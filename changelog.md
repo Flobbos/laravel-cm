@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.0.2
+
+-   made move directory overwrite existing directories in storage
+
 ### v. 2.0.1
 
 -   fixed a bug where the install command would fail on an existing storage folder
