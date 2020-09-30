@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.0.3
+
+-   added support for Laravel 8
+
 ### v. 2.0.2
 
 -   made move directory overwrite existing directories in storage
