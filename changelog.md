@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.0.4
+
+-   removed support for Laravel 8 and moved to 3.x
+
 ### v. 2.0.3
 
 -   added support for Laravel 8
