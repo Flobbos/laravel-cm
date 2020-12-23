@@ -8,154 +8,167 @@ use Flobbos\LaravelCM\Contracts\ResultFormatContract;
 use Illuminate\Http\Request;
 use Exception;
 
-class Subscribers extends BaseClient implements SubscriberContract, ResultFormatContract{
-    
+class Subscribers extends BaseClient implements SubscriberContract, ResultFormatContract
+{
+
     use \Flobbos\LaravelCM\Traits\ResultFormat;
     use \Flobbos\LaravelCM\Traits\BaseImport;
-    
+
     //Getters
-    public function getActive(int $page = 1, $pageName = 'page', int $perPage = 25){
-        $result = $this->makeCall('get','lists/'.$this->getListID().'/active',[
+    public function getActive(int $page = 1, $pageName = 'page', int $perPage = 25)
+    {
+        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/active', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
             ],
         ]);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         //Return formatted list
         return $this->formatSubscribers($result->get('body'), $pageName);
     }
-    
-    public function getUnsubscribed(int $page = 1, $pageName = 'page', int $perPage = 25){
-        $result = $this->makeCall('get','lists/'.$this->getListID().'/unsubscribed',[
+
+    public function getUnsubscribed(int $page = 1, $pageName = 'page', int $perPage = 25)
+    {
+        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/unsubscribed', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
             ],
         ]);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         return $this->formatSubscribers($result->get('body'));
     }
-    
-    public function getUnconfirmed(int $page = 1, $pageName = 'page', int $perPage = 25){
-        $result = $this->makeCall('get','lists/'.$this->getListID().'/unconfirmed',[
+
+    public function getUnconfirmed(int $page = 1, $pageName = 'page', int $perPage = 25)
+    {
+        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/unconfirmed', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
             ],
         ]);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         return $this->formatSubscribers($result->get('body'));
     }
-    
-    public function getDeleted(int $page = 1, $pageName = 'page', int $perPage = 25){
-        $result = $this->makeCall('get','lists/'.$this->getListID().'/deleted',[
+
+    public function getDeleted(int $page = 1, $pageName = 'page', int $perPage = 25)
+    {
+        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/deleted', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
             ],
         ]);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         return $this->formatSubscribers($result->get('body'));
     }
-    
-    public function getBounced(int $page = 1, $pageName = 'page', int $perPage = 25) {
-        $result = $this->makeCall('get','lists/'.$this->getListID().'/bounced',[
+
+    public function getBounced(int $page = 1, $pageName = 'page', int $perPage = 25)
+    {
+        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/bounced', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
             ],
         ]);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         return $this->formatSubscribers($result->get('body'));
     }
-    
-    public function getDetails(string $email) {
-        return $this->makeCall('get','subscribers/'.$this->getListID(),[
+
+    public function getDetails(string $email)
+    {
+        return $this->makeCall('get', 'subscribers/' . $this->getListID(), [
             'query' => [
-                'email' => $email,
+                'email' => trim($email),
                 'includetrackingpreference' => true
             ],
             'stream' => true,
             'auth' => $this->getAuthInformation()
         ]);
     }
-    
+
     //Create
-    public function add(array $subscriber_data){
-        $result = $this->makeCall('post','subscribers/'.$this->getListID(),[
-                'json' => $subscriber_data,
-            ]);
-            if($result->get('code') != '201'){
-                throw new Exception($result->get('body'));
-            }
-            return;
+    public function add(array $subscriber_data)
+    {
+        $result = $this->makeCall('post', 'subscribers/' . $this->getListID(), [
+            'json' => $subscriber_data,
+        ]);
+        if ($result->get('code') != '201') {
+            throw new Exception($result->get('body'));
+        }
+        return;
     }
-    
-    public function subscribe(string $email, string $name = null) {
+
+    public function subscribe(string $email, string $name = null)
+    {
         $this->add([
             'Resubscribe' => true,
             'ConsentToTrack' => 'Yes',
             'Name' => $name,
-            'EmailAddress' => $email,
+            'EmailAddress' => trim($email),
         ]);
         return;
     }
-    
+
     //Resubscribe
-    public function resubscribe(string $email){
-        $result = $this->makeCall('put','subscribers/'.$this->getListID(),[
+    public function resubscribe(string $email)
+    {
+        $result = $this->makeCall('put', 'subscribers/' . $this->getListID(), [
             'query' => [
-                'email' => $email
+                'email' => trim($email)
             ],
             'json' => [
                 'Resubscribe' => true,
                 'ConsentToTrack' => 'Yes'
             ]
         ]);
-        if($result->get('code') == '200'){
+        if ($result->get('code') == '200') {
             return true;
         }
         return false;
     }
-    
+
     //Remove
-    public function remove(string $email){
-        $result = $this->makeCall('post','subscribers/'.$this->getListID().'/unsubscribe',[
-            'json' => ['EmailAddress'=>$email],
+    public function remove(string $email)
+    {
+        $result = $this->makeCall('post', 'subscribers/' . $this->getListID() . '/unsubscribe', [
+            'json' => ['EmailAddress' => trim($email)],
         ]);
         //dd($result);
-        if($result->get('code') != '200'){
+        if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
         return;
     }
-    
+
     //Update
-    public function update(string $email, array $data) {
-        $result = $this->makeCall('put','subscribers/'.$this->getListID(),[
-            'query' => $email,
+    public function update(string $email, array $data)
+    {
+        $result = $this->makeCall('put', 'subscribers/' . $this->getListID(), [
+            'query' => trim($email),
             'json' => [
-                'EmailAddress' => $email,
+                'EmailAddress' => trim($email),
                 'Name' => $data['Name'],
                 'RestartSubscriptionBasedAutoresponders' => true,
                 'ConsentToTrack' => 'Unchanged',
             ]
         ]);
     }
-    
+
     //Import
-    public function import(Request $request, $field = 'excel') {
+    public function import(Request $request, $field = 'excel')
+    {
         //Handle upload and populate result
         $this->importFile($this->handleUpload($request, $field, '/xls'));
         //Process subscriber list
@@ -163,20 +176,19 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         $subscribers['Resubscribe'] = true;
         $subscribers['QueueSubscriptionBasedAutoResponders'] = false;
         $subscribers['RestartSubscriptionBasedAutoresponders'] = false;
-        foreach($this->results->first() as $k=>$result){
-            $subscribers['Subscribers'][] = array_merge($result->toArray(),['ConsentToTrack' => 'Yes']);
+        foreach ($this->results->first() as $k => $result) {
+            $subscribers['Subscribers'][] = array_merge($result->toArray(), ['ConsentToTrack' => 'Yes']);
         }
-        
+
         //Set list ID
         $this->setListID($request->get('listID'));
         //Sync to CM
-        $result = $this->makeCall('post','subscribers/'.$this->getListID().'/import',[
+        $result = $this->makeCall('post', 'subscribers/' . $this->getListID() . '/import', [
             'json' => $subscribers,
         ]);
-        if($result->get('code') != '201'){
+        if ($result->get('code') != '201') {
             throw new Exception($result->get('body'));
         }
         return $result->get('body');
     }
-
 }
