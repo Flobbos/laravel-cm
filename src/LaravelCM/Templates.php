@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Flobbos\LaravelCM\Exceptions\TemplateNotFoundException;
-use App\NewsletterTemplate;
+use App\Models\NewsletterTemplate;
 use Flobbos\LaravelCM\RemoteCompiler;
 use Flobbos\LaravelCM\Exceptions\NoLayoutsException;
 use Symfony\Component\Finder\Finder;
