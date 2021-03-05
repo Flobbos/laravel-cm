@@ -1,0 +1,67 @@
+@extends('layouts.'.config('laravel-cm.layout_file'))
+
+@section('content')
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <form action="{{ route('DummyRoute.store') }}" role="form" method="POST">
+                        {{ csrf_field() }}
+
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @lang('laravel-cm::templates.create_headline')
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            @include('laravel-cm::notifications')
+                            @if(config('laravel-cm.multi_layout'))
+                            <div class="form-group">
+                                <label for="title">@lang('laravel-cm::templates.layout')</label>
+                                <select name="layout" class="form-control">
+                                  @foreach($layouts as $layout)
+                                  <option value="{{ $layout }}">{{ $layout }}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="template_name">@lang('laravel-cm::templates.template_name')</label>
+                                <input type="text" class="form-control" name="template_name" value="{{ old('template_name') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title">@lang('laravel-cm::templates.title')</label>
+                                <input type="text" class="form-control" name="title" value="{{ old('title') }}">
+                            </div>
+
+                            <!-- Put DB based content here -->
+
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="row">
+
+                                <div class="col-sm-12 text-right">
+                                    <button type="submit" class="btn btn-success">@lang('laravel-cm::templates.generate_template')</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+@endsection

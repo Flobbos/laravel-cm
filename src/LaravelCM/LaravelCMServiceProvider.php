@@ -30,12 +30,8 @@ class LaravelCMServiceProvider extends ServiceProvider
 
     //Add Laravel CM routes
     $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-    //Add views depending on bootstrap setting in config
-    if (config('laravel-cm.bootstrap') == 3) {
-      $this->loadViewsFrom(__DIR__ . '/../resources/views/bootstrap3', 'laravel-cm');
-    } else {
-      $this->loadViewsFrom(__DIR__ . '/../resources/views/bootstrap4', 'laravel-cm');
-    }
+    //Add views depending on the css framework setting in config
+    $this->loadViewsFrom(__DIR__ . '/../resources/views/' . config('laravel-cm.css_framework'), 'laravel-cm');
     //Add language files
     $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'laravel-cm');
 

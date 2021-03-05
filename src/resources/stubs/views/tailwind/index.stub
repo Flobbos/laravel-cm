@@ -1,0 +1,100 @@
+@extends('layouts.'.config('laravel-cm.layout_file'))
+
+@section('content')
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @lang('laravel-cm::templates.menu_title')
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <a href="{{ route('DummyRoute.create') }}" class="btn btn-success text-white btn-sm pull-right">
+                                    <i class="glyphicon glyphicon-plus"></i> @lang('laravel-cm::crud.create_button')
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        @include('laravel-cm::notifications')
+                        @if($templates->isEmpty())
+                            @lang('laravel-cm::crud.no_entries')
+                        @else
+                            <table class="table table-striped">
+                                <thead>
+                                <th>#</th>
+                                <th>@lang('laravel-cm::templates.template_name')</th>
+                                @if(config('laravel-cm.multi_layout'))
+                                <th>@lang('laravel-cm::templates.layout')</th>
+                                @endif
+                                <th></th>
+                                </thead>
+                                <tbody>
+                                @foreach($templates as $template)
+                                    <tr>
+                                        <td>{{$template->id}}</td>
+                                        <td>{{$template->template_name}}</td>
+                                        @if(config('laravel-cm.multi_layout'))
+                                        <td>{{$template->layout}}</td>
+                                        @endif
+                                        <td>
+
+                                            <div class="btn-group float-right" role="group">
+
+                                                <div class="btn-group" role="group">
+                                                    <button class="btn btn-info text-white btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-hasgroup="true" aria-expanded="true">
+                                                        <i class="glyphicon glyphicon-edit"></i> @lang('laravel-cm::templates.preview')
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                                                        <a href="{{ route('DummyRoute.show', $template->id) }}" class="dropdown-item" target="_blank">
+                                                            <i class="glyphicon glyphicon-search"></i> @lang('laravel-cm::templates.preview')
+                                                        </a>
+                                                        <a href="{{ route('DummyRoute.send-preview', $template->id) }}" class="dropdown-item"
+                                                           @if(!config('laravel-cm.test_email')) disabled title="@lang('laravel-cm::crud.no_preview_recipient')" @endif>
+                                                            <i class="glyphicon glyphicon-envelope"></i> @lang('laravel-cm::templates.send_preview')
+                                                        </a>
+
+                                                    </div>
+
+                                                    <a class="btn btn-sm btn-success" href="{{ route('DummyRoute.edit',$template->id) }}">
+                                                        <i class="glyphicon glyphicon-pencil"></i> @lang('laravel-cm::crud.edit')
+                                                    </a>
+
+
+                                                </div>
+
+                                                <div class="btn-group float-right" role="group">
+
+                                                    <form class="btn-group"
+                                                          action="{{ route('DummyRoute.destroy',$template->id) }}"
+                                                          method="POST">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <button class="btn btn-sm btn-danger"
+                                                                type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::crud.delete')</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop

@@ -51,6 +51,6 @@ return [
     //MJML compiler
     'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
     'api_token' => '',
-    //Your bootstrap version
-    'bootstrap' => 4,
+    //Your css framework bootstrap4 or tailwind
+    'css_framework' => 'tailwind',
 ];
