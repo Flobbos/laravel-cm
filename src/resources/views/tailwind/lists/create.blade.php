@@ -4,47 +4,46 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
-                <form action="{{ route('laravel-cm::lists.update',$list->ListID) }}" role="form" method="POST"  enctype="multipart/form-data">
-                    {{ method_field('PUT') }}
+                <form action="{{ route('laravel-cm::lists.store') }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
 
-                    <div class="panel-heading panel-default">
-                        <h3 class="panel-title">@lang('laravel-cm::lists.edit_headline')</h3>
-                        @lang('laravel-cm::crud.edit_headline')
+                    <div class="card-header">
+                        <h3>@lang('laravel-cm::lists.create_headline')</h3>
+                        @lang('laravel-cm::crud.create_headline')
                     </div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         
                         @include('laravel-cm::notifications')
                         
                         <div class="form-group">
                             <label class="control-label" for="Title">@lang('laravel-cm::lists.title')</label>
-                            <input class="form-control" type="text" name="Title" value="{{old('Title', $list->Title)}}" />
+                            <input class="form-control" type="text" name="Title" value="{{old('Title')}}" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="UnsubscribePage">@lang('laravel-cm::lists.unsubscribe_page')</label>
-                            <input class="form-control" type="text" name="UnsubscribePage" value="{{old('UnsubscribePage',$list->UnsubscribePage)}}" />
+                            <input class="form-control" type="text" name="UnsubscribePage" value="{{old('UnsubscribePage',config('laravel-cm.unsubscribe_success'))}}" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="ConfirmationSuccessPage">@lang('laravel-cm::lists.success_page')</label>
-                            <input class="form-control" type="text" name="ConfirmationSuccessPage" value="{{old('ConfirmationSuccessPage',$list->ConfirmationSuccessPage)}}" />
+                            <input class="form-control" type="text" name="ConfirmationSuccessPage" value="{{old('ConfirmationSuccessPage',config('laravel-cm.subscribe_success'))}}" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="ConfirmedOptIn">@lang('laravel-cm::lists.double_opt_in')</label>
                             <select name="ConfirmedOptIn" class="form-control">
-                                <option value="true" @if($list->ConfirmedOptIn) selected @endif>@lang('laravel-cm::crud.yes')</option>
-                                <option value="false" @if(!$list->ConfirmedOptIn) selected @endif>@lang('laravel-cm::crud.no')</option>
+                                <option value="true">@lang('laravel-cm::crud.yes')</option>
+                                <option value="false">@lang('laravel-cm::crud.no')</option>
                             </select>
                         </div>
                         
                     </div>
 
-                    <div class="panel-footer">
+                    <div class="card-footer">
 
                         <div class="row">
 

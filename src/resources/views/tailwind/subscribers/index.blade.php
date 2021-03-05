@@ -4,15 +4,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="panel-title">@lang('laravel-cm::subscribers.title')</h3>
+                            <h3>@lang('laravel-cm::subscribers.title')</h3>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-3 text-right">
                             @if(!$lists->isEmpty())
-                            <form class="form-inline pull-right" action="{{route('laravel-cm::subscribers.index')}}" method="GET">
+                            <form class="form-inline" action="{{route('laravel-cm::subscribers.index')}}" method="GET">
                                 <div class="form-group">
                                     <select name="listID" class="form-control">
                                         <option value="">@lang('laravel-cm::subscribers.select_list')</option>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-sm-3">
                             <a href="{{ route('laravel-cm::subscribers.show-import') }}" class="btn btn-success btn-md pull-right">
-                                <i class="glyphicon glyphicon-import"></i> Import
+                                Import
                             </a>
                         </div>
                     </div>
@@ -40,11 +40,11 @@
             
             @include('laravel-cm::notifications')
             
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::subscribers.active_subscribers')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::subscribers.active_subscribers')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <!-- active subscribers -->
                     @if($subscribed->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
@@ -62,8 +62,8 @@
                                 <td>{{$subscriber['name']}}</td>
                                 <td>
                                     <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
-                                            <i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::subscribers.details')
+                                        <a class="btn btn-sm btn-primary" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
+                                            @lang('laravel-cm::subscribers.details')
                                         </a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::subscribers.unsubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
@@ -71,7 +71,7 @@
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button class="btn btn-sm btn-danger"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::subscribers.unsubscribe')</button>
+                                                    type="submit">@lang('laravel-cm::subscribers.unsubscribe')</button>
                                         </form>
                                     </div>
                                 </td>
@@ -83,11 +83,11 @@
                     @endif
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::subscribers.unsubscribed')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::subscribers.unsubscribed')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <!-- unsubscribed -->
                     @if($unsubscribed->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
@@ -102,18 +102,17 @@
                             <tr>
                                 <td>{{$subscriber['email']}}</td>
                                 <td>{{$subscriber['name']}}</td>
-                                <td>
-                                    <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-default" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
-                                            <i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::subscribers.details')
+                                <td class="text-right">
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-sm btn-primary" href="{{ route('laravel-cm::subscribers.details',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}">
+                                            @lang('laravel-cm::subscribers.details')
                                         </a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::subscribers.resubscribe',['email'=>$subscriber['email'],'listID'=>request()->get('listID')]) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('PUT') }}
-                                            <button class="btn btn-sm btn-success"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::subscribers.subscribe')</button>
+                                            <button class="btn btn-sm btn-success" type="submit">@lang('laravel-cm::subscribers.subscribe')</button>
                                         </form>
                                     </div>
                                 </td>
@@ -125,11 +124,11 @@
                 </div>
             </div>
             <!-- unconfirmed subscribers -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::subscribers.unconfirmed')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::subscribers.unconfirmed')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <!-- unconfirmed -->
                     @if($unconfirmed->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
@@ -152,11 +151,11 @@
                 </div>
             </div>
             <!-- bounced -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::subscribers.bounced')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::subscribers.bounced')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <!-- unconfirmed -->
                     @if($bounced->isEmpty())
                     @lang('laravel-cm::crud.no_entries')

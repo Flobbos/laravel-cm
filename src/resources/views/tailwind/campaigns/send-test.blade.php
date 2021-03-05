@@ -4,17 +4,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="card">
                 <form action="{{ route('laravel-cm::campaigns.send-preview', $campaign_id) }}" method="POST">
                     {{ csrf_field() }}
-                    <div class="panel-heading">
+                    <div class="card-header">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3 class="panel-title">@lang('laravel-cm::campaigns.send_test_title')</h3>
+                                <h3>@lang('laravel-cm::campaigns.send_test_title')</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         @include('laravel-cm::notifications')
 
                         <div class="row">
@@ -33,7 +33,7 @@
 
                     </div>
 
-                    <div class="panel-footer">
+                    <div class="card-footer">
 
                         <div class="row">
 

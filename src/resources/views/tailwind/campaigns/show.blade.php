@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.summary'): {{$campaign_id}}</h3>
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.summary'): {{$campaign_id}}</h3>
                 </div>
 
-                <div class="panel-body">
+                <div class="card-body">
                     
                     <div class="row">
                         <div class="col-sm-4">
@@ -132,12 +132,12 @@
                 </div>
             </div>
             
-            <div class="panel panel-default">
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.email_readers')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.email_readers')</h3>
                 </div>
                 
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                         <th>@lang('laravel-cm::campaigns.client')</th>
@@ -168,12 +168,12 @@
             
             </div>
             
-            <div class="panel panel-default">
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.lists_segments')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.lists_segments')</h3>
                 </div>
                 
-                <div class="panel-body">
+                <div class="card-body">
                     @foreach($lists->Lists as $list)
                     <div class="row">
                         <div class="col-sm-6">
@@ -186,7 +186,7 @@
                     @endforeach
                 </div>
             
-                <div class="panel-footer">
+                <div class="card-footer">
 
                     <div class="row">
 

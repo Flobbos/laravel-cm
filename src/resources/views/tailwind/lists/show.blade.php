@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
-                <div class="panel-heading panel-default">
-                    <h3 class="panel-title">@lang('laravel-cm::lists.details_for',['title'=>$list->Title])</h3>
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::lists.details_for',['title'=>$list->Title])</h3>
                 </div>
 
-                <div class="panel-body">
+                <div class="card-body">
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -72,7 +72,7 @@
                     
                 </div>
 
-                <div class="panel-footer">
+                <div class="card-footer">
 
                     <div class="row">
 

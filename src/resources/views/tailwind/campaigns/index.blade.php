@@ -4,28 +4,26 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="panel-title">Campaigns</h3>
+                            <h3>Campaigns</h3>
                         </div>
                         <div class="col-sm-6">
-                            <div class="btn-group pull-right">
-                                <a href="{{ route('laravel-cm::campaigns.create') }}" class="btn btn-default btn-sm">
-                                    <i class="glyphicon glyphicon-plus"></i> @lang('laravel-cm::campaigns.create_button')
-                                </a>
-                            </div>
+                            <a href="{{ route('laravel-cm::campaigns.create') }}" class="btn btn-success text-white btn-sm float-right">
+                                @lang('laravel-cm::campaigns.create_button')
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             @include('laravel-cm::notifications')
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.drafts')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.drafts')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     @if($drafts->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
                     @else
@@ -55,14 +53,14 @@
                                         </div>
                                            
                                         <a class="btn btn-sm btn-success" 
-                                           accesskey="" href="{{route('laravel-cm::campaigns.edit',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-pencil"></i> @lang('laravel-cm::crud.edit')</a>
+                                           accesskey="" href="{{route('laravel-cm::campaigns.edit',$campaign->CampaignID)}}">@lang('laravel-cm::crud.edit')</a>
                                         <form class="btn-group"
                                             action="{{ route('laravel-cm::campaigns.destroy',$campaign->CampaignID) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button class="btn btn-sm btn-danger"
-                                                    type="submit"><i class="glyphicon glyphicon-trash"></i> @lang('laravel-cm::crud.delete')</button>
+                                                    type="submit">@lang('laravel-cm::crud.delete')</button>
                                         </form>
                                     </div>
                                 </td>
@@ -75,11 +73,11 @@
                 </div>
             </div>
             
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.scheduled')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.scheduled')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     
                     @if($scheduled->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
@@ -100,7 +98,7 @@
                                 <td class="text-right">
                                     <div class="btn-group">
                                         <a class="btn btn-sm btn-default" 
-                                           accesskey=""href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::campaigns.details')</a>
+                                           accesskey=""href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}">@lang('laravel-cm::campaigns.details')</a>
                                         <a class="btn btn-sm btn-danger" href="{{route('laravel-cm::campaigns.unschedule',$campaign->CampaignID)}}">@lang('laravel-cm::campaigns.unschedule')</a>
                                     </div>
                                 </td>
@@ -113,11 +111,11 @@
                 </div>
             </div>
             
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@lang('laravel-cm::campaigns.sent')</h3>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>@lang('laravel-cm::campaigns.sent')</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     
                     @if($sent->isEmpty())
                     @lang('laravel-cm::crud.no_entries')
@@ -134,8 +132,8 @@
                                 <td>{{$campaign->Name}}</td>
                                 <td>{{$campaign->CampaignID}}</td>
                                 <td class="text-right">
-                                    <a class="btn btn-sm btn-default" 
-                                       href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}"><i class="glyphicon glyphicon-eye-open"></i> @lang('laravel-cm::campaigns.details')</a>
+                                    <a class="btn btn-sm btn-primary" 
+                                       href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}">@lang('laravel-cm::campaigns.details')</a>
                                 </td>
                             </tr>
                             @endforeach

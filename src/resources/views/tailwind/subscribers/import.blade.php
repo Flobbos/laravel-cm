@@ -4,16 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
                 <form action="{{ route('laravel-cm::subscribers.import') }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
 
-                    <div class="panel-heading panel-default">
-                        <h3 class='panel-title'>@lang('laravel-cm::subscribers.import_title')</h3>
+                    <div class="card-header">
+                        <h3>@lang('laravel-cm::subscribers.import_title')</h3>
                     </div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         
                         @include('laravel-cm::notifications')
                         
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="panel-footer">
+                    <div class="card-footer">
 
                         <div class="row">
 
