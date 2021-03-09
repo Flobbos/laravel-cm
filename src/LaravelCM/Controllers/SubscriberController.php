@@ -152,7 +152,8 @@ class SubscriberController extends Controller
      */
     public function import(Request $request)
     {
-        //dd($request->all());
+
+        dd($request->all());
         if (!$request->hasFile('excel')) {
             return redirect()->back()->withErrors(trans('laravel-cm::subscribers.no_xls_found'));
         }

@@ -7,7 +7,7 @@
     <div class="container xl mx-auto mt-10 pb-10">
         <div class="flex flex-col relative bg-white rounded border border-gray-300">
             <div class="grid lg:grid-cols-2 sm:grid-cols-1 p-5">
-                <div class="text-xl">
+                <div class="text-2xl">
                     <h3>Campaigns</h3>
                 </div>
                 <div class="text-right">
@@ -36,7 +36,7 @@
                             <td class="p-2">{{$campaign->CampaignID}}</td>
                             <td class="p-2">
                                 <div class="flex justify-end" role="group">
-                                    <a class="bg-blue-500 text-white hover:bg-blue-400 rounded-l px-2 py-1 text-sm mx-0 outline-none focus:shadow-outline" 
+                                    <a class="bg-blue-500 text-white hover:bg-blue-400 rounded-l px-2 py-1 text-sm mx-0 outline-none" 
                                         accesskey="" href="{{route('laravel-cm::campaigns.show',$campaign->CampaignID)}}">@lang('laravel-cm::campaigns.summary')</a>
                                     <div x-data="{ show: false }"  @click.away="show = false">
                                         <button @click="show = ! show" type="button" class="flex bg-gray-400 text-white px-2 py-1 hover:bg-gray-300 hover:text-grary-100 focus:outline-none text-sm">

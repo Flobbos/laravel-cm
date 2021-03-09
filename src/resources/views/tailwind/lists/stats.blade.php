@@ -1,133 +1,133 @@
-@extends('layouts.'.config('laravel-cm.layout_file'))
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-
-                <div class="card-header">
-                    <h3>@lang('laravel-cm::lists.stats_title'): {{$list_id}}</h3>
-                    
-                </div>
-
-                <div class="card-body">
-                     
-                    <h5>@lang('laravel-cm::lists.totals')</h5>
-                    <table class="table">
-                        <thead>
-                        <th>@lang('laravel-cm::lists.active_subscribers')</th>
-                        <th>@lang('laravel-cm::lists.unsubscribes')</th>
-                        <th>@lang('laravel-cm::lists.deletes')</th>
-                        <th>@lang('laravel-cm::lists.bounced')</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$list->TotalActiveSubscribers}}</td>
-                                <td>{{$list->TotalUnsubscribes}}</td>
-                                <td>{{$list->TotalDeleted}}</td>
-                                <td>{{$list->TotalBounces}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h5>@lang('laravel-cm::lists.new_subscribers')</h5>
-                    <table class="table">
-                        <thead>
-                        <th>@lang('laravel-cm::lists.today')</th>
-                        <th>@lang('laravel-cm::lists.yesterday')</th>
-                        <th>@lang('laravel-cm::lists.week')</th>
-                        <th>@lang('laravel-cm::lists.month')</th>
-                        <th>@lang('laravel-cm::lists.year')</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$list->NewActiveSubscribersToday}}</td>
-                                <td>{{$list->NewActiveSubscribersYesterday}}</td>
-                                <td>{{$list->NewActiveSubscribersThisWeek}}</td>
-                                <td>{{$list->NewActiveSubscribersThisMonth}}</td>
-                                <td>{{$list->NewActiveSubscribersThisYear}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h5>@lang('laravel-cm::lists.unsubscribes')</h5>
-                    <table class="table">
-                        <thead>
-                        <th>@lang('laravel-cm::lists.today')</th>
-                        <th>@lang('laravel-cm::lists.yesterday')</th>
-                        <th>@lang('laravel-cm::lists.week')</th>
-                        <th>@lang('laravel-cm::lists.month')</th>
-                        <th>@lang('laravel-cm::lists.year')</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$list->UnsubscribesToday}}</td>
-                                <td>{{$list->UnsubscribesYesterday}}</td>
-                                <td>{{$list->UnsubscribesThisWeek}}</td>
-                                <td>{{$list->UnsubscribesThisMonth}}</td>
-                                <td>{{$list->UnsubscribesThisYear}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h5>@lang('laravel-cm::lists.deletes')</h5>
-                    <table class="table">
-                        <thead>
-                        <th>@lang('laravel-cm::lists.today')</th>
-                        <th>@lang('laravel-cm::lists.yesterday')</th>
-                        <th>@lang('laravel-cm::lists.week')</th>
-                        <th>@lang('laravel-cm::lists.month')</th>
-                        <th>@lang('laravel-cm::lists.year')</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$list->DeletedToday}}</td>
-                                <td>{{$list->DeletedYesterday}}</td>
-                                <td>{{$list->DeletedThisWeek}}</td>
-                                <td>{{$list->DeletedThisMonth}}</td>
-                                <td>{{$list->DeletedThisYear}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <h5>@lang('laravel-cm::lists.bounced')</h5>
-                    <table class="table">
-                        <thead>
-                        <th>@lang('laravel-cm::lists.today')</th>
-                        <th>@lang('laravel-cm::lists.yesterday')</th>
-                        <th>@lang('laravel-cm::lists.week')</th>
-                        <th>@lang('laravel-cm::lists.month')</th>
-                        <th>@lang('laravel-cm::lists.year')</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$list->BouncesToday}}</td>
-                                <td>{{$list->BouncesYesterday}}</td>
-                                <td>{{$list->BouncesThisWeek}}</td>
-                                <td>{{$list->BouncesThisMonth}}</td>
-                                <td>{{$list->BouncesThisYear}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                </div>
-
-                <div class="card-footer">
-
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <a href="{{url()->previous()}}" class="btn btn-danger">{{ trans('laravel-cm::crud.cancel') }}</a>
-                        </div>
-
-                    </div>
-
-                </div>
-
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('List Stats') }}
+        </h2>
+    </x-slot>
+    <div class="container xl mx-auto mt-10 pb-10">
+        <div class="flex flex-col relative bg-white rounded border border-gray-300">
+            <div class="p-5">
+                <h3 class="text-2xl">@lang('laravel-cm::lists.stats_title'): {{$list_id}}</h3>
             </div>
+
+            <div class="flex-auto p-5">
+                     
+                <h5 class="text-xl">@lang('laravel-cm::lists.totals')</h5>
+                <table class="w-full mb-4 text-gray-900 shadow-sm mb-5">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.active_subscribers')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.unsubscribes')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.deletes')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.bounced')</th>
+                        </tr>
+                    
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">{{$list->TotalActiveSubscribers}}</td>
+                            <td class="p-2">{{$list->TotalUnsubscribes}}</td>
+                            <td class="p-2">{{$list->TotalDeleted}}</td>
+                            <td class="p-2">{{$list->TotalBounces}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h5 class="text-xl">@lang('laravel-cm::lists.new_subscribers')</h5>
+                <table class="w-full mb-4 text-gray-900 shadow-sm mb-5">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.today')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.yesterday')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.week')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.month')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.year')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">{{$list->NewActiveSubscribersToday}}</td>
+                            <td class="p-2">{{$list->NewActiveSubscribersYesterday}}</td>
+                            <td class="p-2">{{$list->NewActiveSubscribersThisWeek}}</td>
+                            <td class="p-2">{{$list->NewActiveSubscribersThisMonth}}</td>
+                            <td class="p-2">{{$list->NewActiveSubscribersThisYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h5 class="text-xl">@lang('laravel-cm::lists.unsubscribes')</h5>
+                <table class="w-full mb-4 text-gray-900 shadow-sm mb-5">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.today')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.yesterday')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.week')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.month')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.year')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">{{$list->UnsubscribesToday}}</td>
+                            <td class="p-2">{{$list->UnsubscribesYesterday}}</td>
+                            <td class="p-2">{{$list->UnsubscribesThisWeek}}</td>
+                            <td class="p-2">{{$list->UnsubscribesThisMonth}}</td>
+                            <td class="p-2">{{$list->UnsubscribesThisYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h5 class="text-xl">@lang('laravel-cm::lists.deletes')</h5>
+                <table class="w-full mb-4 text-gray-900 shadow-sm mb-5">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.today')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.yesterday')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.week')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.month')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.year')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">{{$list->DeletedToday}}</td>
+                            <td class="p-2">{{$list->DeletedYesterday}}</td>
+                            <td class="p-2">{{$list->DeletedThisWeek}}</td>
+                            <td class="p-2">{{$list->DeletedThisMonth}}</td>
+                            <td class="p-2">{{$list->DeletedThisYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h5 class="text-xl">@lang('laravel-cm::lists.bounced')</h5>
+                <table class="w-full mb-4 text-gray-900 shadow-sm mb-5">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.today')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.yesterday')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.week')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.month')</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::lists.year')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">{{$list->BouncesToday}}</td>
+                            <td class="p-2">{{$list->BouncesYesterday}}</td>
+                            <td class="p-2">{{$list->BouncesThisWeek}}</td>
+                            <td class="p-2">{{$list->BouncesThisMonth}}</td>
+                            <td class="p-2">{{$list->BouncesThisYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+
+            <div class="p-5 bg-gray-300">
+                <a href="{{url()->previous()}}" class="rounded bg-red-500 text-white hover:bg-red-400 hover:text-red-100 px-2 py-1">{{ trans('laravel-cm::crud.cancel') }}</a>
+            </div>
+
         </div>
 
     </div>
-</div>
-@stop
+</x-app-layout>

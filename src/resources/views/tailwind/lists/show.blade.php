@@ -1,93 +1,71 @@
-@extends('layouts.'.config('laravel-cm.layout_file'))
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('List Details') }}
+        </h2>
+    </x-slot>
+    <div class="container xl mx-auto mt-10 pb-10">
+        <div class="flex flex-col relative bg-white rounded border border-gray-300">
+            <div class="p-5">
+                <h3 class="text-2xl">@lang('laravel-cm::lists.details_for',['title'=>$list->Title])</h3>
+            </div>
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
+            <div class="flex-auto p-5">
+                <div class="flex flex-wrap -mx-2 mb-8">
 
-                <div class="card-header">
-                    <h3>@lang('laravel-cm::lists.details_for',['title'=>$list->Title])</h3>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             List ID:
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             {{$list->ListID}}
                         </div>
-                    </div>
                     
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             @lang('laravel-cm::lists.title'):
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             {{$list->Title}}
                         </div>
-                    </div>
                     
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             @lang('laravel-cm::lists.unsubscribe_page'):
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             {{$list->UnsubscribePage}}
                         </div>
-                    </div>
                     
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             @lang('laravel-cm::lists.double_opt_in'):
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             @if($list->ConfirmedOptIn)
                             @lang('laravel-cm::crud.yes')
                             @else
                             @lang('laravel-cm::crud.no')
                             @endif
                         </div>
-                    </div>
                     
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             @lang('laravel-cm::lists.success_page')
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             {{$list->ConfirmationSuccessPage}}
                         </div>
-                    </div>
                     
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="w-1/4 px-2 mb-4">
                             @lang('laravel-cm::lists.unsubscribe_settings'):
                         </div>
-                        <div class="col-sm-6">
+                        <div class="w-3/4 px-2 mb-4">
                             {{$list->UnsubscribeSetting}}
                         </div>
-                    </div>
                     
                 </div>
 
-                <div class="card-footer">
-
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <a href="{{url()->previous()}}" class="btn btn-danger">@lang('laravel-cm::crud.cancel')</a>
-                        </div>
-
-                        
-                    </div>
-
-                </div>
-
+            </div>
+            <div class="p-5 bg-gray-300">
+                <a href="{{url()->previous()}}" class="rounded bg-red-500 text-white hover:bg-red-400 hover:text-red-100 px-2 py-1">@lang('laravel-cm::crud.cancel')</a>
             </div>
         </div>
 
     </div>
-</div>
-@stop
+</x-app-layout>
