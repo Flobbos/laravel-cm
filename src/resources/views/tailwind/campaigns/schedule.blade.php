@@ -1,58 +1,58 @@
-@extends('layouts.'.config('laravel-cm.layout_file'))
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Schedule Campaign') }}
+        </h2>
+    </x-slot>
+    <div class="container xl mx-auto mt-10 pb-10">
+        <div class="flex flex-col relative bg-white rounded border border-gray-300">
+            <form action="{{ route('laravel-cm::campaigns.send',$campaign->CampaignID) }}" role="form" method="POST"  enctype="multipart/form-data">
+                {{ csrf_field() }}
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
+                <div class="p-5">
+                    <h3 class="text-2xl">{{$campaign->Name}}</h3>
+                    @lang('laravel-cm::campaigns.schedule_title')
+                </div>
 
-                <form action="{{ route('laravel-cm::campaigns.send',$campaign->CampaignID) }}" role="form" method="POST"  enctype="multipart/form-data">
-                    {{ csrf_field() }}
+                <div class="flex-auto p-5">
 
-                    <div class="card-header">
-                        <h3>{{$campaign->Name}}</h3>
-                        @lang('laravel-cm::campaigns.schedule_title')
+                    @include('laravel-cm::notifications')
+                    
+                    @lang('laravel-cm::campaigns.preview'): <a href="{{$campaign->PreviewURL}}" target="_blank"><strong>{{$campaign->PreviewURL}}</strong></a><br />
+                    
+                    <div class="mb-4">
+                        <label class="inline-block mb-2" for="ConfirmationEmail">@lang('laravel-cm::campaigns.confirmation_emails_title')</label>
+                        <input class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" placeholder="@lang('laravel-cm::campaigns.confirmation_emails_placeholder')" type="text" name="ConfirmationEmail" value="{{ old('ConfirmationEmail') }}" />
                     </div>
 
-                    <div class="card-body">
+                    <div class="mb-4">
+                        <label class="inline-block mb-2" for="SendDate">@lang('laravel-cm::campaigns.send_date')</label>
+                        <input type="text" 
+                            class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" 
+                            name="SendDate" 
+                            placeholder="Format: yyyy-mm-dd HH:mm"/>
+                    </div>
 
-                        @include('laravel-cm::notifications')
-                        
-                        @lang('laravel-cm::campaigns.preview'): <a href="{{$campaign->PreviewURL}}" target="_blank"><strong>{{$campaign->PreviewURL}}</strong></a><br />
-                        
-                        <div class="form-group">
-                            <label class="control-label" for="ConfirmationEmail">@lang('laravel-cm::campaigns.confirmation_emails_title')</label>
-                            <input class="form-control" placeholder="@lang('laravel-cm::campaigns.confirmation_emails_placeholder')" type="text" name="ConfirmationEmail" value="{{ old('ConfirmationEmail') }}" />
+                </div>
+
+                <div class="p-5 bg-gray-300">
+
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <div>
+                            <a href="{{ route('laravel-cm::campaigns.index') }}" class="rounded bg-red-500 text-white hover:bg-red-400 hover:text-red-100 px-2 py-1">@lang('laravel-cm::crud.cancel')</a>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="SendDate">@lang('laravel-cm::campaigns.send_date')</label>
-                            <vue-date-picker name="SendDate"></vue-date-picker>
+                        <div class="text-right">
+                            <button type="submit" class="rounded bg-green-500 text-white hover:bg-green-400 hover:text-green-100 px-2 py-1">@lang('laravel-cm::crud.save')</button>
                         </div>
 
                     </div>
 
-                    <div class="card-footer">
+                </div>
 
-                        <div class="row">
+            </form>
 
-                            <div class="col-sm-6">
-                                <a href="{{ route('laravel-cm::campaigns.index') }}" class="btn btn-danger">@lang('laravel-cm::crud.cancel')</a>
-                            </div>
-
-                            <div class="col-sm-6 text-right">
-                                <button type="submit" class="btn btn-success">@lang('laravel-cm::crud.save')</button>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </form>
-
-            </div>
         </div>
-
     </div>
-</div>
-@stop
+</x-app-layout>
