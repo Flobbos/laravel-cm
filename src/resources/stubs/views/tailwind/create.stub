@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Products') }}
+            {{ __('Newsletter templates') }}
         </h2>
     </x-slot>
     <div class="container xl mx-auto mt-5">
@@ -10,7 +10,7 @@
                 {{ csrf_field() }}
 
                 <div class="flex-auto p-5">
-                    <h5 class="mb-3 text-xl">@lang('crud.create_headline')</h5>
+                    <h5 class="mb-3 text-2xl">@lang('crud.create_headline')</h5>
                 </div>
 
                 <div class="flex-auto p-5">
@@ -32,22 +32,15 @@
 
                     <div class="mb-4">
                         <label for="title" class="inline-block mb-2">@lang('laravel-cm::templates.title')</label>
-                        <input type="text" class="class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="title" value="{{ old('title') }}">
+                        <input type="text" class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="title" value="{{ old('title') }}">
                     </div>
 
                     <!-- Put DB based content here -->
 
                 </div>
 
-                <div class="flex-auto p-5 bg-gray-200">
-
-                    <div class="grid grid-cols-2 gap-4 flex-auto">
-                        <div></div>
-                        <div class="text-right">
-                            <button type="submit" class="inline-block font-normal text-center text-sm px-2 py-1 leading-normal text-base rounded cursor-pointer text-white bg-green-600 hover:text-green-100 hover:bg-green-500">@lang('laravel-cm::templates.generate_template')</button>
-                        </div>
-
-                    </div>
+                <div class="flex-auto p-5 bg-gray-200 text-right">
+                    <button type="submit" class="inline-block font-normal text-center text-sm px-2 py-1 leading-normal text-base rounded cursor-pointer text-white bg-green-600 hover:text-green-100 hover:bg-green-500">@lang('laravel-cm::templates.generate_template')</button>
                 </div>
 
             </form>

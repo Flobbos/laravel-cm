@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Products') }}
+            {{ __('Newsletter Templates') }}
         </h2>
     </x-slot>
     <div class="container xl mx-auto mt-5">
@@ -41,7 +41,7 @@
 
                     <div class="mb-4">
                         <label for="title" class="inline-block mb-2">@lang('laravel-cm::templates.title')</label>
-                        <input type="text" class="class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="title" value="{{ old('title', $template->title) }}">
+                        <input type="text" class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="title" value="{{ old('title', $template->title) }}">
                     </div>
 
                     <!-- Put DB based content here -->
