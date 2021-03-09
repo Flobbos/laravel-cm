@@ -7,11 +7,11 @@
     <div class="container xl mx-auto mt-10 pb-10">
         <div class="flex flex-col relative bg-white rounded border border-gray-300">
             <div class="flex-auto p-5">
-                <div class="flex flex-wrap -mx-2 mb-8">
-                    <div class="w-1/2 px-2 mb-4">
+                <div class="flex flex-wrap -mx-2">
+                    <div class="w-1/2 px-2">
                         <h3 class="text-2xl">@lang('laravel-cm::subscribers.title')</h3>
                     </div>
-                    <div class="w-1/2 px-2 mb-4 flex justify-end">
+                    <div class="w-1/2 px-2 flex justify-end">
                         @if(!$lists->isEmpty())
                         <form action="{{route('laravel-cm::subscribers.index')}}" method="GET">
                             <div class="flex text-gray-700 px-5">
