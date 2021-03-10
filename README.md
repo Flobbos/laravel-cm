@@ -9,12 +9,9 @@ submit them to Campaign Monitor as content for your newsletter issues.
 It comes complete with a CRUD implementation for saving your content templates
 in the DB.
 
-**As of version 2.0.0 local compiling is no longer possible**
-
 **As of version 2.0.0 only [MJML](https://mjml.io/) will be accepted**
 
-The local compiling options created too many problems with unpredictable results
-coming from otherwise functional css/html. The base template now comes in MJML.
+**Support for Laravel 8 was moved to version 3.x**
 
 ### Docs
 
@@ -81,6 +78,20 @@ php artisan laravel-cm:install --deployment
 
 This command will only copy the existing template files from the resources folder to storage, delete the
 now empty laravel-cm folder and set a symlink to the newly created storage folder.
+
+### Upgrade from Version 2.x to Version 3.x
+
+If you have previously used LaravelCM you need to follow a few steps to make your setup compatible
+with the new version of LaravelCM.
+
+### Migrating the config
+
+LaravelCM 3.x changed the option 'bootstrap' to 'css_framework' in the config because you can now switch between Bootstrap4 and TailwindCSS.
+
+### Routes Facade
+
+Since Laravel 8 handles routes a bit differently than previous versions you need to provide the namespace of the
+NewsletterTemplateController generated via command to the CMRoutes facade like mentioned below.
 
 ## Installation
 
@@ -162,24 +173,30 @@ php artisan migrate
 
 ### Routes
 
-Routes that are used by LaravelCM need to be added to your routes file.
+Routes that are used by LaravelCM need to be added to your routes file. Since version 3.x you need to
+specify the namespace of the NewsletterTemplateController generated from LaravelCM.
 
 ```php
-CMRoutes::load();
+use App\Http\Controllers\NewsletterTemplateController;
+
+CMRoutes::load(NewsletterTemplateController::class);
 ```
 
 This is all you need to do for the routes to load.
 
 If you want to add the routes to your NewsletterTemplateController manually you
-can prevent the automated addition of the routes like so:
+can simply add the following routes:
 
 ```php
-CMRoutes::load(false);
+Route::put('newsletter-template/generate-template/{id}', [NewsletterTemplateController::class, 'generateTemplate'])->name('newsletter-templates.generate-template');
+Route::put('newsletter-template/update-template/{id}', [NewsletterTemplateController::class, 'updateTemplate'])->name('newsletter-templates.update-template');
+Route::get('templates/{id}/send-preview', [NewsletterTemplateController::class, 'sendPreview'])->name('newsletter-templates.send-preview');
+Route::resource('newsletter-templates', NewsletterTemplateController::class)
 ```
 
 ### Menu items
 
-If you're using a standard Bootstrap3/4 top bar menu you can simply include all
+If you're using a standard Boostrap4 or Tailwind top bar menu you can simply include all
 necessary links with a dropdown like so:
 
 ```php
@@ -336,13 +353,14 @@ your remove compiling needs based on MJML. Set the token here
 'api_token' => '',
 ```
 
-### Bootstrap version
+### CSS Framework
 
-You can now select which version of Bootstrap you want to use. Just set the
-version and Laravel-CM will load the appropriate views automatically.
+You can now select which CSS framework you want to use. You have the option of using Bootstrap4 or
+TailwindCSS. Depending on this selection LaravelCM will automatically load the appropriate views.
 
 ```php
-'bootstrap' => 4,
+//bootstrap or tailwind
+'css_framework' => 'tailwind',
 ```
 
 ## Assets
