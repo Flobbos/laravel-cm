@@ -1,0 +1,77 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Newsletter Templates') }}
+        </h2>
+    </x-slot>
+    <div class="container xl mx-auto py-5 mt-5">
+        <div class="flex flex-col relative bg-white rounded border border-gray-300">
+            <div class="flex-auto p-5 text-right">
+                <a href="{{ route('admin.newsletter-templates.create') }}" class="bg-blue-500 px-2 text-white rounded text-normal py-1 mb-2 hover:bg-blue-400 hover:text-blue-100">
+                    @lang('laravel-cm::crud.create_button')
+                </a>
+            </div>
+
+            <div class="flex-auto p-5">
+
+                @include('laravel-cm::notifications')
+                @if($templates->isEmpty())
+                    @lang('laravel-cm::crud.no_entries')
+                @else
+                <table class="w-full mb-4 text-gray-900 shadow-sm">
+                    <thead>
+                        <tr class="bg-gray-200 border-t border-b">
+                            <th class="text-left p-2 font-bold">#</th>
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::templates.template_name')</th>
+                            @if(config('laravel-cm.multi_layout'))
+                            <th class="text-left p-2 font-bold">@lang('laravel-cm::templates.layout')</th>
+                            @endif
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($templates as $template)
+                        <tr>
+                            <td class="p-2">{{$template->id}}</td>
+                            <td class="p-2">{{$template->template_name}}</td>
+                            @if(config('laravel-cm.multi_layout'))
+                            <td class="p-2">{{$template->layout}}</td>
+                            @endif
+                            <td class="p-2">
+                                <div class="flex justify-end rounded-lg text-sm" role="group">
+                                    <div x-data="{ show: false }"  @click.away="show = false" class="mb-2">
+                                        <button @click="show = ! show" type="button" class="flex bg-gray-500 text-white rounded-l px-2 py-1 hover:bg-gray-400 hover:text-grary-100 focus:outline-none text-sm">
+                                        <span class="pl-1">Vorschau</span>
+                                            <svg class="fill-current text-gray-200" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                                        </button>
+                                        <div x-show="show" class="text-left absolute bg-gray-100 z-10 shadow-md" style="min-width:10rem">
+                                            <a href="{{ route('DummyRoute.show', $template->id) }}" class="block px-3 py-2 hover:underline hover:text-gray-500" target="_blank">
+                                                @lang('laravel-cm::templates.preview')
+                                            </a>
+                                            <a href="{{ route('DummyRoute.send-preview', $template->id) }}" class="text-left block px-3 py-2 hover:underline hover:text-gray-500"
+                                                @if(!config('laravel-cm.test_email')) disabled title="@lang('laravel-cm::crud.no_preview_recipient')" @endif>
+                                                @lang('laravel-cm::templates.send_preview')
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <a class="bg-green-500 px-2 text-white text-sm py-1 mb-2 hover:bg-green-400 hover:text-green-100" href="{{ route('DummyRoute.edit',$template->id) }}">
+                                        @lang('laravel-cm::crud.edit')
+                                    </a>
+                                    <form action="{{ route('DummyRoute.destroy',$template->id) }}"
+                                            method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="bg-red-500 rounded-r px-2 text-white text-sm py-1 mb-2 hover:bg-red-400 hover:text-red-100"
+                                                type="submit">@lang('laravel-cm::crud.delete')</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+            </div>
+        </div>
+    </div>
+</x-app-layout>

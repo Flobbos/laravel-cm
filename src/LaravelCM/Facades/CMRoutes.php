@@ -1,17 +1,20 @@
 <?php
+
 namespace Flobbos\LaravelCM\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Route;
 
-class CMRoutes extends Facade {
-    
+class CMRoutes extends Facade
+{
+
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor(){
+    protected static function getFacadeAccessor()
+    {
         return;
     }
 
@@ -21,13 +24,14 @@ class CMRoutes extends Facade {
      * @param  array  $options
      * @return void
      */
-    public static function load(bool $templates = true){
-        Route::put('newsletter-template/generate-template/{id}', 'NewsletterTemplateController@generateTemplate')->name('newsletter-template.generate-template');
-        Route::put('newsletter-template/update-template/{id}', 'NewsletterTemplateController@updateTemplate')->name('newsletter-template.update-template');
-        Route::get('templates/{id}/send-preview','NewsletterTemplateController@sendPreview')->name('newsletter-template.send-preview');
+    public static function load(string $class, bool $templates = true)
+    {
+        Route::put('newsletter-template/generate-template/{id}', [$class, 'generateTemplate'])->name('newsletter-templates.generate-template');
+        Route::put('newsletter-template/update-template/{id}', [$class, 'updateTemplate'])->name('newsletter-templates.update-template');
+        Route::get('templates/{id}/send-preview', [$class, 'sendPreview'])->name('newsletter-templates.send-preview');
         // Newslettertemplate Routes
-        if($templates){
-            Route::resource('newsletter-template', 'NewsletterTemplateController');
+        if ($templates) {
+            Route::resource('newsletter-templates', $class);
         }
     }
 }

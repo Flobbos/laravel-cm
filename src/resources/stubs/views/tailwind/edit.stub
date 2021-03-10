@@ -1,0 +1,63 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Newsletter Templates') }}
+        </h2>
+    </x-slot>
+    <div class="container xl mx-auto py-5 mt-5">
+        <div class="flex flex-col relative bg-white rounded border border-gray-300">
+
+            <form action="{{ route('DummyRoute.update', $template->id) }}" role="form" method="POST">
+                {{ csrf_field() }}
+                {{method_field('PUT')}}
+
+                <div class="flex-auto p-5">
+                    @lang('laravel-cm::templates.edit_headline')
+                </div>
+
+                <div class="flex-auto p-5">
+
+                    @include('laravel-cm::notifications')
+                    @if(config('laravel-cm.multi_layout'))
+                    <div class="mb-4">
+                        <label for="title" class="inline-block mb-2">@lang('laravel-cm::templates.layout')</label>
+                        <select name="layout" class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded">
+                            @foreach($layouts as $layout)
+                            @if($template->layout == $layout)
+                            <option value="{{ $layout }}" selected>{{ $layout }}</option>
+                            @else
+                            <option value="{{ $layout }}">{{ $layout }}</option>
+                            @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
+                    <div class="mb-4">
+                        <label for="template_name" class="inline-block mb-2">@lang('laravel-cm::templates.template_name')</label>
+                        <input type="hidden" name="template_name" value="{{ old('template_name', $template->template_name) }}">
+                        <input type="text" disabled class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="template_name"
+                                value="{{ old('template_name', $template->template_name) }}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="title" class="inline-block mb-2">@lang('laravel-cm::templates.title')</label>
+                        <input type="text" class="block w-full py-2 px-3 text-base font-normal leading-normal text-gray-700 bg-white border border-gray-400 rounded" name="title" value="{{ old('title', $template->title) }}">
+                    </div>
+
+                    <!-- Put DB based content here -->
+                    
+                </div>
+
+                <div class="flex-auto p-5 bg-gray-200">
+                    <div class="grid grid-cols-2 gap-4 flex-auto">
+                        <div></div>
+                        <div class="text-right">
+                            <button type="submit"
+                                    class="inline-block font-normal text-center text-sm px-2 py-1 leading-normal text-base rounded cursor-pointer text-white bg-green-600 hover:text-green-100 hover:bg-green-500">@lang('laravel-cm::templates.regenerate_template')</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</x-app-layout>

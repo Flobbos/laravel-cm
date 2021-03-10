@@ -25,17 +25,13 @@ class LaravelCMServiceProvider extends ServiceProvider
     ], 'laravel-cm-layout');
     //Publishes defaults
     $this->publishes([
-      __DIR__ . '/Models' => app_path('/')
+      __DIR__ . '/Models' => app_path('/Models')
     ], 'laravel-cm-model');
 
     //Add Laravel CM routes
     $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-    //Add views depending on bootstrap setting in config
-    if (config('laravel-cm.bootstrap') == 3) {
-      $this->loadViewsFrom(__DIR__ . '/../resources/views/bootstrap3', 'laravel-cm');
-    } else {
-      $this->loadViewsFrom(__DIR__ . '/../resources/views/bootstrap4', 'laravel-cm');
-    }
+    //Add views depending on the css framework setting in config
+    $this->loadViewsFrom(__DIR__ . '/../resources/views/' . config('laravel-cm.css_framework'), 'laravel-cm');
     //Add language files
     $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'laravel-cm');
 
