@@ -205,6 +205,15 @@ necessary links with a dropdown like so:
 
 In your main layout blade file or where ever your top bar is located.
 
+### Tailwind responsive menu
+
+Since the switch to Tailwind the default Laravel menu has a responsive menu. Just include
+the provided menu where the rest of the responsive Laravel menu is located.
+
+```php
+@include('laravel-cm::menu-responsive')
+```
+
 That's it. You're ready to roll. Let's move on to the configuration
 
 ## Configuration
