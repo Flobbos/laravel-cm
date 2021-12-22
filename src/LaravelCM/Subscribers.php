@@ -17,7 +17,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Getters
     public function getActive(int $page = 1, $pageName = 'page', int $perPage = 25)
     {
-        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/active', [
+        $result = $this->makeCall('lists/' . $this->getListID() . '/active', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
@@ -32,7 +32,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
 
     public function getUnsubscribed(int $page = 1, $pageName = 'page', int $perPage = 25)
     {
-        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/unsubscribed', [
+        $result = $this->makeCall('lists/' . $this->getListID() . '/unsubscribed', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
@@ -46,7 +46,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
 
     public function getUnconfirmed(int $page = 1, $pageName = 'page', int $perPage = 25)
     {
-        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/unconfirmed', [
+        $result = $this->makeCall('lists/' . $this->getListID() . '/unconfirmed', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
@@ -60,7 +60,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
 
     public function getDeleted(int $page = 1, $pageName = 'page', int $perPage = 25)
     {
-        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/deleted', [
+        $result = $this->makeCall('lists/' . $this->getListID() . '/deleted', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
@@ -74,7 +74,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
 
     public function getBounced(int $page = 1, $pageName = 'page', int $perPage = 25)
     {
-        $result = $this->makeCall('get', 'lists/' . $this->getListID() . '/bounced', [
+        $result = $this->makeCall('lists/' . $this->getListID() . '/bounced', [
             'query' => [
                 'page' => $page,
                 'pagesize' => $perPage,
@@ -88,7 +88,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
 
     public function getDetails(string $email)
     {
-        return $this->makeCall('get', 'subscribers/' . $this->getListID(), [
+        return $this->makeCall('subscribers/' . $this->getListID(), [
             'query' => [
                 'email' => trim($email),
                 'includetrackingpreference' => true
@@ -101,9 +101,9 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Create
     public function add(array $subscriber_data)
     {
-        $result = $this->makeCall('post', 'subscribers/' . $this->getListID(), [
+        $result = $this->makeCall('subscribers/' . $this->getListID(), [
             'json' => $subscriber_data,
-        ]);
+        ], 'post');
         if ($result->get('code') != '201') {
             throw new Exception($result->get('body'));
         }
@@ -124,7 +124,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Resubscribe
     public function resubscribe(string $email)
     {
-        $result = $this->makeCall('put', 'subscribers/' . $this->getListID(), [
+        $result = $this->makeCall('subscribers/' . $this->getListID(), [
             'query' => [
                 'email' => trim($email)
             ],
@@ -132,7 +132,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
                 'Resubscribe' => true,
                 'ConsentToTrack' => 'Yes'
             ]
-        ]);
+        ], 'put');
         if ($result->get('code') == '200') {
             return true;
         }
@@ -142,9 +142,9 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Remove
     public function remove(string $email)
     {
-        $result = $this->makeCall('post', 'subscribers/' . $this->getListID() . '/unsubscribe', [
+        $result = $this->makeCall('subscribers/' . $this->getListID() . '/unsubscribe', [
             'json' => ['EmailAddress' => trim($email)],
-        ]);
+        ], 'post');
         //dd($result);
         if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
@@ -155,7 +155,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
     //Update
     public function update(string $email, array $data)
     {
-        $result = $this->makeCall('put', 'subscribers/' . $this->getListID(), [
+        $result = $this->makeCall('subscribers/' . $this->getListID(), [
             'query' => trim($email),
             'json' => [
                 'EmailAddress' => trim($email),
@@ -163,7 +163,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
                 'RestartSubscriptionBasedAutoresponders' => true,
                 'ConsentToTrack' => 'Unchanged',
             ]
-        ]);
+        ], 'put');
     }
 
     //Import
@@ -183,9 +183,9 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         //Set list ID
         $this->setListID($request->get('listID'));
         //Sync to CM
-        $result = $this->makeCall('post', 'subscribers/' . $this->getListID() . '/import', [
+        $result = $this->makeCall('subscribers/' . $this->getListID() . '/import', [
             'json' => $subscribers,
-        ]);
+        ], 'post');
         if ($result->get('code') != '201') {
             throw new Exception($result->get('body'));
         }

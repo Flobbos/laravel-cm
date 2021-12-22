@@ -2,11 +2,11 @@
 
 namespace Flobbos\LaravelCM;
 
-use Flobbos\LaravelCM\Contracts\BaseClientContract;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
-use Exception;
+use Flobbos\LaravelCM\Contracts\BaseClientContract;
 use Flobbos\LaravelCM\Exceptions\ConfigKeyNotSetException;
 
 abstract class BaseClient implements BaseClientContract
@@ -29,12 +29,23 @@ abstract class BaseClient implements BaseClientContract
     }
 
 
+    /**
+     * @inheritDoc
+     *
+     * @param array $options
+     * @return self
+     */
     public function setOptions(array $options): self
     {
         $this->options = $options;
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @return array
+     */
     public function getOptions(): array
     {
         return $this->options;
@@ -194,7 +205,7 @@ abstract class BaseClient implements BaseClientContract
         return $this->guzzle;
     }
 
-    public function makeCall($method = 'get', $url, array $request_data)
+    public function makeCall($url, array $request_data, $method = 'get')
     {
         try {
             return $this->formatResult(
