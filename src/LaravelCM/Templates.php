@@ -20,7 +20,6 @@ class Templates implements TemplateContract
     protected $disk;
     protected $template;
     protected $srcTemplatePath;
-    protected $distTemplatePath;
     protected $html;
     protected $template_db;
 
@@ -29,7 +28,6 @@ class Templates implements TemplateContract
 
         $this->disk = Storage::disk('laravel_cm');
         $this->srcTemplatePath = $this->getTemplatePath();
-        $this->distTemplatePath = $this->disk->path($this->template);
         $this->template_db = $template_db;
     }
 
