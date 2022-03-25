@@ -1,5 +1,13 @@
 ## Version History
 
+### v. 4.0.1
+
+-   Fixed storage issue
+
+### v. 4.0.0
+
+-   Initial Laravel 9 support
+
 ### v. 3.0.3
 
 -   PHP 8 updates
