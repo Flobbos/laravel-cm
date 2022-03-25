@@ -23,6 +23,7 @@ in the DB.
 -   [Usage](#usage)
 -   [Exceptions](#exceptions)
 -   [Laravel compatibility](#laravel-compatibility)
+-   [Envoyer deployments](#envoyer-deployments)
 
 ## Upgrading
 
@@ -483,6 +484,7 @@ exist.
 
 | Laravel | LaravelCM     |
 | :------ | :------------ |
+| 9.x     | >4.0.\*       |
 | 8.x     | >3.0.\*       |
 | 7.x     | >2.0.\*       |
 | 6.x     | >2.0.\*       |
@@ -494,3 +496,16 @@ exist.
 | 5.3     | >=1.0.0       |
 
 Lower versions of Laravel are not supported.
+
+## Envoyer deployments
+
+If you're using Envoyer or something similar to deploy your code, there's a solution to
+keeping your existing templates and compiled newsletters. During the deployment all you
+need to do is run the following command:
+
+```bash
+php artisan laravel-cm:install --deployment
+```
+
+This will run a function that moves all existing stuff to the new installation and takes care
+of recreating the necessary symlinks for everything to work.
