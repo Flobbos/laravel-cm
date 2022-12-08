@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => config('laravel-cm.middleware'), 'namespace' => 'Flobbos\LaravelCM\Controllers', 'prefix' => config('laravel-cm.route_prefix'), 'as' => 'laravel-cm::'], function () {
+Route::group(['middleware' => config('laravel-cm.middleware'), 'namespace' => 'Flobbos\LaravelCM\Controllers', 'prefix' => 'laravel-cm', 'as' => 'laravel-cm::'], function () {
     //Dashboard
     Route::get('/', 'NewsletterController@index')->name('dashboard');
     //Subscribers
