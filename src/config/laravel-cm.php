@@ -53,4 +53,8 @@ return [
     'api_token' => '',
     //Your css framework bootstrap4 or tailwind
     'css_framework' => 'tailwind',
+    //Middleware to apply to the CM Routes
+    'middleware' => ['web', 'auth'],
+    //Prefix for the routes
+    'route_prefix' => 'laravel-cm',
 ];
