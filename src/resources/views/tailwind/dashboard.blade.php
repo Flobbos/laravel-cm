@@ -43,8 +43,13 @@
                 </div>
 
                 <div class="flex-auto p-5">
-                    @foreach(config('laravel-cm') as $key => $config)
-                    {{ucfirst($key)}}: <strong>{{$config}}</strong><br />
+                    @foreach (config('laravel-cm') as $key => $config)
+                        {{ ucfirst($key) }}:
+                        @if (is_array($config))
+                            <strong>{{ implode(',', $config) }}</strong><br />
+                        @else
+                            <strong>{{ $config }}</strong><br />
+                        @endif
                     @endforeach
                 </div>
 
