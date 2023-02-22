@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class NewsletterTemplate extends Model
 {
@@ -14,23 +15,31 @@ class NewsletterTemplate extends Model
     ];
 
 
-    public function getTemplateUrlAttribute()
+    public function templateUrl(): Attribute
     {
-        return url('storage/' . config('laravel-cm.asset_path') . '/' . $this->template_name);
+        return Attribute::make(
+            get: fn (string $value) => url('storage/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
+        );
     }
 
-    public function getTemplateFileUrlAttribute()
+    public function templateFileUrl(): Attribute
     {
-        return $this->template_url . '/' . $this->template_name . '.html';
+        return Attribute::make(
+            get: fn (string $value) => $this->template_url . '/' . $this->template_name . '.html'
+        );
     }
 
-    public function getTemplatePathAttribute()
+    public function templatePath(): Attribute
     {
-        return storage_path('app/public/' . config('laravel-cm.asset_path') . '/' . $this->template_name);
+        return Attribute::make(
+            get: fn (string $value) => storage_path('app/public/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
+        );
     }
 
-    public function getTemplateFilePathAttribute()
+    public function templateFilePath()
     {
-        return $this->template_path . '/' . $this->template_name . '.html';
+        return Attribute::make(
+            get: fn (string $value) => $this->template_path . '/' . $this->template_name . '.html'
+        );
     }
 }

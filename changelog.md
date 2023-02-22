@@ -1,5 +1,17 @@
 ## Version History
 
+### v. 5.0.0
+
+-   Added support for Laravel 10
+
+### v. 4.0.3
+
+-   Fixed dashboard problem
+
+### v. 4.0.2
+
+-   Fixed route issue
+
 ### v. 4.0.1
 
 -   Fixed storage issue
