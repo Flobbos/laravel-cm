@@ -12,18 +12,13 @@
             "name": "Alexej Krzewitzki",
             "email": "alexej@helloo.it",
             "homepage": "http://helloo.it"
-        },
-        {
-            "name": "Freerk van Zeijl",
-            "email": "freerk.vz@googlemail.com"
         }
     ],
     "require": {
-        "php": "^8.1",
-        "illuminate/support": "10.*",
+        "php": "^8.2",
+        "illuminate/support": "11.*",
         "guzzlehttp/guzzle": "^7.4",
-        "maatwebsite/excel": "^3.1",
-        "psr/simple-cache": "^2.0"
+        "maatwebsite/excel": "^3.1"
     },
     "extra": {
         "laravel": {
