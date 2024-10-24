@@ -357,7 +357,7 @@ Default subject for preview emails
 
 All compiling is done via remote compiler, which is offered free of charge for
 all users of this package. Simply contact me for a valid API key to handle
-your remove compiling needs based on MJML. Set the token here
+your remote compiling needs based on MJML. Set the token here
 
 ```php
 'api_token' => '',
@@ -484,6 +484,7 @@ exist.
 
 | Laravel | LaravelCM     |
 | :------ | :------------ |
+| 11.x    | >6.0.\*       |
 | 10.x    | >5.0.\*       |
 | 9.x     | >4.0.\*       |
 | 8.x     | >3.0.\*       |
