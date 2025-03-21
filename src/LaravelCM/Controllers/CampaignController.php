@@ -173,7 +173,7 @@ class CampaignController extends Controller
     {
 
         //Validate minimum required fields
-        $this->validate($request, [
+        $request->validate([
             'SendDate' => 'required',
             'ConfirmationEmail' => 'required'
         ]);
