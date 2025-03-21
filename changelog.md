@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 6.0.1
+
+-   Added support for Laravel 12
+-   Fixed old validation code
+
 ### v. 6.0.0
 
 -   Added support for Laravel 11
