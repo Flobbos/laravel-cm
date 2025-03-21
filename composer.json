@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "11.*",
+        "illuminate/support": "11.*|12.*",
         "guzzlehttp/guzzle": "^7.4",
         "maatwebsite/excel": "^3.1"
     },
