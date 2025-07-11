@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 6.1.0
+
+-   Fixed remote compiler to be compatible with new version
+
 ### v. 6.0.1
 
 -   Added support for Laravel 12
