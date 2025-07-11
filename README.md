@@ -355,13 +355,17 @@ Default subject for preview emails
 
 ### Remote compiler
 
-All compiling is done via remote compiler, which is offered free of charge for
-all users of this package. Simply contact me for a valid API key to handle
-your remote compiling needs based on MJML. Set the token here
+All compiling is done via the remote compiler, which is offered free of charge for
+all users of this package. To use the remote compiler, you now need to provide a valid **Bearer Token** for authentication.
+
+Contact me for a valid API key (Bearer Token) to handle your remote compiling needs based on MJML. Set the token here:
 
 ```php
-'api_token' => '',
+'api_token' => 'your-bearer-token',
 ```
+
+**Note:**  
+The remote compiler now uses Bearer Token authentication instead of basic authentication. Make sure your API token is kept secure and never committed to version control.
 
 ### CSS Framework
 
