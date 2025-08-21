@@ -24,7 +24,7 @@ interface BaseClientContract
      * Set the client API Key
      * @param string $key
      */
-    public function setClientApiKey(string $key = null): \Flobbos\LaravelCM\BaseClient;
+    public function setClientApiKey(?string $key = null): \Flobbos\LaravelCM\BaseClient;
 
     /**
      * Get the current client API Key
@@ -36,7 +36,7 @@ interface BaseClientContract
      * @param string $client_id
      * @return \self
      */
-    public function setClientID(string $client_id = null): \Flobbos\LaravelCM\BaseClient;
+    public function setClientID(?string $client_id = null): \Flobbos\LaravelCM\BaseClient;
 
     /**
      * Get the current client ID
@@ -48,7 +48,7 @@ interface BaseClientContract
      * Set the list ID to be used
      * @param string $list_id
      */
-    public function setListID(string $list_id = null): \Flobbos\LaravelCM\BaseClient;
+    public function setListID(?string $list_id = null): \Flobbos\LaravelCM\BaseClient;
 
     /**
      * Get the current List ID
@@ -75,7 +75,7 @@ interface BaseClientContract
      * Initialize guzzle with a base_uri called by the constructor
      * @param type $base_uri
      */
-    public function initGuzzle($base_uri = null): \Flobbos\LaravelCM\BaseClient;
+    public function initGuzzle(?string $base_uri = null): \Flobbos\LaravelCM\BaseClient;
 
     /**
      * Retrieve basic Guzzle options for making an API call
@@ -110,5 +110,5 @@ interface BaseClientContract
      * @param type $url
      * @param array $request_data
      */
-    public function makeCall($url, array $request_data, $method = 'get');
+    public function makeCall(string $url, array $request_data, string $method = 'get');
 }

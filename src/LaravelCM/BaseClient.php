@@ -55,7 +55,7 @@ abstract class BaseClient implements BaseClientContract
      * Set the client API Key
      * @param string $key
      */
-    public function setClientApiKey(string $key = null): self
+    public function setClientApiKey(?string $key = null): self
     {
         $this->options['clientApiKey'] = $key;
         return $this;
@@ -74,7 +74,7 @@ abstract class BaseClient implements BaseClientContract
      * @param string $client_id
      * @return \self
      */
-    public function setClientID(string $client_id = null): self
+    public function setClientID(?string $client_id = null): self
     {
         $this->options['clientID'] = $client_id;
         return $this;
@@ -93,7 +93,7 @@ abstract class BaseClient implements BaseClientContract
      * Set the list ID to be used
      * @param string $list_id
      */
-    public function setListID(string $list_id = null): self
+    public function setListID(?string $list_id = null): self
     {
         $this->options['listID'] = $list_id ?: $this->getListID();
         return $this;
@@ -137,7 +137,7 @@ abstract class BaseClient implements BaseClientContract
      * Initialize guzzle with a base_uri called by the constructor
      * @param type $base_uri
      */
-    public function initGuzzle($base_uri = null): self
+    public function initGuzzle(?string $base_uri = null): self
     {
         if (!is_null($base_uri)) {
             $this->guzzle = new Client(['base_uri' => config('laravel-cm.base_uri')]);
@@ -205,7 +205,7 @@ abstract class BaseClient implements BaseClientContract
         return $this->guzzle;
     }
 
-    public function makeCall($url, array $request_data, $method = 'get')
+    public function makeCall(string $url, array $request_data, string $method = 'get')
     {
         try {
             return $this->formatResult(

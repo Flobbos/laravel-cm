@@ -2,18 +2,24 @@
 
 namespace Flobbos\LaravelCM;
 
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
+use GuzzleHttp\Exception\GuzzleException;
 
 class RemoteCompiler
 {
+
     protected $client;
+    protected $url;
+    protected $token;
 
     public function __construct()
     {
+        $this->url = config('laravel-cm.api_url');
+        $this->token = config('laravel-cm.api_token');
         $this->client = new Client([
-            'base_uri' => config('laravel-cm.api_url'),
             'headers' => [
                 'Authorization' => 'Bearer ' . config('laravel-cm.api_token'),
                 'Accept' => 'application/json',
@@ -21,45 +27,53 @@ class RemoteCompiler
         ]);
     }
 
-    public function compile(string $html, array $file_list = [])
+    public function compile($mjml, $scss = null)
     {
         $multipart = [
             [
                 'name' => 'html',
-                'contents' => stripslashes(trim($html)),
-                'headers' => ['Content-Type' => 'text/plain']
-            ]
+                'contents' => $mjml,
+            ],
         ];
 
-        // Add files from file_list
-        foreach ($file_list as $file) {
-            if (!isset($file['name']) || !isset($file['filename']) || !isset($file['contents'])) {
-                continue;
-            }
+        if ($scss) {
+            foreach ($scss as $file) {
+                $stream = fopen('php://temp', 'r+');
+                fwrite($stream, $file['contents']);
+                rewind($stream);
 
-            if ($file['name'] === 'sass-files[]') {
+                // Guess content type based on extension
+                $ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
+                $contentType = match ($ext) {
+                    'scss' => 'text/x-scss',
+                    'css' => 'text/css',
+                    'txt' => 'text/plain',
+                    default => 'text/plain',  // Fallback to avoid octet-stream issues
+                };
+
                 $multipart[] = [
-                    'name' => 'sass-files[]',
-                    'contents' => stripslashes(trim($file['contents'])),
+                    'name' => 'sass-files[]',  // Add [] to ensure array on server
+                    'contents' => $stream,
                     'filename' => $file['filename'],
-                    'headers' => ['Content-Type' => 'text/plain']
+                    'headers' => [
+                        'Content-Type' => $contentType,
+                    ],
                 ];
-            } else {
-                // Skipping files
             }
         }
 
         try {
-            $response = $this->client->post('/api/mjml/generate', [
-                'multipart' => $multipart
+            $response = $this->client->request('POST', $this->url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token,
+                ],
+                'multipart' => $multipart,
             ]);
 
             return $response->getBody()->getContents();
-        } catch (GuzzleException $ex) {
-            $response = $ex->getResponse();
-            $error = $response ? $response->getBody()->getContents() : $ex->getMessage();
-
-            throw new \Exception('API request failed: ' . $error, $ex->getCode());
+        } catch (Exception $e) {
+            Log::error('RemoteCompiler error: ' . $e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 }
