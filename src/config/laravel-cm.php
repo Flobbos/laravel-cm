@@ -49,7 +49,7 @@ return [
     //Asset path
     'asset_path' => 'laravel-cm-assets',
     //MJML compiler
-    'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
+    'api_url' => 'https://blinky.ultrabold.de/api/mjml/generate',
     'api_token' => '',
     //Your css framework bootstrap4 or tailwind
     'css_framework' => 'tailwind',
