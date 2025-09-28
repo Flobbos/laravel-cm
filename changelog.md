@@ -1,5 +1,15 @@
 ## Version History
 
+### v. 6.1.2
+
+-   Fixed a hardcoded path in the stubs
+-   Updated Readme
+-   Updated a few titles with translated strings
+
+### v. 6.1.1
+
+-   Addresses an issue where SASS files weren't handled correctly by the RemoteCompiler Class.
+
 ### v. 6.1.0
 
 -   Fixed remote compiler to be compatible with new version
