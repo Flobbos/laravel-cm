@@ -13,6 +13,18 @@ in the DB.
 
 **Support for Laravel 8 was moved to version 3.x**
 
+**Note on Tailwind Stubs:** The generated views using the Tailwind stubs incorporate JavaScript components that rely on Alpine.js for interactivity (e.g., dropdowns, modals, or dynamic elements). Make sure to include Alpine.js in your project's asset pipeline (via CDN or npm) to ensure these features work as expected. For setup, refer to the [Alpine.js documentation](https://alpinejs.dev/).
+
+## Requirements
+
+-   **PHP**: ^8.2
+-   **Laravel**: ^11.0 | ^12.0
+-   **Composer Dependencies**:
+    -   `guzzlehttp/guzzle` ^7.0 (for handling API requests)
+    -   `maatwebsite/excel` ^3.1 (for subscriber imports and exports)
+-   **Campaign Monitor**: An active account with API key and client ID configured in your `.env` file.
+-   **Frontend (Optional)**: If generating views with the Tailwind stubs (via `laravel-cm:views-templates --tailwind`), include Alpine.js in your asset pipeline as mentioned above.
+
 ### Docs
 
 -   [Upgrading](#upgrading)

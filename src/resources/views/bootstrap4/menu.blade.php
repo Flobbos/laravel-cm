@@ -1,12 +1,12 @@
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Newsletter
+        {{ __('Newsletter') }}
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{route('laravel-cm::dashboard')}}">
+        <a class="dropdown-item" href="{{ route('laravel-cm::dashboard') }}">
             @lang('laravel-cm::crud.dashboard')
         </a>
-        <a class="dropdown-item" href="{{ route(config('laravel-cm.newsletter_template_route').'index') }}">
+        <a class="dropdown-item" href="{{ route(config('laravel-cm.newsletter_template_route') . 'index') }}">
             @lang('laravel-cm::templates.menu_title')
         </a>
         <a class="dropdown-item" href="{{ route('laravel-cm::campaigns.index') }}">
