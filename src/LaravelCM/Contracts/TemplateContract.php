@@ -14,6 +14,14 @@ interface TemplateContract
     public function get();
 
     /**
+     * Order templates by column
+     * @param string $column
+     * @param string $direction
+     * @return $this
+     */
+    public function orderBy($column, $direction = 'asc');
+
+    /**
      * Create new template in DB
      * @return \Illuminate\Database\Eloquent\Model
      */
