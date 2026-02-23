@@ -69,6 +69,14 @@ interface TemplateContract
     public function getTemplate();
 
     /**
+     * Order templates by column
+     * @param string $column
+     * @param string $direction
+     * @return $this
+     */
+    public function orderBy($column, $direction = 'asc');
+
+    /**
      * Start compiling process
      *
      * @return void

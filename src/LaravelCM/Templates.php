@@ -137,6 +137,18 @@ class Templates implements TemplateContract
     }
 
     /**
+     * Order templates by column
+     * @param string $column
+     * @param string $direction
+     * @return $this
+     */
+    public function orderBy($column, $direction = 'asc')
+    {
+        $this->template_db = $this->template_db->orderBy($column, $direction);
+        return $this;
+    }
+
+    /**
      * Start compiling process
      *
      * @return void

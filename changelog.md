@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 5.0.1
+
+-   Added orderBy for templates
+-   Updated remote compiler to use Bearer Token authentication instead of basic auth
+
 ### v. 5.0.0
 
 -   Added support for Laravel 10

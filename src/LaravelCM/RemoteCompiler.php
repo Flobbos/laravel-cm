@@ -10,7 +10,11 @@ class RemoteCompiler {
     protected $client;
     
     public function __construct() {
-        $this->client = new Client(['auth' => [config('laravel-cm.api_token'),null]]);
+        $this->client = new Client([
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('laravel-cm.api_token')
+            ]
+        ]);
     }
     
     public function compile(string $html, array $file_list){

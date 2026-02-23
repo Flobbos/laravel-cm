@@ -50,7 +50,7 @@ return [
     'asset_path' => 'laravel-cm-assets',
     //MJML compiler
     'api_url' => 'https://blinky.ultrabold.net/api/mjml/generate',
-    'api_token' => '',
+    'api_token' => '', // Bearer token for remote compiler authentication
     //Your css framework bootstrap4 or tailwind
     'css_framework' => 'tailwind',
     //Middleware to apply to the CM Routes
