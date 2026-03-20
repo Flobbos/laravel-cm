@@ -13,6 +13,18 @@ in the DB.
 
 **Support for Laravel 8 was moved to version 3.x**
 
+**Note on Tailwind Stubs:** The generated views using the Tailwind stubs incorporate JavaScript components that rely on Alpine.js for interactivity (e.g., dropdowns, modals, or dynamic elements). Make sure to include Alpine.js in your project's asset pipeline (via CDN or npm) to ensure these features work as expected. For setup, refer to the [Alpine.js documentation](https://alpinejs.dev/).
+
+## Requirements
+
+-   **PHP**: ^8.2
+-   **Laravel**: ^11.0 | ^12.0
+-   **Composer Dependencies**:
+    -   `guzzlehttp/guzzle` ^7.0 (for handling API requests)
+    -   `maatwebsite/excel` ^3.1 (for subscriber imports and exports)
+-   **Campaign Monitor**: An active account with API key and client ID configured in your `.env` file.
+-   **Frontend (Optional)**: If generating views with the Tailwind stubs (via `laravel-cm:views-templates --tailwind`), include Alpine.js in your asset pipeline as mentioned above.
+
 ### Docs
 
 - [Upgrading](#upgrading)
@@ -388,13 +400,17 @@ Default subject for preview emails
 
 ### Remote compiler
 
-All compiling is done via remote compiler, which is offered free of charge for
-all users of this package. Simply contact me for a valid API key to handle
-your remote compiling needs based on MJML. Set the token here
+All compiling is done via the remote compiler, which is offered free of charge for
+all users of this package. To use the remote compiler, you now need to provide a valid **Bearer Token** for authentication.
+
+Contact me for a valid API key (Bearer Token) to handle your remote compiling needs based on MJML. Set the token here:
 
 ```php
-'api_token' => '',
+'api_token' => 'your-bearer-token',
 ```
+
+**Note:**  
+The remote compiler now uses Bearer Token authentication instead of basic authentication. Make sure your API token is kept secure and never committed to version control.
 
 ### CSS Framework
 
@@ -518,7 +534,7 @@ exist.
 | Laravel | LaravelCM     |
 | :------ | :------------ |
 | 12.x    | >6.1.\*       |
-| 11.x    | >6.1.\*       |
+| 11.x    | >6.0.\*       |
 | 10.x    | >5.0.\*       |
 | 9.x     | >4.0.\*       |
 | 8.x     | >3.0.\*       |
