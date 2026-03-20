@@ -16,12 +16,16 @@ return [
     'storage_path' => 'xls',
     //URL path where to load api
     'url_path' => 'newsletters',
-    //Folder where you want to keep your templates
+    //Folder where you want to keep your layouts (resources path)
     'layout_path' => 'laravel-cm/layouts',
     //Default layout
     'base_layout' => 'base',
-    //Folder where you want to keep your templates
+    //Legacy folder where templates are stored when template_location=resource
     'template_path' => 'laravel-cm/templates',
+    //Where template source files are stored: storage|resource
+    'template_location' => 'storage',
+    //Storage path for template source files when template_location=storage
+    'template_storage_path' => 'app/laravel-cm/templates',
     //Default format to use JSON|XML
     'format' => 'json',
     //Confirmation emails

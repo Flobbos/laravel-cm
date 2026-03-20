@@ -27,15 +27,15 @@ in the DB.
 
 ### Docs
 
--   [Upgrading](#upgrading)
--   [Installation](#installation)
--   [Configuration](#configuration)
--   [Assets](#assets)
--   [Generators](#generators)
--   [Usage](#usage)
--   [Exceptions](#exceptions)
--   [Laravel compatibility](#laravel-compatibility)
--   [Envoyer deployments](#envoyer-deployments)
+- [Upgrading](#upgrading)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Assets](#assets)
+- [Generators](#generators)
+- [Usage](#usage)
+- [Exceptions](#exceptions)
+- [Laravel compatibility](#laravel-compatibility)
+- [Envoyer deployments](#envoyer-deployments)
 
 ## Upgrading
 
@@ -82,15 +82,16 @@ command below to move the content to the appropriate locations.
 ### Install Command
 
 LaravelCM 2.x features a new install command that takes care of publishing the config files and such.
-However, you can also run this to move your existing template files and layouts to the storage folder so
-they don't get lost after deployments.
+You can also run this during deployments to make sure required directories exist and legacy files are
+migrated to the current directory structure.
 
 ```bash
 php artisan laravel-cm:install --deployment
 ```
 
-This command will only copy the existing template files from the resources folder to storage, delete the
-now empty laravel-cm folder and set a symlink to the newly created storage folder.
+This command keeps layouts in `resources/laravel-cm/layouts` (repository-managed) and stores generated
+template source files in storage (default: `storage/app/laravel-cm/templates`). Existing files are synced
+in a non-destructive way so already existing files are preserved.
 
 ### Upgrade from Version 2.x to Version 3.x
 
@@ -341,6 +342,38 @@ This determines the name of the layout file the package views will extend.
 'layout_file' => 'admin'
 ```
 
+### Layout path
+
+This is the resources path where layouts are stored and loaded from.
+
+```php
+'layout_path' => 'laravel-cm/layouts'
+```
+
+### Template location
+
+Determines where template source files are stored. By default this is set to storage.
+
+```php
+'template_location' => 'storage' // storage|resource
+```
+
+### Template storage path
+
+Storage path used for template source files when `template_location` is set to `storage`.
+
+```php
+'template_storage_path' => 'app/laravel-cm/templates'
+```
+
+### Template path (legacy resource mode)
+
+Resources path used when `template_location` is set to `resource`.
+
+```php
+'template_path' => 'laravel-cm/templates'
+```
+
 ### Max test emails
 
 Maximum number of preview test email addresses.
@@ -500,7 +533,7 @@ exist.
 
 | Laravel | LaravelCM     |
 | :------ | :------------ |
-| 12.x    | >6.0.1        |
+| 12.x    | >6.1.\*       |
 | 11.x    | >6.0.\*       |
 | 10.x    | >5.0.\*       |
 | 9.x     | >4.0.\*       |
@@ -526,5 +559,5 @@ need to do is run the following command:
 php artisan laravel-cm:install --deployment
 ```
 
-This will run a function that moves all existing stuff to the new installation and takes care
-of recreating the necessary symlinks for everything to work.
+This will ensure required directories exist and perform a backward-compatible migration:
+layouts are kept in resources, templates are synced to storage, and existing files are not overwritten.

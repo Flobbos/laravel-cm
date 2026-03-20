@@ -27,7 +27,7 @@ class Templates implements TemplateContract
     {
 
         $this->disk = Storage::disk('laravel_cm');
-        $this->srcTemplatePath = $this->getTemplatePath();
+        $this->srcTemplatePath = $this->getTemplateBasePath();
         $this->template_db = $template_db;
     }
 
@@ -99,7 +99,7 @@ class Templates implements TemplateContract
             //Delete public assets
             $this->disk->deleteDirectory(Str::slug($model->template_name));
             //Delete resource files
-            File::deleteDirectory($this->srcTemplatePath . '/' . Str::slug($model->template_name));
+            File::deleteDirectory($this->getTemplatePath(Str::slug($model->template_name)));
             return $model->delete();
         }
         return false;
@@ -192,7 +192,7 @@ class Templates implements TemplateContract
     public function templateExists(string $template)
     {
         if (!File::exists($this->getTemplatePath($template))) {
-            throw new TemplateNotFoundException('Given template "' . $template . '" not found at ' . resource_path('laravel-cm'));
+            throw new TemplateNotFoundException('Given template "' . $template . '" not found at ' . $this->getTemplateBasePath());
         }
         return true;
     }
@@ -254,7 +254,7 @@ class Templates implements TemplateContract
         }
     }
 
-    private function generateTemplate(string $layout = null)
+    private function generateTemplate(?string $layout = null)
     {
         // Copy stub to new template
         $stubPath = $this->getLayoutPath($layout);
@@ -313,7 +313,7 @@ class Templates implements TemplateContract
         return $resource_files;
     }
 
-    private function getLayoutPath(string $layout = null)
+    private function getLayoutPath(?string $layout = null)
     {
         if (!$layout) {
             $layout = config('laravel-cm.base_layout', 'base');
@@ -321,9 +321,25 @@ class Templates implements TemplateContract
         return resource_path(config('laravel-cm.layout_path') . '/' . $layout);
     }
 
-    private function getTemplatePath()
+    private function getTemplateBasePath()
     {
-        return resource_path(config('laravel-cm.template_path') . '/' . $this->getTemplate());
+        if (config('laravel-cm.template_location', 'storage') === 'resource') {
+            return resource_path(config('laravel-cm.template_path'));
+        }
+
+        return storage_path(config('laravel-cm.template_storage_path', 'app/laravel-cm/templates'));
+    }
+
+    private function getTemplatePath(?string $template = null)
+    {
+        $name = $template ?: $this->getTemplate();
+        $basePath = $this->getTemplateBasePath();
+
+        if (!$name) {
+            return $basePath;
+        }
+
+        return rtrim($basePath, '/') . '/' . $name;
     }
 
     private function getImagePath()
