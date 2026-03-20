@@ -29,37 +29,90 @@ class InstallCommand extends Command
 
     protected $type = 'Installation';
 
+    protected function ensureDirectory(string $path)
+    {
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true);
+        }
+    }
+
+    protected function copyMissingFiles(string $source, string $target)
+    {
+        if (!File::isDirectory($source)) {
+            return;
+        }
+
+        $this->ensureDirectory($target);
+
+        foreach (File::allFiles($source) as $file) {
+            $relativePath = ltrim(str_replace($source, '', $file->getPathname()), DIRECTORY_SEPARATOR);
+            $targetFile = rtrim($target, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $relativePath;
+            $targetDir = dirname($targetFile);
+
+            if (!File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            if (!File::exists($targetFile)) {
+                File::copy($file->getPathname(), $targetFile);
+            }
+        }
+    }
+
     protected function generateSymlinks()
     {
-        //Check for existing layouts in resource path and move it
-        if (File::exists(resource_path('laravel-cm')) && !is_link(resource_path('laravel-cm'))) {
-            $this->info('Moving existing files to storage.');
-            //Create basic laravel-cm directory first
-            if (!File::exists(storage_path('app/laravel-cm'))) {
-                File::makeDirectory(storage_path('app/laravel-cm/'));
+        $resourceRoot = resource_path('laravel-cm');
+        $layoutPath = resource_path(config('laravel-cm.layout_path'));
+        $resourceTemplatePath = resource_path(config('laravel-cm.template_path'));
+        $storageTemplatePath = storage_path(config('laravel-cm.template_storage_path', 'app/laravel-cm/templates'));
+        $legacyStorageRoot = storage_path('app/laravel-cm');
+        $legacyLayoutPath = $legacyStorageRoot . '/layouts';
+        $legacyTemplatePath = $legacyStorageRoot . '/templates';
+
+        // Remove legacy symlink of resources/laravel-cm -> storage/app/laravel-cm
+        if (is_link($resourceRoot)) {
+            $linkTarget = readlink($resourceRoot);
+            $resolvedLinkTarget = $linkTarget ? realpath($linkTarget) : false;
+            $resolvedLegacyStorageRoot = realpath($legacyStorageRoot);
+
+            if (
+                $linkTarget === $legacyStorageRoot ||
+                ($resolvedLinkTarget && $resolvedLegacyStorageRoot && $resolvedLinkTarget === $resolvedLegacyStorageRoot)
+            ) {
+                @unlink($resourceRoot);
+                $this->info('Removed legacy resources symlink for laravel-cm.');
             }
-            //Move all existing directories over
-            foreach (File::directories(resource_path('laravel-cm')) as $directory) {
-                File::moveDirectory($directory, storage_path('app/laravel-cm/' . basename($directory)),true);
-            }
-            //Delete now empty directory in resources
-            File::deleteDirectory(resource_path('laravel-cm'));
-            $this->info('All files moved.');
         }
+
+        // Layouts are now repository-managed under resources
+        $this->ensureDirectory($resourceRoot);
+        $this->ensureDirectory($layoutPath);
+
+        // Backward compatibility: preserve and migrate old storage layouts without overwriting repo files
+        if (File::isDirectory($legacyLayoutPath)) {
+            $this->copyMissingFiles($legacyLayoutPath, $layoutPath);
+            $this->info('Synced legacy layouts from storage to resources (existing files preserved).');
+        }
+
+        // Templates are now storage-managed by default
+        $this->ensureDirectory($storageTemplatePath);
+
+        // Backward compatibility: migrate existing templates from old locations without overwriting storage files
+        if (File::isDirectory($resourceTemplatePath) && !is_link($resourceTemplatePath)) {
+            $this->copyMissingFiles($resourceTemplatePath, $storageTemplatePath);
+            $this->info('Synced existing resource templates to storage (existing files preserved).');
+        }
+
+        if (File::isDirectory($legacyTemplatePath)) {
+            $this->copyMissingFiles($legacyTemplatePath, $storageTemplatePath);
+        }
+
         //Check for existing public files and move to storage
         if (File::exists(public_path(config('laravel-cm.asset_path'))) && !is_link(public_path(config('laravel-cm.asset_path')))) {
             $this->info('Moving existing public files to storage.');
             File::moveDirectory(public_path(config('laravel-cm.asset_path')), storage_path('app/public/' . config('laravel-cm.asset_path')));
         }
-        //Check if files in storage exist
-        if (File::exists(storage_path('app/laravel-cm')) && !File::exists(resource_path('laravel-cm'))) {
-            symlink(storage_path('app/laravel-cm'), resource_path('laravel-cm'));
-            $this->info('Generated symlink to LaravelCM files.');
-        } elseif (!File::exists(storage_path('app/laravel-cm'))) {
-            Storage::makeDirectory('laravel-cm');
-            symlink(storage_path('app/laravel-cm'), resource_path('laravel-cm'));
-            $this->info('Created storage directory and symlink.');
-        }
+
         //Check if public assets directory exists
         if (!File::exists(storage_path('app/public/' . config('laravel-cm.asset_path')))) {
             Storage::makeDirectory('public/' . config('laravel-cm.asset_path'));

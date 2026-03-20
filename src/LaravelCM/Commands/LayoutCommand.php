@@ -6,7 +6,8 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class LayoutCommand extends GeneratorCommand {
+class LayoutCommand extends GeneratorCommand
+{
 
     /**
      * The name and signature of the console command.
@@ -27,7 +28,8 @@ class LayoutCommand extends GeneratorCommand {
      *
      * @return string
      */
-    protected function getStub() {
+    protected function getStub()
+    {
 
         $src = $this->getPath('base');
 
@@ -46,7 +48,8 @@ class LayoutCommand extends GeneratorCommand {
      *
      * @return boolean
      */
-    protected function generateFresh() {
+    protected function generateFresh()
+    {
         return $this->option('fresh');
     }
 
@@ -54,7 +57,8 @@ class LayoutCommand extends GeneratorCommand {
      * Get path-info for given layout-name
      */
 
-    protected function getPathInput() {
+    protected function getPathInput()
+    {
         return trim($this->argument('name'));
     }
 
@@ -64,8 +68,9 @@ class LayoutCommand extends GeneratorCommand {
      * @param  string  $name
      * @return string
      */
-    protected function getPath($name) {
-        return resource_path('laravel-cm/layouts/' . $this->getDirectoryName($name));
+    protected function getPath($name)
+    {
+        return resource_path(config('laravel-cm.layout_path') . '/' . $this->getDirectoryName($name));
     }
 
     /**
@@ -74,7 +79,8 @@ class LayoutCommand extends GeneratorCommand {
      * @param string $name
      * @return string
      */
-    protected function getDirectoryName($name) {
+    protected function getDirectoryName($name)
+    {
         return strtolower(Str::kebab($name));
     }
 
@@ -84,7 +90,8 @@ class LayoutCommand extends GeneratorCommand {
      * @param  string $rawName
      * @return bool
      */
-    protected function alreadyExists($rawName = '') {
+    protected function alreadyExists($rawName = '')
+    {
         return $this->files->exists($this->getPath($this->getPathInput()));
     }
 
@@ -93,7 +100,8 @@ class LayoutCommand extends GeneratorCommand {
      *
      * @return boolean
      */
-    protected function baseNotPublished() {
+    protected function baseNotPublished()
+    {
         return $this->files->exists($this->getPath('base'));
     }
 
@@ -102,7 +110,8 @@ class LayoutCommand extends GeneratorCommand {
      *
      * @return mixed
      */
-    protected function publishBaseLayout() {
+    protected function publishBaseLayout()
+    {
         $this->info('Base-Layout created successfully.');
         return $this->files->copyDirectory(__DIR__ . '/../../resources/defaults/base/', $this->getPath(strtolower('base')));
     }
@@ -112,11 +121,12 @@ class LayoutCommand extends GeneratorCommand {
      *
      * @return mixed
      */
-    public function handle() {
+    public function handle()
+    {
 
         $this->info('WELCOME TO LARAVEL-CM');
 
-        if(!config('laravel-cm.multi_layout')){
+        if (!config('laravel-cm.multi_layout')) {
             $this->error('Your config is set to single layout. Generating a new layout will not make a difference.');
             exit;
         }
@@ -129,7 +139,7 @@ class LayoutCommand extends GeneratorCommand {
         if (!$this->baseNotPublished()) {
 
             // Ask for generate base-layout
-            $publish_base = $this->ask('Base-Layout not published! Should it be published now?',true);
+            $publish_base = $this->ask('Base-Layout not published! Should it be published now?', true);
 
             if (!$publish_base) {
                 $this->error('Base-Layout was not generated. Layouts can only be generated if the base-layout exists.');
@@ -160,5 +170,4 @@ class LayoutCommand extends GeneratorCommand {
 
         $this->info('Layout created successfully.');
     }
-
 }

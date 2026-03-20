@@ -4,6 +4,7 @@ namespace Flobbos\LaravelCM;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\AliasLoader;
 
 class LaravelCMServiceProvider extends ServiceProvider
@@ -93,8 +94,16 @@ class LaravelCMServiceProvider extends ServiceProvider
       'url' => env('APP_URL') . '/storage/laravel-cm-assets',
       'visibility' => 'public'
     ]]);
-    // Register template-location
-    $this->app['view']->addLocation(resource_path(config('laravel-cm.template_path')));
+    // Register template locations (storage first, resource fallback)
+    $templatePaths = [
+      storage_path(config('laravel-cm.template_storage_path', 'app/laravel-cm/templates')),
+      resource_path(config('laravel-cm.template_path')),
+    ];
+    foreach ($templatePaths as $templatePath) {
+      if (File::isDirectory($templatePath)) {
+        $this->app['view']->addLocation($templatePath);
+      }
+    }
     //Grab loader and register static routes facade
     $loader = AliasLoader::getInstance();
     $loader->alias('CMRoutes', 'Flobbos\LaravelCM\Facades\CMRoutes');
