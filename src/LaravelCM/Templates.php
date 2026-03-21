@@ -48,6 +48,10 @@ class Templates implements TemplateContract
      */
     public function create(array $data)
     {
+        if (!config('laravel-cm.multi_layout') && empty($data['layout'])) {
+            $data['layout'] = config('laravel-cm.base_layout', 'base');
+        }
+
         return $this->template_db->create($data);
     }
 
@@ -58,6 +62,10 @@ class Templates implements TemplateContract
      */
     public function update($id, array $data, $return_model = false)
     {
+        if (!config('laravel-cm.multi_layout') && empty($data['layout'])) {
+            $data['layout'] = config('laravel-cm.base_layout', 'base');
+        }
+
         $model = $this->find($id);
         if ($return_model) {
             $model->update($data);
@@ -146,8 +154,15 @@ class Templates implements TemplateContract
         //Set template
         $this->setTemplate($template_name);
 
-        if (!File::exists($this->getTemplatePath($template_name)) || Arr::get($data['template']->getChanges(), 'layout')) {
-            $this->generateTemplate($data['template']->layout ?? config('laravel-cm.base_layout', 'base'));
+        $templateModel = Arr::get($data, 'template');
+        $layoutChanged = $templateModel ? Arr::get($templateModel->getChanges(), 'layout') : false;
+        $layout = Arr::get($data, 'template.layout', config('laravel-cm.base_layout', 'base'));
+        if (!$layout) {
+            $layout = config('laravel-cm.base_layout', 'base');
+        }
+
+        if (!File::exists($this->getTemplatePath($template_name)) || $layoutChanged) {
+            $this->generateTemplate($layout);
         }
         //Check if template exists
         $this->templateExists($template_name);

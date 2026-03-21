@@ -118,6 +118,13 @@ class InstallCommand extends Command
             Storage::makeDirectory('public/' . config('laravel-cm.asset_path'));
             $this->info('Created public directory for assets.');
         }
+
+        // Ensure Laravel's public storage symlink exists for serving compiled templates
+        $publicStorage = public_path('storage');
+        if (!is_link($publicStorage) && !File::exists($publicStorage)) {
+            Artisan::call('storage:link');
+            $this->info('Created public/storage symlink.');
+        }
     }
 
     /**

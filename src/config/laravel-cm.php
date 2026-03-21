@@ -3,7 +3,7 @@
 
 return [
     //Multi layout option
-    'multi_layout' => false,
+    'multi_layout' => true,
     //Your client API Key from CM
     'client_api_key' => 'your secret key',
     //The client ID from CM

@@ -57,6 +57,9 @@ class DummyClass extends Controller
         $request->validate($this->templates->getValidationRulesStore());
 
         $templateData = $request->except(['_token']);
+        if (!config('laravel-cm.multi_layout')) {
+            $templateData['layout'] = config('laravel-cm.base_layout', 'base');
+        }
         $templateData['template_name'] = Str::slug($templateData['template_name']);
         $template = $this->templates->create($templateData);
 
@@ -81,8 +84,7 @@ class DummyClass extends Controller
             $this->templates->compile($template->template_name, [
                 'template' => $template
             ]);
-            $template_path = public_path('laravel-cm-assets/' . $template->template_name . '/' . $template->template_name . '.html');
-            return File::get($template_path);
+            return File::get($template->template_file_path);
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage());
         }
@@ -118,6 +120,9 @@ class DummyClass extends Controller
         $request->validate($this->templates->getValidationRulesUpdate());
 
         $templateData = $request->except(['_token']);
+        if (!config('laravel-cm.multi_layout')) {
+            $templateData['layout'] = config('laravel-cm.base_layout', 'base');
+        }
         $template = $this->templates->update($id, $templateData, true);
 
         $this->templates->compile($template->template_name, [
