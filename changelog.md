@@ -1,5 +1,12 @@
 ## Version History
 
+### v. 6.1.4
+
+- Fixed single-layout mode to enforce default layout when no layout is specified
+- Restored `public/storage` symlink creation in install command (fixes inaccessible compiled templates)
+- Updated generated controller stub to use correct storage path for template files
+- Hardened layout resolution in Templates service with null-safe lookups
+
 ### v. 6.1.3
 
 - Switched default template source location to storage while keeping layouts in resources
