@@ -18,28 +18,28 @@ class NewsletterTemplate extends Model
     public function templateUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => url('storage/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
+            get: fn() => url('storage/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
         );
     }
 
     public function templateFileUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->template_url . '/' . $this->template_name . '.html'
+            get: fn() => $this->template_url . '/' . $this->template_name . '.html'
         );
     }
 
     public function templatePath(): Attribute
     {
         return Attribute::make(
-            get: fn () => storage_path('app/public/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
+            get: fn() => storage_path('app/public/' . config('laravel-cm.asset_path') . '/' . $this->template_name)
         );
     }
 
-    public function templateFilePath()
+    public function templateFilePath(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->template_path . '/' . $this->template_name . '.html'
+            get: fn() => $this->template_path . '/' . $this->template_name . '.html'
         );
     }
 }
