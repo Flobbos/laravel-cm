@@ -4,6 +4,7 @@ namespace Flobbos\LaravelCM\Traits;
 
 use Illuminate\Http\Request;
 use Flobbos\LaravelCM\Imports\SubscriberImport;
+use Illuminate\Support\Str;
 use Exception;
 
 trait BaseImport
@@ -29,9 +30,9 @@ trait BaseImport
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(), '.' . $request->file($fieldname)->getClientOriginalExtension());
         if ($randomize) {
-            $filename = uniqid() . '_' . str_slug($basename) . '.' . $request->file($fieldname)->getClientOriginalExtension();
+        $filename = uniqid() . '_' . Str::slug($basename) . '.' . $request->file($fieldname)->getClientOriginalExtension();
         } else {
-            $filename = str_slug($basename) . '.' . $request->file($fieldname)->getClientOriginalExtension();
+            $filename = Str::slug($basename) . '.' . $request->file($fieldname)->getClientOriginalExtension();
         }
         //Move file to location
         $request->file($fieldname)->storeAs($folder, $filename, $storage_disk);

@@ -1,6 +1,6 @@
 {
     "name": "flobbos/laravel-cm",
-    "version": "6.1.4",
+    "version": "6.2.0",
     "description": "Complete package for Campaign Monitor integration",
     "keywords": [
         "laravel",
@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "11.*|12.*",
+        "illuminate/support": "11.*|12.*|13.*",
         "guzzlehttp/guzzle": "^7.4",
         "maatwebsite/excel": "^3.1"
     },

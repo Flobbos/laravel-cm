@@ -139,30 +139,26 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         return false;
     }
 
-    //Remove
-    public function remove(string $email)
+    public function remove(string $email): void
     {
         $result = $this->makeCall('subscribers/' . $this->getListID() . '/unsubscribe', [
             'json' => ['EmailAddress' => trim($email)],
         ], 'post');
-        //dd($result);
         if ($result->get('code') != '200') {
             throw new Exception($result->get('body'));
         }
-        return;
     }
 
-    //Update
-    public function update(string $email, array $data)
+    public function update(string $email, array $data): void
     {
-        $result = $this->makeCall('subscribers/' . $this->getListID(), [
-            'query' => trim($email),
+        $this->makeCall('subscribers/' . $this->getListID(), [
+            'query' => ['email' => trim($email)],
             'json' => [
                 'EmailAddress' => trim($email),
                 'Name' => $data['Name'],
                 'RestartSubscriptionBasedAutoresponders' => true,
                 'ConsentToTrack' => 'Unchanged',
-            ]
+            ],
         ], 'put');
     }
 
