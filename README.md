@@ -18,7 +18,7 @@ in the DB.
 ## Requirements
 
 -   **PHP**: ^8.2
--   **Laravel**: ^11.0 | ^12.0
+-   **Laravel**: ^11.0 | ^12.0 | ^13.0
 -   **Composer Dependencies**:
     -   `guzzlehttp/guzzle` ^7.0 (for handling API requests)
     -   `maatwebsite/excel` ^3.1 (for subscriber imports and exports)
@@ -533,6 +533,7 @@ exist.
 
 | Laravel | LaravelCM     |
 | :------ | :------------ |
+| 13.x    | >=6.2.*       |
 | 12.x    | >6.1.\*       |
 | 11.x    | >6.0.\*       |
 | 10.x    | >5.0.\*       |
