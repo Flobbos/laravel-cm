@@ -13,13 +13,13 @@ trait ResultFormat{
      * @param  bool $raw_body
      * @return array
      */
-    public function formatResult(Response $result, $raw_body = false){
-        //dd($result);
+    public function formatResult(Response $result, bool $raw_body = false): \Illuminate\Support\Collection
+    {
         return collect([
             'code' => $result->getStatusCode(),
             'reason' => $result->getReasonPhrase(),
             'protocol' => $result->getProtocolVersion(),
-            'body' => $raw_body?$result->getBody():$this->formatBody($result->getBody())
+            'body' => $raw_body ? $result->getBody() : $this->formatBody($result->getBody()),
         ]);
     }
         

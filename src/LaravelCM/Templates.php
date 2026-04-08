@@ -362,9 +362,8 @@ class Templates implements TemplateContract
         return $this->getTemplatePath() . '/images';
     }
 
-    private function getTemplateViewPath($viewPath)
+    private function getTemplateViewPath(string $viewPath): string
     {
         return $viewPath;
-        return str_replace('/', '.', rtrim(config('laravel-cm.template_path'), '/')) . '.' . $viewPath;
     }
 }

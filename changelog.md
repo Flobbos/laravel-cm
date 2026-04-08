@@ -1,5 +1,20 @@
 ## Version History
 
+### v. 6.2.0
+
+- Added support for Laravel 13
+- Bumped `illuminate/support` constraint to `11.*|12.*|13.*`
+- **Routes**: Removed deprecated `namespace` group option — controllers now use FQCN array syntax
+- **ServiceProvider**: Removed deprecated `Validator::extend()` — replaced with `CommaSeparatedEmails` rule class; fixed `app_path('/Models')` path typo
+- **BaseClient**: Fixed `initGuzzle()` bug where `$base_uri` param was ignored; added typed properties; removed bare `return;` from `checkOptions()`
+- **Subscribers**: Fixed `update()` where `'query'` was a string instead of an array; removed `//dd()` debug comment from `remove()`
+- **SubscriberController**: Removed `dd($request->all())` that blocked every import request
+- **CampaignController**: Removed `//dd()` debug comments; uses new `CommaSeparatedEmails` validation rule
+- **Templates**: Removed unreachable dead-code second `return` in `getTemplateViewPath()`
+- **ResultFormat**: Removed `//dd()` debug comment; added typed return signatures
+- **ResultFormatContract**: Updated interface signatures to match concrete implementation
+- **BaseImport**: Replaced deprecated `str_slug()` with `Str::slug()`
+
 ### v. 6.1.4
 
 - Fixed single-layout mode to enforce default layout when no layout is specified

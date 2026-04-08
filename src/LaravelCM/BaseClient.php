@@ -12,8 +12,10 @@ use Flobbos\LaravelCM\Exceptions\ConfigKeyNotSetException;
 abstract class BaseClient implements BaseClientContract
 {
 
-    protected $guzzle, $base_uri, $skip_key;
-    protected $options = [];
+    protected ?\GuzzleHttp\Client $guzzle = null;
+    protected ?string $base_uri = null;
+    protected ?string $skip_key = null;
+    protected array $options = [];
 
     public function __construct()
     {
@@ -139,10 +141,7 @@ abstract class BaseClient implements BaseClientContract
      */
     public function initGuzzle(?string $base_uri = null): self
     {
-        if (!is_null($base_uri)) {
-            $this->guzzle = new Client(['base_uri' => config('laravel-cm.base_uri')]);
-        }
-        $this->guzzle = new Client(['base_uri' => config('laravel-cm.base_uri')]);
+        $this->guzzle = new Client(['base_uri' => $base_uri ?? config('laravel-cm.base_uri')]);
         return $this;
     }
 
@@ -191,7 +190,6 @@ abstract class BaseClient implements BaseClientContract
                 throw new ConfigKeyNotSetException('No ' . $k . ' found. Please update your settings or generate a resource');
             }
         }
-        return;
     }
 
     /**
