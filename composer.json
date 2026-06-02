@@ -32,5 +32,23 @@
         "psr-4": {
             "Flobbos\\LaravelCM\\": "src/LaravelCM/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flobbos\\LaravelCM\\Tests\\": "tests/",
+            "App\\Models\\": "src/LaravelCM/Models/"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/pest"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.7",
+        "orchestra/testbench": "^11.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
