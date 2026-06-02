@@ -1,6 +1,6 @@
 {
     "name": "flobbos/laravel-cm",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "description": "Complete package for Campaign Monitor integration",
     "keywords": [
         "laravel",

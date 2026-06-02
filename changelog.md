@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 6.2.1
+
+- **Templates**: Restored the chainable `orderBy($column, $direction)` method on the `Templates` service and its `TemplateContract` interface. It was present on the `laravel-9` branch (v4.0.2) but never carried into the Laravel 11+ lineage, so calls like `$templates->orderBy('created_at', 'desc')->get()` threw `Call to undefined method`.
+
 ### v. 6.2.0
 
 - Added support for Laravel 13
