@@ -43,8 +43,8 @@
         "test": "@php vendor/bin/pest"
     },
     "require-dev": {
-        "pestphp/pest": "^4.7",
-        "orchestra/testbench": "^11.1"
+        "pestphp/pest": "^3.0 || ^4.0",
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0"
     },
     "config": {
         "allow-plugins": {
