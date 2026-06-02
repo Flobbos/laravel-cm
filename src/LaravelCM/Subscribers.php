@@ -110,7 +110,7 @@ class Subscribers extends BaseClient implements SubscriberContract, ResultFormat
         return;
     }
 
-    public function subscribe(string $email, string $name = null)
+    public function subscribe(string $email, ?string $name = null)
     {
         $this->add([
             'Resubscribe' => true,

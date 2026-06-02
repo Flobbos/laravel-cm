@@ -44,7 +44,7 @@ trait ResultFormat{
      * @param  string $pageName
      * @return LengthAwarePaginator
      */
-    public function formatSubscribers($result_body, $pageName = 'page'){
+    public function formatSubscribers($result_body, string $pageName = 'page'): LengthAwarePaginator{
         $items = [];
         foreach($result_body->Results as $s){
             $items[] = [

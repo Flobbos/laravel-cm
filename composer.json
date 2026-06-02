@@ -1,6 +1,6 @@
 {
     "name": "flobbos/laravel-cm",
-    "version": "6.2.1",
+    "version": "6.2.2",
     "description": "Complete package for Campaign Monitor integration",
     "keywords": [
         "laravel",
@@ -36,7 +36,8 @@
     "autoload-dev": {
         "psr-4": {
             "Flobbos\\LaravelCM\\Tests\\": "tests/",
-            "App\\Models\\": "src/LaravelCM/Models/"
+            "App\\Models\\": "src/LaravelCM/Models/",
+            "App\\Http\\Controllers\\": "tests/stubs/"
         }
     },
     "scripts": {

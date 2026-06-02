@@ -22,7 +22,7 @@ interface SubscriberContract extends BaseClientContract {
     public function add(array $subscriber_data);
     
     //Subscribe
-    public function subscribe(string $email, string $name = null);
+    public function subscribe(string $email, ?string $name = null);
     
     //Resubscribe
     public function resubscribe(string $email);
@@ -35,7 +35,5 @@ interface SubscriberContract extends BaseClientContract {
     
     //Import
     public function import(\Illuminate\Http\Request $request, $field = 'excel');
-    
-    public function formatSubscribers($result_body, $paginated = false);
-    
+
 }

@@ -11,7 +11,7 @@ class Campaigns extends BaseClient implements CampaignContract
 {
 
     use Traits\ResultFormat;
-    protected $skip_key = 'listID';
+    protected ?string $skip_key = 'listID';
 
     public function getDrafts()
     {

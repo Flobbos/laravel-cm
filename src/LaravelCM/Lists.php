@@ -11,7 +11,7 @@ class Lists extends BaseClient implements ListContract, ResultFormatContract
 {
 
     use Traits\ResultFormat;
-    protected $skip_key = 'listID';
+    protected ?string $skip_key = 'listID';
     /**
      * Get all lists for the current client
      * @return Collection
